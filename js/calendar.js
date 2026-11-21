@@ -27,6 +27,28 @@
       lg_stage: 'مرحلة', lg_water: 'مرحلة حساسة لنقص الماء', lg_now: 'الشهر الحالي', lg_heat: 'حرارة ≥ 35 °م (معدل القصوى)', lg_frost: 'صقيع محتمل (معدل الدنيا ≤ 2 °م)',
       cl_details: 'المراحل بالتفصيل', cl_months: 'الأشهر', cl_practice: 'ممارسة شائعة، يجب التثبت منها مع تقني.',
       cl_sekki_p: 'سطر السيكّي يبيّن «المصطلحات الشمسية» الأربعة والعشرين في الرزنامة الفلاحية اليابانية: اثنان في كل شهر، تتبع الشمس كما تتبعها أشغال الحقول.'
+    },
+    en: {
+      cl_title: 'Crop calendar', cl_lead: 'The main stages of the year for olive, date palm, citrus and cereals, set against the rain and water need of your parcel.',
+      cl_crop: 'Crop', cl_year: 'The crop’s year', cl_sekki_row: 'Sekki 節気',
+      cl_clim: 'Your parcel’s climate', cl_rain: 'Rain (mm)', cl_need: 'Net need (mm)', cl_flags: 'Heat / frost',
+      cl_clim_p: 'ERA5 averages from your profile. Net need = Kc × ET0 − effective rain (FAO-56, USDA-SCS method), with an average crop Kc to check: the bluest month is the one where irrigation weighs most.',
+      cl_noparcel: 'Choose a parcel to set the calendar against its climate. The general calendar stays on screen.',
+      cl_noclim: 'Profile climate unavailable: only the general calendar is shown.',
+      lg_stage: 'Stage', lg_water: 'Stage sensitive to water shortage', lg_now: 'Current month', lg_heat: 'Heat ≥ 35 °C (mean of max.)', lg_frost: 'Frost possible (mean of min. ≤ 2 °C)',
+      cl_details: 'The stages in detail', cl_months: 'Months', cl_practice: 'Common practice, to check with an extension officer.',
+      cl_sekki_p: 'The sekki row shows the 24 “solar terms” of the Japanese farming calendar: two a month, following the sun as the field work does.'
+    },
+    ja: {
+      cl_title: '作物暦', cl_lead: 'オリーブ、ナツメヤシ、柑橘、穀物の一年の主な段階を、あなたの区画の雨と必要水量に重ねて示します。',
+      cl_crop: '作物', cl_year: '作物の一年', cl_sekki_row: '二十四節気',
+      cl_clim: 'あなたの区画の気候', cl_rain: '雨量（mm）', cl_need: '純必要水量（mm）', cl_flags: '暑さ／霜',
+      cl_clim_p: 'プロファイルのERA5平均値。純必要水量 = Kc × ET0 − 有効雨量（FAO-56、USDA-SCS法）。作物の平均Kcは要確認です。最も青い月が、灌漑の負担が最も大きい月です。',
+      cl_noparcel: '区画を選ぶと、暦をその気候と重ねて表示します。一般的な暦はそのまま表示されます。',
+      cl_noclim: 'プロファイルの気候が取得できないため、一般的な暦だけを表示しています。',
+      lg_stage: '段階', lg_water: '水不足に弱い段階', lg_now: '今月', lg_heat: '暑さ ≥ 35 °C（最高気温の平均）', lg_frost: '霜のおそれ（最低気温の平均 ≤ 2 °C）',
+      cl_details: '各段階の詳細', cl_months: '月', cl_practice: '一般的な方法です。普及員に確認してください。',
+      cl_sekki_p: '節気の行は、日本の農事暦の「二十四節気」を示します。ひと月に二つ、畑仕事と同じように太陽の動きに従います。'
     }
   });
 
@@ -35,7 +57,6 @@
   var p = G.getParcel();
   var crop = S.parcelCrop() || 'olive';
 
-  function L() { return G.lang() === 'ar' ? 'ar' : 'fr'; }
 
   function grid() {
     var months = G.t('months'), now = new Date().getMonth(), c = S.CAL[crop];
@@ -47,16 +68,16 @@
     for (var i = 0; i < 12; i++) {
       var two = S.SEKKI.filter(function (s) { return s[2] === i + 1; });
       var cell = el('div', { class: 'clim', lang: 'ja', style: 'font-family:var(--g-jp);font-size:11px;color:var(--g-gold-ink)' }, [two.map(function (s) { return s[0]; }).join(' ')]);
-      G.bindTip(cell, two.map(function (s) { return s[0] + ' ' + s[1] + ' (' + s[3] + '/' + s[2] + ') · ' + (L() === 'ar' ? s[5] : s[4]); }).join(' — '));
+      G.bindTip(cell, two.map(function (s) { return s[0] + ' ' + s[1] + ' (' + s[3] + '/' + s[2] + ') · ' + S.meaning(s); }).join(' — '));
       g.appendChild(cell);
     }
     g.appendChild(el('div', { class: 'row-sep' }));
     c.stages.forEach(function (s) {
-      g.appendChild(el('div', { class: 'nm', role: 'rowheader' }, [s[L()][0]]));
+      g.appendChild(el('div', { class: 'nm', role: 'rowheader' }, [S.loc(s)[0]]));
       for (var m = 0; m < 12; m++) {
         var on = s.m.indexOf(m) !== -1;
         var cell = el('div', { class: 'c' + (on ? ' on' : '') + (on && s.w ? ' water' : '') + (m === now ? ' now' : ''), role: 'cell' });
-        if (on) G.bindTip(cell, s[L()][0] + ' · ' + months[m]);
+        if (on) G.bindTip(cell, S.loc(s)[0] + ' · ' + months[m]);
         g.appendChild(cell);
       }
     });
@@ -71,7 +92,7 @@
       g.appendChild(el('div', { class: 'nm' }, [t('cl_need')]));
       need.forEach(function (v, m) {
         var cell = el('div', { class: 'clim', style: v === null ? '' : 'background:rgba(47,90,117,' + (0.08 + 0.6 * v / maxNeed).toFixed(2) + ');color:' + (v / maxNeed > 0.55 ? '#fff' : 'var(--g-ink)') }, [v === null ? '—' : fmt(v, 0)]);
-        if (v !== null) G.bindTip(cell, months[m] + ' · ' + t('cl_need') + ' : ' + fmt(v, 0) + ' mm');
+        if (v !== null) G.bindTip(cell, months[m] + ' · ' + t('cl_need') + S.colon() + fmt(v, 0) + ' mm');
         g.appendChild(cell);
       });
       g.appendChild(el('div', { class: 'nm' }, [t('cl_flags')]));
@@ -99,10 +120,10 @@
       return el('li', { class: 'ss-item' + (s.w ? ' water' : '') }, [
         el('span', { class: 'ic', 'aria-hidden': 'true' }, [s.w ? '水' : '暦']),
         el('div', null, [
-          el('h3', null, [s[L()][0]]),
+          el('h3', null, [S.loc(s)[0]]),
           el('p', { class: 'small', style: 'margin-top:2px;font-weight:600;color:var(--g-gold-ink)' }, [s.m.map(function (m) { return months[m]; }).join(' · ')]),
-          el('p', null, [s[L()][1]]),
-          el('p', { class: 'src' }, src ? [t('src') + ' : ', src] : [t('cl_practice')])
+          el('p', null, [S.loc(s)[1]]),
+          el('p', { class: 'src' }, src ? [t('src') + S.colon(), src] : [t('cl_practice')])
         ])
       ]);
     }));

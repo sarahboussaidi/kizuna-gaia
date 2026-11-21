@@ -75,7 +75,7 @@
     en: {
       tagline: 'Intelligence that understands the land',
       nav_home: 'Home', nav_land: 'Land Intelligence', nav_engine: 'Compatibility', nav_lab: 'AI Lab',
-      nav_health: 'Plant health', nav_nexus: 'Water & energy', nav_biz: 'Business model', nav_farm: 'Dashboard', nav_agv: 'Agrivoltaics', nav_lib: 'Library',
+      nav_health: 'Plant health', nav_nexus: 'Water & energy', nav_biz: 'Business model', nav_farm: 'Dashboard', nav_season: 'My season', nav_agv: 'Agrivoltaics', nav_lib: 'Library',
       parcel_none: 'No plot', parcel_pick: 'Choose a plot',
       skip: 'Skip to content',
       foot_line: 'GAIA does not impose technology on the land. GAIA adapts technology to the land.',
@@ -95,7 +95,7 @@
     ja: {
       tagline: '土地を理解するインテリジェンス',
       nav_home: 'ホーム', nav_land: 'ランド・インテリジェンス', nav_engine: '適合性', nav_lab: 'AIラボ',
-      nav_health: '植物の健康', nav_nexus: '水とエネルギー', nav_biz: 'ビジネスモデル', nav_farm: 'ダッシュボード', nav_agv: '営農型太陽光', nav_lib: 'ライブラリ',
+      nav_health: '植物の健康', nav_nexus: '水とエネルギー', nav_biz: 'ビジネスモデル', nav_farm: 'ダッシュボード', nav_season: 'わたしの季節', nav_agv: '営農型太陽光', nav_lib: 'ライブラリ',
       parcel_none: '区画なし', parcel_pick: '区画を選ぶ',
       skip: '本文へ移動',
       foot_line: 'GAIAは技術を土地に押しつけません。技術を土地に合わせます。',

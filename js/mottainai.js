@@ -21,6 +21,22 @@
       mt_tag_soil: 'التربة', mt_tag_energy: 'الطاقة', mt_tag_income: 'دخل', mt_tag_animals: 'الماشية',
       mt_practice: 'ممارسة شائعة، يجب التثبت منها مع تقني.', mt_noqty: 'لا تعرض غايا كميات: فهي تختلف حسب ضيعتك. زِن مرة واحدة حمولة من أغصان التقليم أو الجريد وسجّلها بزر كايزن: هكذا تصبح الأرقام موثوقة.',
       mt_water_h: 'والماء؟', mt_water_p: 'موتايناي يشمل الماء أيضاً: لا قطرة تُضخ فوق حاجة الزراعة. انظر الحصة الشهرية في صفحة الماء والطاقة.', mt_open_nexus: 'فتح الماء والطاقة ←'
+    },
+    en: {
+      mt_title: 'Mottainai', mt_lead: '“Mottainai”: the regret at wasting what still has value. The residues your farm produces, and the second life of each one.',
+      mt_word: 'もったいない', mt_word_p: 'In Japan, people say “mottainai” at the sight of something thrown away that could still be used. Tunisian oases and olive groves have always lived by the same idea: the palm frond becomes a fence, the pomace fires the oven. GAIA makes it visible, crop by crop.',
+      mt_crops: 'My crops', mt_uses: 'Second life', mt_care: 'Caution', mt_now: 'This month',
+      mt_tag_soil: 'Soil', mt_tag_energy: 'Energy', mt_tag_income: 'Income', mt_tag_animals: 'Livestock',
+      mt_practice: 'Common practice, to check with an extension officer.', mt_noqty: 'GAIA shows no quantities: they depend on your farm. Weigh one trailer of prunings or fronds once and note it with the Kaizen button: that is how the figures will become reliable.',
+      mt_water_h: 'And water?', mt_water_p: 'Mottainai applies to water too: not a drop pumped beyond what the crop needs. See the monthly quota in Water & energy.', mt_open_nexus: 'Open Water & energy →'
+    },
+    ja: {
+      mt_title: 'もったいない', mt_lead: '「もったいない」：まだ価値のあるものを無駄にすることへの惜しさ。あなたの農場から出る残さと、それぞれの第二の生き方。',
+      mt_word: 'もったいない', mt_word_p: '日本では、まだ使えるのに捨てられたものを前に「もったいない」と言います。チュニジアのオアシスやオリーブ畑にも、同じ考えが昔からあります。ヤシの葉は垣根になり、搾りかすはかまどを温めます。GAIAはそれを作物ごとに見えるようにします。',
+      mt_crops: 'わたしの作物', mt_uses: '第二の生き方', mt_care: '注意', mt_now: '今月',
+      mt_tag_soil: '土', mt_tag_energy: 'エネルギー', mt_tag_income: '収入', mt_tag_animals: '家畜',
+      mt_practice: '一般的な方法です。普及員に確認してください。', mt_noqty: 'GAIAは量を表示しません。量は農場によって違うからです。剪定枝やヤシの葉をトレーラー1台分、一度量って、改善ボタンで記録してください。そうすれば数字が信頼できるものになります。',
+      mt_water_h: '水は？', mt_water_p: 'もったいないは水にも当てはまります。作物の必要量を超えて一滴もくみ上げないこと。月ごとの割当量は「水とエネルギー」で確認できます。', mt_open_nexus: '水とエネルギーを開く →'
     }
   });
 
@@ -28,7 +44,6 @@
   var tabs = document.getElementById('tabs'), app = document.getElementById('app');
   var pc = S.parcelCrop();
   var chosen = G.load('gaia.mott.crops', null) || (pc ? [pc] : Object.keys(S.CAL));
-  function L() { return G.lang() === 'ar' ? 'ar' : 'fr'; }
 
   // residues that appear this month, from the crop calendar
   function nowSet() {
@@ -57,7 +72,7 @@
     var keys = Object.keys(S.MOTT).filter(function (k) { return chosen.indexOf(S.MOTT[k].crop) !== -1; });
     keys.sort(function (a, b) { return (now[b] ? 1 : 0) - (now[a] ? 1 : 0); });
     app.appendChild(el('div', { class: 'ss-mott' }, keys.map(function (k) {
-      var r = S.MOTT[k], x = r[L()], src = r.src ? S.source(r.src) : null;
+      var r = S.MOTT[k], x = S.loc(r), src = r.src ? S.source(r.src) : null;
       return el('article', { class: 'gp-card' + (now[k] ? ' ss-now' : '') }, [
         el('div', { style: 'display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between' }, [
           el('span', { class: 'small', style: 'font-weight:700;color:var(--g-gold-ink)' }, [t('crop_' + r.crop)]),
@@ -67,8 +82,8 @@
         el('div', { class: 'ss-tags' }, r.tags.map(function (tg) { return el('span', { class: 'ss-tag ' + tg }, [t('mt_tag_' + tg)]); })),
         el('p', { class: 'small', style: 'font-weight:700;margin-top:4px' }, [t('mt_uses')]),
         el('ul', null, x.uses.map(function (u) { return el('li', null, [u]); })),
-        el('div', { class: 'ss-care' }, [el('strong', null, [t('mt_care') + ' : ']), x.care]),
-        el('p', { class: 'small muted' }, src ? [t('src') + ' : ', src] : [t('mt_practice')])
+        el('div', { class: 'ss-care' }, [el('strong', null, [t('mt_care') + S.colon()]), x.care]),
+        el('p', { class: 'small muted' }, src ? [t('src') + S.colon(), src] : [t('mt_practice')])
       ]);
     })));
     app.appendChild(el('div', { style: 'margin-top:16px' }, [G.note('info', t('mt_noqty'))]));

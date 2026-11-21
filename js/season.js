@@ -15,7 +15,7 @@
       ms_practice: 'Pratique courante, à valider par un technicien.', ms_water_stage: "Stade sensible au manque d'eau",
       ms_res_h: 'Résidu de ce mois : {r}', ms_res_p: 'Ne le brûlez pas : voir ses usages dans Mottainai.',
       ms_alerts: 'Alertes', ms_alerts_p: 'Calculées sur les prévisions Open-Meteo pour votre parcelle et sur les normales de votre profil (ERA5). Seuils fixés par GAIA, à ajuster avec un technicien.',
-      ms_loading: 'Lecture des prévisions…', ms_wx_err: 'Prévisions indisponibles ({e}). Aucune alerte n’est calculée : GAIA ne devine pas la météo.',
+      ms_loading: 'Lecture des prévisions…', ms_timeout: 'délai dépassé', ms_wx_err: 'Prévisions indisponibles ({e}). Aucune alerte n’est calculée : GAIA ne devine pas la météo.',
       ms_drought_crit: 'Sécheresse marquée : {o} mm de pluie sur 90 jours, pour {n} mm en moyenne ({p} %). Planifiez votre eau et priorisez les stades sensibles.',
       ms_drought_warn: 'Pluie en dessous de la normale : {o} mm sur 90 jours, pour {n} mm en moyenne ({p} %).',
       ms_drought_ok: 'Pluie des 90 derniers jours conforme à la normale : {o} mm pour {n} mm en moyenne ({p} %).',
@@ -49,7 +49,7 @@
       ms_practice: 'ممارسة شائعة، يجب التثبت منها مع تقني.', ms_water_stage: 'مرحلة حساسة لنقص الماء',
       ms_res_h: 'بقايا هذا الشهر: {r}', ms_res_p: 'لا تحرقها: انظر استعمالاتها في موتايناي.',
       ms_alerts: 'التنبيهات', ms_alerts_p: 'محسوبة من توقعات Open-Meteo لقطعتك ومن المعدلات في ملفك (ERA5). العتبات حددتها غايا، تُعدّل مع تقني.',
-      ms_loading: 'قراءة التوقعات…', ms_wx_err: 'التوقعات غير متاحة ({e}). لا يُحسب أي تنبيه: غايا لا تخمّن الطقس.',
+      ms_loading: 'قراءة التوقعات…', ms_timeout: 'انتهت المهلة', ms_wx_err: 'التوقعات غير متاحة ({e}). لا يُحسب أي تنبيه: غايا لا تخمّن الطقس.',
       ms_drought_crit: 'جفاف واضح: {o} مم من المطر في 90 يوماً مقابل {n} مم في المعدل ({p}٪). خطّط لمائك وأعطِ الأولوية للمراحل الحساسة.',
       ms_drought_warn: 'أمطار دون المعدل: {o} مم في 90 يوماً مقابل {n} مم في المعدل ({p}٪).',
       ms_drought_ok: 'أمطار الأيام التسعين الأخيرة في المعدل: {o} مم مقابل {n} مم ({p}٪).',
@@ -73,6 +73,74 @@
       ms_period: 'من {a} إلى {b}',
       ms_tech: 'التقنيات الملائمة لقطعتك', ms_tech_p: 'حسب محرّك التوافق: ممكنة أو ممكنة مع تكييف.', ms_tech_none: 'لا تقنية ممكنة بالبيانات الحالية: انظر التفاصيل في صفحة التوافق.',
       ms_open_engine: 'فتح التوافق ←', ms_open_cal: 'رؤية الرزنامة كاملة ←', ms_open_mott: 'فتح موتايناي ←', ms_open_nexus: 'فتح الماء والطاقة ←'
+    },
+    en: {
+      ms_title: 'My season', ms_lead: "This month on your parcel: what to do, what is coming, and the water used against the crop's need. Only real data, or data you entered.",
+      ms_month: 'My season', ms_actions_n: '{n} stages under way for your crop this month.', ms_actions_1: 'One stage under way for your crop this month.', ms_actions_0: 'No major stage this month: a good time to observe and maintain.', ms_no_crop_h: 'Crop not covered by the calendar',
+      ms_no_crop: 'The calendar covers olive, date palm, citrus and cereals. Declare your crop in Land Intelligence to see this month’s actions.',
+      ms_sekki: 'Japanese season', ms_sekki_next: 'Next: {k} {r}, around {d}',
+      ms_todo: 'To do this month', ms_todo_p: 'Stages of the crop calendar under way this month, for your crop.',
+      ms_practice: 'Common practice, to check with an extension officer.', ms_water_stage: 'Stage sensitive to water shortage',
+      ms_res_h: 'This month’s residue: {r}', ms_res_p: 'Don’t burn it: see its uses in Mottainai.',
+      ms_alerts: 'Alerts', ms_alerts_p: 'Computed from Open-Meteo forecasts for your parcel and the normals in your profile (ERA5). Thresholds set by GAIA, to adjust with an extension officer.',
+      ms_loading: 'Reading the forecasts…', ms_wx_err: 'Forecasts unavailable ({e}). No alert is computed: GAIA does not guess the weather.', ms_timeout: 'timed out',
+      ms_drought_crit: 'Marked drought: {o} mm of rain over 90 days, against {n} mm on average ({p} %). Plan your water and put the sensitive stages first.',
+      ms_drought_warn: 'Rain below normal: {o} mm over 90 days, against {n} mm on average ({p} %).',
+      ms_drought_ok: 'Rain over the last 90 days in line with normal: {o} mm against {n} mm on average ({p} %).',
+      ms_drought_dry: 'Normally dry period (under 20 mm expected in 90 days): no useful comparison.',
+      ms_drought_nonorm: 'Rain normals missing from the profile: no comparison possible.',
+      ms_rain: 'Rain forecast: {s} mm over 7 days (up to {m} mm on {d}). Hold off irrigating and let the rain do the work.',
+      ms_rain_heavy: 'Heavy rain forecast on {d} ({m} mm): check the spillways of the jessour and tabias, erosion risk.',
+      ms_heat: 'Strong heat forecast: up to {v} °C on {d}. Water early in the morning or in the evening, and mulch the soil.',
+      ms_frost: 'Frost risk: {v} °C on {d}. Protect young plants and citrus.',
+      ms_calm: 'No notable event forecast in the next 7 days.',
+      tag_crit: 'Critical', tag_warn: 'Warning', tag_info: 'Info', tag_ok: 'Good',
+      ms_src_wx: 'Source: Open-Meteo (forecasts and last 92 days) · normals: your GAIA LAND DNA profile.',
+      ms_water: 'Water this month', ms_water_p: 'The reference quota is the crop’s need (FAO-56) for one month of average climate. Water used comes from your meter readings: nothing is simulated.',
+      ms_quota: 'Reference quota', ms_used: 'Water used', ms_left: 'Left', ms_over: 'Over quota',
+      ms_quota_missing: 'Quota cannot be computed: {w}. Complete the Water & energy page.', ms_miss_area: 'area missing', ms_miss_kc: 'crop coefficient missing', ms_miss_clim: 'profile climate unavailable',
+      ms_quota_zero: 'This month, average rain covers the crop’s need: irrigation quota is zero.',
+      ms_need_two: 'Add one meter reading at the start and another at the end of the period to measure the water used this month.',
+      ms_meter_down: 'The latest reading is lower than the previous one: check the entry (was the meter replaced?).',
+      ms_add: 'Add a meter reading', ms_date: 'Reading date', ms_index: 'Meter index (m³)', ms_save: 'Save', ms_del: 'Delete',
+      ms_readings: 'Your readings', ms_none: 'No readings yet.', ms_local: 'Readings stay on this device. A connected flow meter (IoT box) could fill them in automatically.',
+      ms_period: 'from {a} to {b}',
+      ms_tech: 'Techniques that suit your parcel', ms_tech_p: 'According to the compatibility engine: feasible, or feasible with adaptation.', ms_tech_none: 'No feasible technique with the current data: see the details in Compatibility.',
+      ms_open_engine: 'Open Compatibility →', ms_open_cal: 'See the full calendar →', ms_open_mott: 'Open Mottainai →', ms_open_nexus: 'Open Water & energy →'
+    },
+    ja: {
+      ms_title: 'わたしの季節', ms_lead: '今月のあなたの区画：やるべきこと、これから来るもの、作物の必要量に対する使用水量。実データか、あなたが入力したデータだけを使います。',
+      ms_month: 'わたしの季節', ms_actions_n: '今月、あなたの作物で進行中の段階は{n}つです。', ms_actions_1: '今月、あなたの作物で進行中の段階は1つです。', ms_actions_0: '今月は大きな段階はありません。観察と手入れによい時期です。', ms_no_crop_h: 'この作物は暦の対象外です',
+      ms_no_crop: '暦はオリーブ、ナツメヤシ、柑橘、穀物に対応しています。土地インテリジェンスで作物を登録すると、今月の作業が表示されます。',
+      ms_sekki: '日本の季節', ms_sekki_next: '次は {k}（{r}）、{d}ごろ',
+      ms_todo: '今月やること', ms_todo_p: 'あなたの作物について、今月進行中の作物暦の段階です。',
+      ms_practice: '一般的な方法です。普及員に確認してください。', ms_water_stage: '水不足に弱い段階',
+      ms_res_h: '今月の残さ：{r}', ms_res_p: '燃やさないでください。使い道は「もったいない」で確認できます。',
+      ms_alerts: 'アラート', ms_alerts_p: 'あなたの区画のOpen-Meteo予報と、プロファイルの平年値（ERA5）から計算しています。しきい値はGAIAが設定したもので、普及員と調整してください。',
+      ms_loading: '予報を読み込み中…', ms_wx_err: '予報を取得できません（{e}）。アラートは計算しません。GAIAは天気を推測しません。', ms_timeout: 'タイムアウト',
+      ms_drought_crit: '顕著な干ばつ：90日間の雨量は{o} mm、平年は{n} mm（{p} %）。水の計画を立て、弱い段階を優先してください。',
+      ms_drought_warn: '雨が平年より少ない：90日間で{o} mm、平年は{n} mm（{p} %）。',
+      ms_drought_ok: '直近90日間の雨は平年並み：{o} mm、平年は{n} mm（{p} %）。',
+      ms_drought_dry: '通常は乾いた時期です（90日間の予想が20 mm未満）。比較しても意味がありません。',
+      ms_drought_nonorm: 'プロファイルに雨の平年値がないため、比較できません。',
+      ms_rain: '雨の予報：7日間で{s} mm（最大は{d}の{m} mm）。灌水を延期し、雨に任せましょう。',
+      ms_rain_heavy: '{d}に大雨の予報（{m} mm）：ジェスールとタビアの余水吐を点検してください。侵食のおそれがあります。',
+      ms_heat: '強い暑さの予報：{d}に最高{v} °C。早朝か夕方に水やりをし、土をマルチで覆ってください。',
+      ms_frost: '霜のおそれ：{d}に{v} °C。若い苗と柑橘を守ってください。',
+      ms_calm: '今後7日間に目立った現象の予報はありません。',
+      tag_crit: '重大', tag_warn: '注意', tag_info: '情報', tag_ok: '良好',
+      ms_src_wx: '出典：Open-Meteo（予報と直近92日）・平年値：あなたのGAIA LAND DNAプロファイル。',
+      ms_water: '今月の水', ms_water_p: '基準の割当量は、平均的な気候の1か月における作物の必要水量（FAO-56）です。使用水量はあなたのメーター記録から計算し、何もシミュレーションしません。',
+      ms_quota: '基準の割当量', ms_used: '使用水量', ms_left: '残り', ms_over: '超過',
+      ms_quota_missing: '割当量を計算できません：{w}。「水とエネルギー」ページを入力してください。', ms_miss_area: '面積がない', ms_miss_kc: '作物係数がない', ms_miss_clim: 'プロファイルの気候が取得できない',
+      ms_quota_zero: '今月は平均的な雨で作物の必要量がまかなえます。灌漑の割当量はゼロです。',
+      ms_need_two: '今月の使用水量を測るには、期間の始めと終わりにメーターの記録を1つずつ追加してください。',
+      ms_meter_down: '最新の記録が前回より小さくなっています。入力を確認してください（メーターを交換しましたか？）。',
+      ms_add: 'メーターの記録を追加', ms_date: '記録した日', ms_index: 'メーターの指示値（m³）', ms_save: '保存', ms_del: '削除',
+      ms_readings: 'あなたの記録', ms_none: 'まだ記録はありません。', ms_local: '記録はこの端末に保存されます。接続型の流量計（IoT機器）があれば自動で入力できます。',
+      ms_period: '{a}から{b}まで',
+      ms_tech: 'あなたの区画に合う技術', ms_tech_p: '適合性エンジンによる判定：実施可能、または調整すれば実施可能。', ms_tech_none: '現在のデータで実施可能な技術はありません。詳しくは「適合性」で確認してください。',
+      ms_open_engine: '適合性を開く →', ms_open_cal: '暦をすべて見る →', ms_open_mott: 'もったいないを開く →', ms_open_nexus: '水とエネルギーを開く →'
     }
   });
 
@@ -81,9 +149,9 @@
   var p = G.getParcel();
 
   function fill(s, o) { return String(s).replace(/\{(\w+)\}/g, function (_, k) { return o[k] === undefined ? '' : o[k]; }); }
-  function L() { return G.lang() === 'ar' ? 'ar' : 'fr'; }
+  function L() { return S.lang(); }
   function today() { var d = new Date(); return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10); }
-  function dayLabel(iso) { var m = G.t('months'); return (+iso.slice(8, 10)) + ' ' + m[+iso.slice(5, 7) - 1]; }
+  function dayLabel(iso) { return S.dayMonth(+iso.slice(8, 10), +iso.slice(5, 7) - 1); }
   function dim(y, m) { return new Date(y, m + 1, 0).getDate(); }
 
   /* ------------------------------------------------ weather (live, cached for the session) */
@@ -101,7 +169,7 @@
     }).then(function (j) {
       var d = j.daily;
       WX = d.time.map(function (date, i) { return { date: date, rain: d.precipitation_sum[i], tmax: d.temperature_2m_max[i], tmin: d.temperature_2m_min[i] }; });
-    }).catch(function (e) { clearTimeout(timer); wxErr = e.name === 'AbortError' ? 'délai dépassé' : e.message; })
+    }).catch(function (e) { clearTimeout(timer); wxErr = e.name === 'AbortError' ? 'timeout' : e.message; })
       .then(function () { wxPending = false; done(); });
   }
 
@@ -177,7 +245,7 @@
     var sk = S.sekki(new Date()), nx = sk.next, mNames = G.t('months'), mi = new Date().getMonth();
     return el('section', { class: 'ss-hero' }, [
       el('div', null, [
-        el('p', { class: 'eyebrow' }, [t('ms_month') + ' · ' + mNames[mi] + ' ' + new Date().getFullYear()]),
+        el('p', { class: 'eyebrow' }, [t('ms_month') + ' · ' + (L() === 'ja' ? new Date().getFullYear() + '年' + mNames[mi] : mNames[mi] + ' ' + new Date().getFullYear())]),
         el('h2', null, [(p.name || t('nav_land')) + (crop ? ' · ' + t('crop_' + crop) : '')]),
         el('p', null, [crop ? (stages.length === 0 ? t('ms_actions_0') : stages.length === 1 ? t('ms_actions_1') : fill(t('ms_actions_n'), { n: stages.length })) : t('ms_no_crop')])
       ]),
@@ -186,7 +254,7 @@
         el('div', { class: 'kj', lang: 'ja' }, [sk.kanji]),
         el('div', { class: 'ro' }, [sk.romaji]),
         el('div', { class: 'me' }, [sk[L()]]),
-        el('div', { class: 'me', style: 'margin-top:6px' }, [fill(t('ms_sekki_next'), { k: nx[0], r: nx[1], d: nx[3] + ' ' + mNames[nx[2] - 1] })])
+        el('div', { class: 'me', style: 'margin-top:6px' }, [fill(t('ms_sekki_next'), { k: nx[0], r: nx[1], d: S.dayMonth(nx[3], nx[2] - 1) })])
       ])
     ]);
   }
@@ -196,17 +264,17 @@
     if (!crop) { sec.appendChild(G.note('info', t('ms_no_crop'))); return sec; }
     var list = el('ul', { class: 'ss-list' });
     stages.forEach(function (s) {
-      var tx = s[L()], src = s.src ? S.source(s.src) : null;
+      var tx = S.loc(s), src = s.src ? S.source(s.src) : null;
       list.appendChild(el('li', { class: 'ss-item' + (s.w ? ' water' : '') }, [
         el('span', { class: 'ic', 'aria-hidden': 'true' }, [s.w ? '水' : '季']),
         el('div', null, [
           el('h3', null, [tx[0], s.w ? ' ' : null, s.w ? G.pill('adapt', t('ms_water_stage')) : null]),
           el('p', null, [tx[1]]),
-          el('p', { class: 'src' }, src ? [t('src') + ' : ', src] : [t('ms_practice')])
+          el('p', { class: 'src' }, src ? [t('src') + S.colon(), src] : [t('ms_practice')])
         ])
       ]));
       if (s.res && S.MOTT[s.res]) {
-        var r = S.MOTT[s.res][L()];
+        var r = S.loc(S.MOTT[s.res]);
         list.appendChild(el('li', { class: 'ss-item res' }, [
           el('span', { class: 'ic', 'aria-hidden': 'true' }, ['惜']),
           el('div', null, [el('h3', null, [fill(t('ms_res_h'), { r: r.name })]), el('p', null, [t('ms_res_p')]), el('a', { href: 'mottainai.html', class: 'src' }, [t('ms_open_mott')])])
@@ -223,7 +291,7 @@
     var sec = el('section', { class: 'ss-sec', 'aria-labelledby': 'h-al' }, [el('h2', { id: 'h-al' }, [t('ms_alerts')]), el('p', { class: 'lead' }, [t('ms_alerts_p')]), box]);
     function draw() {
       G.clear(box);
-      if (wxErr) { box.appendChild(G.note('err', fill(t('ms_wx_err'), { e: wxErr }))); return; }
+      if (wxErr) { box.appendChild(G.note('err', fill(t('ms_wx_err'), { e: wxErr === 'timeout' ? t('ms_timeout') : wxErr }))); return; }
       if (!WX) { box.appendChild(G.note('info', t('ms_loading'))); return; }
       var cls = { crit: 'critical', warn: 'warning', info: 'info', ok: 'good' };
       box.appendChild(el('ul', { class: 'ss-list', 'aria-live': 'polite' }, alerts().map(function (a) {
@@ -280,7 +348,7 @@
     card.appendChild(el('h3', { style: 'margin-top:16px' }, [t('ms_readings')]));
     if (!list.length) card.appendChild(el('p', { class: 'small muted' }, [t('ms_none')]));
     else card.appendChild(el('div', { class: 'gp-table-wrap' }, [el('table', { class: 'gp-table' }, [el('tbody', null, list.slice().reverse().map(function (r) {
-      return el('tr', null, [el('td', null, [dayLabel(r.date) + ' ' + r.date.slice(0, 4)]), el('td', { class: 'num' }, [fmt(r.index, 1) + ' m³']),
+      return el('tr', null, [el('td', null, [L() === 'ja' ? r.date.slice(0, 4) + '年' + dayLabel(r.date) : dayLabel(r.date) + ' ' + r.date.slice(0, 4)]), el('td', { class: 'num' }, [fmt(r.index, 1) + ' m³']),
         el('td', { class: 'num' }, [el('button', { type: 'button', class: 'gp-btn ghost sm', onclick: function () { storeReadings(readings().filter(function (x) { return x.date !== r.date; })); render(); } }, [t('ms_del')])])]);
     }))])]));
     card.appendChild(el('p', { class: 'small muted', style: 'margin-top:8px' }, [t('ms_local')]));

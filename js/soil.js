@@ -29,7 +29,8 @@
       tx_sand: 'sable', tx_loamy_sand: 'sable limoneux', tx_sandy_loam: 'limon sableux', tx_loam: 'limon (franc)', tx_silt_loam: 'limon silteux', tx_silt: 'silt',
       tx_sandy_clay_loam: 'limon argilo-sableux', tx_clay_loam: 'limon argileux', tx_silty_clay_loam: 'limon argilo-silteux', tx_sandy_clay: 'argile sableuse', tx_silty_clay: 'argile silteuse', tx_clay: 'argile',
       k_texture: 'Texture', k_usda: 'Classe de texture', k_clay: 'Argile', k_lime: 'Calcaire', k_infil: 'Infiltration', k_taw: 'Eau disponible',
-      src_jar: 'Test du bocal (agriculteur)', src_vin: 'Test du vinaigre (agriculteur)', src_hole: "Test du trou d'eau (agriculteur)"
+      src_jar: 'Test du bocal (agriculteur)', src_vin: 'Test du vinaigre (agriculteur)', src_hole: "Test du trou d'eau (agriculteur)",
+      so_note_jar: 'Test du bocal, 10–20 cm', so_src_taw: t('so_src_taw')
     },
     ar: {
       so_title: 'تربتي', so_lead: 'لا توجد خريطة تربة موثوقة؟ ثلاثة اختبارات بإناء زجاجي وخل وقارورة ماء تعطي غايا قوام تربتك وكلسها وسرعة تسرّب الماء فيها.',
@@ -54,7 +55,60 @@
       tx_sand: 'رمل', tx_loamy_sand: 'رمل طميي', tx_sandy_loam: 'طمي رملي', tx_loam: 'طمي', tx_silt_loam: 'طمي سلتي', tx_silt: 'سلت',
       tx_sandy_clay_loam: 'طمي طيني رملي', tx_clay_loam: 'طمي طيني', tx_silty_clay_loam: 'طمي طيني سلتي', tx_sandy_clay: 'طين رملي', tx_silty_clay: 'طين سلتي', tx_clay: 'طين',
       k_texture: 'القوام', k_usda: 'صنف القوام', k_clay: 'الطين', k_lime: 'الكلس', k_infil: 'التسرّب', k_taw: 'الماء المتاح',
-      src_jar: 'اختبار الإناء (الفلاح)', src_vin: 'اختبار الخل (الفلاح)', src_hole: 'اختبار الحفرة (الفلاح)'
+      src_jar: 'اختبار الإناء (الفلاح)', src_vin: 'اختبار الخل (الفلاح)', src_hole: 'اختبار الحفرة (الفلاح)',
+      so_note_jar: 'اختبار الإناء، 10–20 سم', so_src_taw: 'FAO-56 الجدول 19 (قوام الإناء)'
+    },
+    en: {
+      so_title: 'My soil', so_lead: 'No reliable soil map? Three tests with a jar, some vinegar and a bottle of water give GAIA your soil’s texture, lime and infiltration.',
+      so_why: 'The SoilGrids soil map service is paused. Rather than invent a value, GAIA suggests you measure. Your results are saved as “declared”: they count, but a lab analysis remains the reference.',
+      so_now: 'The soil in your profile', so_none: 'No soil data in the profile yet.',
+      so_t1: 'The jar test (texture)', so_t1_steps: ['Fill a glass jar one third full with soil taken at 10–20 cm, without stones or roots.', 'Add water up to three quarters, a spoon of washing-up liquid, close it and shake for 3 minutes.', 'Set the jar down. After 1 minute, mark the sand layer; after 2 hours, the silt; after 24 hours, the clay.', 'Measure each layer in millimetres with a ruler.'],
+      so_sand: 'Sand (mm)', so_silt: 'Silt (mm)', so_clay: 'Clay (mm)',
+      so_jar_res: 'Sand {s} % · silt {si} % · clay {c} % → texture: {cls}', so_taw: 'Water available to roots: {a}–{b} mm per metre of soil (FAO-56, table 19, to check).', so_taw_na: 'Water reserve not tabulated for this texture in FAO-56.',
+      so_t2: 'The vinegar test (lime)', so_t2_steps: ['Take a handful of dry soil.', 'Pour a few drops of white vinegar on it.', 'Listen and look: does it fizz?'],
+      fz_none: 'Nothing', fz_weak: 'Small bubbles, a faint crackle', fz_strong: 'Strong, visible foam',
+      lm_non_calcareous: 'Non-calcareous soil.', lm_slightly_calcareous: 'Slightly calcareous soil.', lm_calcareous: 'Calcareous soil.',
+      lm_note: 'Olive copes well with calcareous soils; citrus often suffers chlorosis there (yellow leaves). To confirm with an active-lime analysis.',
+      so_t3: 'The water-hole test (infiltration)', so_t3_steps: ['Dig a hole 30 cm deep and 30 cm wide.', 'Fill it with water and let it soak in (this wets the soil).', 'Fill it again, stand a ruler in it and note the level.', 'Measure how far the water has dropped after a timed period (30 to 60 minutes).'],
+      so_drop: 'Water drop (mm)', so_min: 'Duration (minutes)',
+      so_inf_res: 'Infiltration: {v} mm/h → {cls}. Typical of a {tx} soil.',
+      inf_very_slow: 'very slow', inf_slow: 'slow', inf_medium: 'medium', inf_fast: 'fast', inf_very_fast: 'very fast',
+      so_inf_advice_slow: 'Water slowly and often; avoid basins where water stands.', so_inf_advice_mid: 'Good balance: water gets in without running off too fast.', s_sandy: 'Sandy', s_loamy: 'Loamy', s_clayey: 'Clayey', so_inf_advice_fast: 'Water drains fast: drip, split applications, mulch.',
+      so_mismatch: 'The tests do not quite agree (jar: {a}, infiltration: {b}). Repeat a test or ask for an analysis.',
+      so_save: 'Save to my profile', so_saved: 'Saved to your profile as declared data: Land Intelligence shows it, and it replaces the “soil missing” mention.',
+      so_nothing: 'Do at least one test before saving.', so_need_parcel: 'Choose a parcel to save the results to its profile. The tests work anyway.',
+      so_src: 'Methods: USDA soil texture triangle; FAO-56 (Allen et al., 1998), table 19; indicative infiltration rates from the FAO Irrigation Water Management manual.',
+      tx_sand: 'sand', tx_loamy_sand: 'loamy sand', tx_sandy_loam: 'sandy loam', tx_loam: 'loam', tx_silt_loam: 'silt loam', tx_silt: 'silt',
+      tx_sandy_clay_loam: 'sandy clay loam', tx_clay_loam: 'clay loam', tx_silty_clay_loam: 'silty clay loam', tx_sandy_clay: 'sandy clay', tx_silty_clay: 'silty clay', tx_clay: 'clay',
+      k_texture: 'Texture', k_usda: 'Texture class', k_clay: 'Clay', k_lime: 'Lime', k_infil: 'Infiltration', k_taw: 'Available water',
+      src_jar: 'Jar test (farmer)', src_vin: 'Vinegar test (farmer)', src_hole: 'Water-hole test (farmer)',
+      so_note_jar: 'Jar test, 10–20 cm', so_src_taw: 'FAO-56 table 19 (jar texture)'
+    },
+    ja: {
+      so_title: 'わたしの土', so_lead: '信頼できる土壌図がない？ 瓶と酢と水のボトルでできる3つのテストで、土の質感、石灰分、浸透の速さをGAIAに伝えられます。',
+      so_why: '土壌図サービスSoilGridsは停止中です。値をでっち上げる代わりに、GAIAは測ることを提案します。結果は「申告値」として保存されます。意味のある値ですが、基準はあくまで土壌分析です。',
+      so_now: 'プロファイルの土', so_none: 'プロファイルにはまだ土のデータがありません。',
+      so_t1: '瓶のテスト（土性）', so_t1_steps: ['ガラス瓶の3分の1まで、深さ10〜20 cmの土を入れます。石や根は取り除きます。', '4分の3まで水を入れ、台所用洗剤をスプーン1杯加え、ふたをして3分間振ります。', '瓶を置きます。1分後に砂の層、2時間後にシルトの層、24時間後に粘土の層に印をつけます。', '定規で各層の厚さをミリ単位で測ります。'],
+      so_sand: '砂（mm）', so_silt: 'シルト（mm）', so_clay: '粘土（mm）',
+      so_jar_res: '砂 {s} %・シルト {si} %・粘土 {c} % → 土性：{cls}', so_taw: '根が使える水：土1メートルあたり{a}〜{b} mm（FAO-56 表19、要確認）。', so_taw_na: 'この土性の保水量はFAO-56に記載がありません。',
+      so_t2: '酢のテスト（石灰分）', so_t2_steps: ['乾いた土をひとつかみ取ります。', '白い酢を数滴たらします。', '耳と目で確かめます：泡が立ちますか？'],
+      fz_none: '何も起きない', fz_weak: '小さな泡、かすかにパチパチ音がする', fz_strong: 'はっきり見える強い泡',
+      lm_non_calcareous: '石灰質ではない土。', lm_slightly_calcareous: 'やや石灰質の土。', lm_calcareous: '石灰質の土。',
+      lm_note: 'オリーブは石灰質の土によく耐えますが、柑橘はそこで白化（葉が黄色くなる）を起こしやすいです。活性石灰の分析で確認してください。',
+      so_t3: '水穴のテスト（浸透）', so_t3_steps: ['深さ30 cm、幅30 cmの穴を掘ります。', '水を満たし、しみ込ませます（土を湿らせるため）。', 'もう一度水を満たし、定規を立てて水位を記録します。', '決めた時間（30〜60分）のあと、水位がどれだけ下がったかを測ります。'],
+      so_drop: '水位の低下（mm）', so_min: '時間（分）',
+      so_inf_res: '浸透：{v} mm/時 → {cls}。{tx}の土によくある値です。',
+      inf_very_slow: 'とても遅い', inf_slow: '遅い', inf_medium: '中程度', inf_fast: '速い', inf_very_fast: 'とても速い',
+      so_inf_advice_slow: 'ゆっくり、こまめに水をやり、水がたまる水盤は避けましょう。', so_inf_advice_mid: 'よいバランスです。水が速く抜けすぎずにしみ込みます。', s_sandy: '砂質', s_loamy: 'ローム質', s_clayey: '粘土質', so_inf_advice_fast: '水が速く抜けます：点滴灌漑、少量ずつの分割、マルチを。',
+      so_mismatch: 'テストの結果が完全には一致しません（瓶：{a}、浸透：{b}）。テストをやり直すか、分析を依頼してください。',
+      so_save: 'プロファイルに保存', so_saved: '申告値としてプロファイルに保存しました。土地インテリジェンスに表示され、「土のデータなし」の表示に置き換わります。',
+      so_nothing: '保存する前に、少なくとも1つテストをしてください。', so_need_parcel: '結果を区画のプロファイルに保存するには、区画を選んでください。テスト自体はそのまま使えます。',
+      so_src: '方法：USDAの土性三角図、FAO-56（Allenほか、1998）表19、FAO灌漑水管理マニュアルの目安となる浸透速度。',
+      tx_sand: '砂土', tx_loamy_sand: 'ローム質砂土', tx_sandy_loam: '砂壌土', tx_loam: '壌土', tx_silt_loam: 'シルト質壌土', tx_silt: 'シルト',
+      tx_sandy_clay_loam: '砂質埴壌土', tx_clay_loam: '埴壌土', tx_silty_clay_loam: 'シルト質埴壌土', tx_sandy_clay: '砂質埴土', tx_silty_clay: 'シルト質埴土', tx_clay: '埴土',
+      k_texture: '土性', k_usda: '土性区分', k_clay: '粘土', k_lime: '石灰分', k_infil: '浸透', k_taw: '有効水分',
+      src_jar: '瓶のテスト（農家）', src_vin: '酢のテスト（農家）', src_hole: '水穴のテスト（農家）',
+      so_note_jar: '瓶のテスト、10〜20 cm', so_src_taw: 'FAO-56 表19（瓶のテストの土性）'
     }
   });
 
@@ -64,7 +118,6 @@
   function persist() { G.save('gaia.soil.tests', st); }
   function fill(s, o) { return String(s).replace(/\{(\w+)\}/g, function (_, k) { return o[k] === undefined ? '' : o[k]; }); }
   function num(v) { var x = parseFloat(String(v).replace(',', '.')); return isNaN(x) ? null : x; }
-  function L() { return G.lang() === 'ar' ? 'ar' : 'fr'; }
 
   function jarSvg(r) {
     var ns = 'http://www.w3.org/2000/svg', svg = document.createElementNS(ns, 'svg');
@@ -127,7 +180,7 @@
     if (r.jar) {
       soil.texture = declared(r.jar.group, t('src_jar'));
       soil.usda_class = declared(r.jar.usda, t('src_jar'));
-      soil.clay_pct = declared(Math.round(r.jar.clay), t('src_jar'), { unit: '%', note: 'Test du bocal, 10–20 cm' });
+      soil.clay_pct = declared(Math.round(r.jar.clay), t('src_jar'), { unit: '%', note: t('so_note_jar') });
       if (r.jar.taw) soil.taw_mm_m = declared(r.jar.taw.mid_mm_m, 'FAO-56 tableau 19 (texture du bocal)', { unit: 'mm/m', note: r.jar.taw.min_mm_m + '–' + r.jar.taw.max_mm_m + ' mm/m' });
       p.input = p.input || {}; p.input.soilTexture = r.jar.group;
     }
@@ -155,7 +208,7 @@
     if (!shown.length) { profBox.appendChild(el('p', { class: 'small muted', style: 'margin-top:6px' }, [t('so_none')])); return; }
     profBox.appendChild(el('div', { class: 'gp-table-wrap', style: 'margin-top:8px' }, [el('table', { class: 'gp-table' }, [el('tbody', null, shown.map(function (r) {
       var f = soil[r[1]];
-      return el('tr', null, [el('td', { style: 'font-weight:600' }, [t(r[0])]), el('td', null, [r[2](f.value)]), el('td', null, [G.confBadge(f.confidence || 'declared')]), el('td', { class: 'small muted' }, [f.source || ''])]);
+      return el('tr', null, [el('td', { style: 'font-weight:600' }, [t(r[0])]), el('td', null, [r[2](f.value)]), el('td', null, [G.confBadge(f.confidence || 'declared')]), el('td', { class: 'small muted' }, [G.tr(f.source || '')])]);
     }))])]));
   }
 
