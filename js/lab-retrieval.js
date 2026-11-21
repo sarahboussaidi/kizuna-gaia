@@ -1,7 +1,7 @@
 /* ==========================================================================
    GAIA AI Lab — retrieval over the knowledge records and the parcel profile.
 
-   No model, no network: questions in French, Arabic or English are
+   No model, no network: questions in French, Arabic, English or Japanese are
    normalised (accents, Arabic letter forms, light stemming), matched against
    a multilingual topic lexicon and scored against every record's text
    (exact, prefix and one-typo fuzzy matches). The Lab turns the result into
@@ -74,6 +74,16 @@
     shade: 'ombre ombrage abri shade shading ظل',
     erosion: 'erosion ruissellement crue crues sediment sediments inondation runoff flood انجراف سيول فيضان'
   };
+  // Japanese is not split by spaces: topics are found by keyword inclusion instead.
+  var JA_TOPICS = {
+    cost: 'コスト 費用 価格 値段 いくら 予算 投資 採算', risk: 'リスク 危険 欠点 問題 デメリット', materials: '資材 材料 道具',
+    actors: '支援 協力 パートナー 関係者 補助 組合', regulation: '規制 法律 許可', actions: 'どうやって 手順 方法 始め方 作り方 設置 維持',
+    soil: '土壌 粘土 砂質 有機 肥沃', rain: '雨 降水 干ばつ 乾燥', heat: '気温 暑さ 寒さ 霜 高温', et0: '蒸発', slope: '傾斜 斜面 標高 平坦',
+    solar: '日射 太陽 日照 パネル', energy: 'エネルギー 電気 電力 ディーゼル 軽油', pump: 'ポンプ 揚水 井戸 地下水 帯水層',
+    water: '灌漑 水やり 割当', crop: '作物 オリーブ ナツメヤシ 柑橘 穀物 野菜 小麦 果樹', area: '面積 広さ ヘクタール',
+    sources: '出典 根拠 文献 情報源', confidence: '信頼 確か', shade: '日陰', erosion: '侵食 流出 洪水 土砂'
+  };
+  var CJK = /[\u3040-\u30ff\u4e00-\u9fff]/;
   var TOPIC_STEMS = {};
   Object.keys(TOPICS).forEach(function (k) { TOPIC_STEMS[k] = TOPICS[k].split(' ').map(function (w) { return stem(norm(w)); }); });
 
@@ -95,9 +105,13 @@
     INDEX = { records: records, docs: records.map(function (r) {
       var bag = {};
       var add = function (text, w) { tokens(text).forEach(function (tk) { var s = stem(tk); bag[s] = Math.max(bag[s] || 0, w); }); };
-      add(r.name + ' ' + (r.name_ar || '') + ' ' + (r.jp || '') + ' ' + r.id.replace(/^(tn|jp|x)-/, '').replace(/-/g, ' '), 4);
-      add(r.summary, 2);
-      add([r.description, r.materials, r.cost, r.actors, r.regulation, r.risks].concat(r.actions || []).concat((r.adaptations || []).map(function (a) { return a.text; })).join(' '), 1);
+      // index the French reference text (js/kb.js) and, when loaded, the English translation (js/kb-i18n.js):
+      // the interface may have swapped the readable fields to another language
+      var S = r._fr || r, En = r._en || {};
+      var adapt = r._fr ? r._fr.adapt : (r.adaptations || []).map(function (a) { return a.text; });
+      add(S.name + ' ' + (En.name || '') + ' ' + (r.name_ar || '') + ' ' + (r.jp || '') + ' ' + r.id.replace(/^(tn|jp|x)-/, '').replace(/-/g, ' '), 4);
+      add(S.summary + ' ' + (En.summary || ''), 2);
+      add([S.description, S.materials, S.cost, S.actors, S.regulation, S.risks, En.description, En.materials, En.cost, En.actors, En.regulation, En.risks].concat(S.actions || []).concat(En.actions || []).concat(adapt).filter(Boolean).join(' '), 1);
       (r.families || []).forEach(function (f) { bag['fam:' + f] = 1; });
       return { id: r.id, bag: bag };
     }) };
@@ -112,6 +126,9 @@
         if (TOPIC_STEMS[k].some(function (t) { return t === s || near(t, s) || (s.length >= 5 && t.length >= 5 && (t.indexOf(s) === 0 || s.indexOf(t) === 0)); })) topics[k] = (topics[k] || 0) + 1;
       });
       if (qt[i] === 'et0') topics.et0 = 1;
+    });
+    if (CJK.test(question)) Object.keys(JA_TOPICS).forEach(function (k) {
+      if (JA_TOPICS[k].split(' ').some(function (w) { return question.indexOf(w) !== -1; })) topics[k] = (topics[k] || 0) + 1;
     });
     var idx = indexOf(records);
     var hits = idx.docs.map(function (d) {
@@ -142,6 +159,7 @@
 
   function lang(q) {
     if (/[؀-ۿ]/.test(q)) return 'ar';
+    if (CJK.test(q)) return 'ja';
     var t = ' ' + norm(q) + ' ';
     var en = (t.match(/ (the|what|which|how|why|is|are|can|my|should|does|water|soil|cost|best) /g) || []).length;
     var fr = (t.match(/ (le|la|les|quel|quelle|quels|comment|pourquoi|est|mon|ma|mes|des|du|eau|sol|cout) /g) || []).length;

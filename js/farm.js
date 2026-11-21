@@ -79,6 +79,80 @@
       method_sim: 'قراءات العدّاد والمموّج محاكاة قابلة للإعادة، مع حدثين مضافين للعرض: ثلاثة أيام ضخ زائد وتدفق ليلي. اربط عدّاداً حقيقياً لتعويض المحاكاة.',
       src_wx: 'الطقس:', partial: '(اليوم جارٍ)', demo: 'عرض', live: 'مباشر', sim: 'محاكاة',
       to_nexus: 'الحساب السنوي المفصّل', to_land: 'استعمل قطعتي', days: ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت']
+    },
+    en: {
+      fd_title: 'Farm dashboard',
+      fd_lead: 'Measure to manage: water pumped against the crop’s quota, energy from the sun, what it saves, and what is coming this week.',
+      fd_farm: 'Farm', fd_demo_farm: 'Demo farm · olive grove near Kairouan', fd_your_parcel: 'Your plot',
+      fd_src_meter: 'Water meter and inverter: simulated for the demo', fd_src_wx_live: 'Weather: live Open-Meteo forecast', fd_src_wx_sim: 'Weather: simulated (forecast unreachable)',
+      fd_loading: 'Reading the weather forecast…',
+      fd_today: 'Today',
+      fd_today_irr: 'Irrigate {v} m³', fd_today_irr_p: 'About {h} h of solar pumping, around midday when the sun is strong. Do not exceed it: this is the crop’s need.',
+      fd_today_skip: 'No irrigation today', fd_today_skip_p: '{r} mm of useful rain covers the crop’s need. The pump can stay off.',
+      fd_today_sun: 'Not enough sun to pump it all: top up from the reservoir or move it to tomorrow.',
+      k_water: 'Water pumped this month', k_water_of: 'for a need of {q} m³ since the 1st', k_solar: 'Solar energy this month', k_solar_p: '{u} kWh used by the pump',
+      k_money: 'Savings this month', k_money_p: '{l} L of diesel avoided', k_co2: 'CO₂ avoided this month', k_co2_p: 'compared with a diesel pump',
+      k_spared: 'Groundwater spared this month', k_spared_p: 'water that a solar pump without a ceiling could have drawn on top',
+      al_t: 'Alerts', lvl_critical: 'Urgent', lvl_warning: 'Warning', lvl_info: 'Good to know', lvl_good: 'All good',
+      al_mtd_over: 'Since the start of the month, {pct} % more than the crop’s need ({v} m³ too much). Reduce the next waterings.',
+      al_night_flow: 'Flow on the night of {d} ({v} m³) while the solar pump is off: probably a leak. Check valves and drippers.',
+      al_days_over: '{n} days above the need between {a} and {b}: {v} m³ pumped too much.',
+      al_rain_skip: 'Rain forecast {d} ({r} mm): no need to irrigate that day.',
+      al_heat: 'Strong heat forecast {d} ({tx} °C): the need goes up, and the day’s quota takes it into account.',
+      al_low_sun: 'Overcast {d}: the sun will not be enough to pump the whole need. Fill the reservoir the day before.',
+      al_all_good: 'Pumping within the quota, no anomaly on the meter.',
+      fc_t: 'The next 7 days', fc_p: 'Advised irrigation for each day, calculated from the forecast (FAO-56), and what the sun can pump.',
+      fc_rain: 'rain', fc_need: 'to irrigate', fc_none: 'no irrigation', fc_solar: 'solar',
+      fc_chart_t: 'Irrigation need and solar pump capacity (m³/day)', s_need: 'Crop need', s_cap: 'What the sun can pump',
+      h_t: 'Last 30 days', h_p: 'Each bar compares the water actually pumped with the crop’s need that day.',
+      h_chart_t: 'Water pumped and quota (m³/day)', s_pumped: 'Water pumped (simulated)', s_quota: 'Quota (crop need)',
+      h_solar_t: 'Solar energy produced and used by the pump (kWh/day)', s_solar: 'Solar production', s_used: 'Used by the pump',
+      h_table: 'See the values as a table', th_date: 'Date', th_quota: 'Quota (m³)', th_pumped: 'Pumped (m³)', th_solar: 'Solar (kWh)', th_rain: 'Rain (mm)', th_et0: 'ET0 (mm)',
+      set_t: 'Farm settings', set_p: 'Editable values. Prices are indicative: enter your own.',
+      set_area: 'Area (ha)', set_kc: 'Crop coefficient Kc', set_ea: 'Irrigation efficiency', set_head: 'Pumping head (m)', set_eff: 'Pump efficiency',
+      set_kwp: 'Solar power (kWp)', set_kwp_h: 'Left empty: GAIA sizes it for the most demanding day.', set_price: 'Diesel price (TND/L)', set_dkwh: 'Diesel generator (kWh/L)', set_reset: 'Back to default values',
+      method_t: 'Method and sources',
+      method_p: 'Daily quota = (Kc × ET0 − useful rain) / efficiency × area, after FAO-56. Useful rain = 80 % of rainfall events of 5 mm or more. Energy = volume × head / (367 × efficiency). Solar = kWp × radiation × 0.75. CO₂: 2.68 kg per litre of diesel. Groundwater spared = what the solar pump could have lifted that day minus what was pumped: it is the water the GAIA ceiling leaves in the ground.',
+      method_sim: 'The meter and inverter readings are simulated (reproducible), with two events added for the demo: three days of over-pumping and a night-time flow. Connect a real meter to replace the simulation.',
+      src_wx: 'Weather:', partial: '(day in progress)', demo: 'Demo', live: 'Live', sim: 'Simulated',
+      to_nexus: 'Detailed annual calculation', to_land: 'Use my plot', days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+    },
+    ja: {
+      fd_title: '農場ダッシュボード',
+      fd_lead: '測ることで管理する：作物の割当量に対する揚水量、太陽のエネルギー、その節約額、そして今週の見通し。',
+      fd_farm: '農場', fd_demo_farm: 'デモ農場 · カイルアン近郊のオリーブ園', fd_your_parcel: 'あなたの区画',
+      fd_src_meter: '水量計とインバーター：デモ用のシミュレーション', fd_src_wx_live: '天気：Open-Meteoのリアルタイム予報', fd_src_wx_sim: '天気：シミュレーション（予報に接続できません）',
+      fd_loading: '天気予報を読み込み中…',
+      fd_today: '今日',
+      fd_today_irr: '{v} m³を灌漑', fd_today_irr_p: '日射の強い昼ごろに、太陽光で約{h}時間揚水します。これが作物の必要量なので、超えないでください。',
+      fd_today_skip: '今日は灌漑不要', fd_today_skip_p: '{r} mmの有効雨量で作物の必要量をまかなえます。ポンプは止めたままで大丈夫です。',
+      fd_today_sun: 'すべてを汲み上げるには日射が足りません。貯水池から補うか、明日に回してください。',
+      k_water: '今月の揚水量', k_water_of: '1日からの必要量 {q} m³ に対して', k_solar: '今月の太陽光エネルギー', k_solar_p: 'ポンプが使用 {u} kWh',
+      k_money: '今月の節約額', k_money_p: '軽油 {l} L を節約', k_co2: '今月削減したCO₂', k_co2_p: 'ディーゼルポンプと比べて',
+      k_spared: '今月守った地下水', k_spared_p: '上限のない太陽光ポンプなら余分に汲み上げていた水',
+      al_t: 'アラート', lvl_critical: '緊急', lvl_warning: '注意', lvl_info: 'お知らせ', lvl_good: '問題なし',
+      al_mtd_over: '月初から作物の必要量より{pct} %多く汲み上げています（{v} m³の超過）。次回以降の水やりを減らしてください。',
+      al_night_flow: '{d}の夜、太陽光ポンプが止まっているのに流量があります（{v} m³）。漏水の可能性があります。バルブと点滴チューブを確認してください。',
+      al_days_over: '{a}から{b}までの{n}日間、必要量を超えています：{v} m³の汲み過ぎ。',
+      al_rain_skip: '{d}に雨の予報（{r} mm）：その日の灌漑は不要です。',
+      al_heat: '{d}に強い暑さの予報（{tx} °C）：必要量が増えるため、その日の割当量に反映しています。',
+      al_low_sun: '{d}は曇り：日射だけでは必要量をすべて汲み上げられません。前日に貯水池を満たしてください。',
+      al_all_good: '揚水は割当量の範囲内で、水量計に異常はありません。',
+      fc_t: '今後7日間', fc_p: '予報（FAO-56）から計算した毎日の推奨灌漑量と、太陽で汲める量。',
+      fc_rain: '雨', fc_need: '灌漑', fc_none: '灌漑不要', fc_solar: '太陽光',
+      fc_chart_t: '灌漑の必要量と太陽光ポンプの能力（m³/日）', s_need: '作物の必要量', s_cap: '太陽で汲める量',
+      h_t: '過去30日間', h_p: '各棒は、実際に汲み上げた水とその日の作物の必要量を比べています。',
+      h_chart_t: '揚水量と割当量（m³/日）', s_pumped: '揚水量（シミュレーション）', s_quota: '割当量（作物の必要量）',
+      h_solar_t: '太陽光の発電量とポンプの使用量（kWh/日）', s_solar: '太陽光発電量', s_used: 'ポンプの使用量',
+      h_table: '表で値を見る', th_date: '日付', th_quota: '割当量（m³）', th_pumped: '揚水量（m³）', th_solar: '太陽光（kWh）', th_rain: '雨（mm）', th_et0: 'ET0（mm）',
+      set_t: '農場の設定', set_p: '値は変更できます。価格は目安なので、ご自身の価格を入力してください。',
+      set_area: '面積（ha）', set_kc: '作物係数Kc', set_ea: '灌漑効率', set_head: '揚程（m）', set_eff: 'ポンプ効率',
+      set_kwp: '太陽光の出力（kWp）', set_kwp_h: '空欄の場合：最も需要の大きい日に合わせてGAIAが設計します。', set_price: '軽油価格（TND/L）', set_dkwh: 'ディーゼル発電機（kWh/L）', set_reset: '既定値に戻す',
+      method_t: '方法と出典',
+      method_p: '1日の割当量 = (Kc × ET0 − 有効雨量) / 効率 × 面積（FAO-56による）。有効雨量 = 5 mm以上の降雨の80 %。エネルギー = 水量 × 揚程 / (367 × 効率)。太陽光 = kWp × 日射量 × 0.75。CO₂：軽油1 Lあたり2.68 kg。守った地下水 = その日に太陽光ポンプが汲めた量 − 実際の揚水量。GAIAの上限によって地中に残った水です。',
+      method_sim: '水量計とインバーターの値はシミュレーション（再現可能）で、デモ用に2つの出来事を加えています：3日間の過剰揚水と夜間の流量。シミュレーションを置き換えるには実際の水量計を接続してください。',
+      src_wx: '天気：', partial: '（本日分・途中）', demo: 'デモ', live: 'リアルタイム', sim: 'シミュレーション',
+      to_nexus: '年間の詳細計算', to_land: '自分の区画を使う', days: ['日', '月', '火', '水', '木', '金', '土']
     }
   });
 
@@ -158,7 +232,7 @@
   /* ------------------------------------------------ helpers */
   function fill(str, map) { return String(str).replace(/\{(\w+)\}/g, function (_, k) { return map[k] !== undefined ? map[k] : ''; }); }
   function dayName(date) { return t('days')[new Date(date + 'T12:00:00Z').getUTCDay()]; }
-  function shortDate(date) { var d = new Date(date + 'T12:00:00Z'); return d.getUTCDate() + ' ' + t('months')[d.getUTCMonth()]; }
+  function shortDate(date) { var d = new Date(date + 'T12:00:00Z'); return G.lang() === 'ja' ? t('months')[d.getUTCMonth()] + d.getUTCDate() + '日' : d.getUTCDate() + ' ' + t('months')[d.getUTCMonth()]; }
   function whenLabel(date, i) { return (i === 0 ? '' : '') + dayName(date) + ' ' + shortDate(date); }
   var LV_ICON = { critical: 'warn', warning: 'warn', info: 'info', good: 'ok' };
 

@@ -96,27 +96,47 @@
     });
   }
 
-  // plain-language reason for a single check (FR; AR summary handled by the UI)
+  // plain-language reason for a single check (FR, EN, JA; AR shows the French wording, as before)
+  var WORDS = {
+    fr: {
+      label: { 'climate.rain_mm': 'pluie annuelle', 'terrain.slope_pct': 'pente', 'water.source': "source d'eau",
+        'crop': 'culture', 'energy.pump': 'pompage', 'climate.tmax_hot': 'température max. estivale',
+        'climate.et0_mm': 'évapotranspiration de référence', 'solar.ghi_kwh': 'rayonnement solaire', 'climate.tmin_cold': 'température min. hivernale' },
+      ghi: ' kWh/m²/j', unknown: 'inconnu', sep: ' : ', req: function (t) { return ' (requis ' + t + ')'; },
+      values: { rainfed: 'pluviale', well: 'puits', network: 'réseau', shared: 'source partagée',
+        olive: 'olivier', palm: 'palmier dattier', citrus: 'agrumes', cereal: 'céréales', veg: 'maraîchage', other: 'autre',
+        none: 'aucune', diesel: 'pompe diesel', grid: 'pompe sur réseau', solar: 'pompe solaire' }
+    },
+    en: {
+      label: { 'climate.rain_mm': 'annual rainfall', 'terrain.slope_pct': 'slope', 'water.source': 'water source',
+        'crop': 'crop', 'energy.pump': 'pumping', 'climate.tmax_hot': 'summer max. temperature',
+        'climate.et0_mm': 'reference evapotranspiration', 'solar.ghi_kwh': 'solar radiation', 'climate.tmin_cold': 'winter min. temperature' },
+      ghi: ' kWh/m²/day', unknown: 'unknown', sep: ': ', req: function (t) { return ' (required ' + t + ')'; },
+      values: { rainfed: 'rainfed', well: 'well', network: 'network', shared: 'shared source',
+        olive: 'olive', palm: 'date palm', citrus: 'citrus', cereal: 'cereals', veg: 'vegetables', other: 'other',
+        none: 'none', diesel: 'diesel pump', grid: 'grid pump', solar: 'solar pump' }
+    },
+    ja: {
+      label: { 'climate.rain_mm': '年間降水量', 'terrain.slope_pct': '傾斜', 'water.source': '水源',
+        'crop': '作物', 'energy.pump': '揚水', 'climate.tmax_hot': '夏の最高気温',
+        'climate.et0_mm': '基準蒸発散量', 'solar.ghi_kwh': '日射量', 'climate.tmin_cold': '冬の最低気温' },
+      ghi: ' kWh/m²/日', unknown: '不明', sep: '：', req: function (t) { return '（必要条件 ' + t + '）'; },
+      values: { rainfed: '天水', well: '井戸', network: '灌漑網', shared: '共同水源',
+        olive: 'オリーブ', palm: 'ナツメヤシ', citrus: '柑橘', cereal: '穀物', veg: '野菜', other: 'その他',
+        none: 'なし', diesel: 'ディーゼルポンプ', grid: '系統電力ポンプ', solar: '太陽光ポンプ' }
+    }
+  };
+  function words() { var l = global.GAIA && global.GAIA.lang ? global.GAIA.lang() : 'fr'; return WORDS[l] || WORDS.fr; }
   function describe(x) {
-    var c = x.cond, f = global.GAIA.fmt;
-    var label = {
-      'climate.rain_mm': 'pluie annuelle', 'terrain.slope_pct': 'pente', 'water.source': "source d'eau",
-      'crop': 'culture', 'energy.pump': 'pompage', 'climate.tmax_hot': 'température max. estivale',
-      'climate.et0_mm': 'évapotranspiration de référence', 'solar.ghi_kwh': 'rayonnement solaire', 'climate.tmin_cold': 'température min. hivernale'
-    }[c.field] || c.field;
-    var unit = { 'climate.rain_mm': ' mm', 'terrain.slope_pct': ' %', 'climate.tmax_hot': ' °C', 'climate.tmin_cold': ' °C', 'climate.et0_mm': ' mm', 'solar.ghi_kwh': ' kWh/m²/j' }[c.field] || '';
+    var c = x.cond, f = global.GAIA.fmt, W = words();
+    var label = W.label[c.field] || c.field;
+    var unit = { 'climate.rain_mm': ' mm', 'terrain.slope_pct': ' %', 'climate.tmax_hot': ' °C', 'climate.tmin_cold': ' °C', 'climate.et0_mm': ' mm', 'solar.ghi_kwh': W.ghi }[c.field] || '';
     var target = c.op === 'max' ? '≤ ' + f(c.value) + unit : c.op === 'min' ? '≥ ' + f(c.value) + unit
       : c.op === 'between' ? f(c.value[0]) + '–' + f(c.value[1]) + unit : c.value.map(valueLabel).join(', ');
-    var got = x.value === null ? 'inconnu' : (typeof x.value === 'number' ? f(x.value, c.field === 'terrain.slope_pct' || c.field === 'solar.ghi_kwh' ? 1 : 0) + unit : valueLabel(x.value));
-    return label + ' : ' + got + ' (requis ' + target + ')';
+    var got = x.value === null ? W.unknown : (typeof x.value === 'number' ? f(x.value, c.field === 'terrain.slope_pct' || c.field === 'solar.ghi_kwh' ? 1 : 0) + unit : valueLabel(x.value));
+    return label + W.sep + got + W.req(target);
   }
-  function valueLabel(v) {
-    return {
-      rainfed: 'pluviale', well: 'puits', network: 'réseau', shared: 'source partagée',
-      olive: 'olivier', palm: 'palmier dattier', citrus: 'agrumes', cereal: 'céréales', veg: 'maraîchage', other: 'autre',
-      none: 'aucune', diesel: 'pompe diesel', grid: 'pompe sur réseau', solar: 'pompe solaire'
-    }[v] || String(v);
-  }
+  function valueLabel(v) { return words().values[v] || String(v); }
 
   global.GAIA_ENGINE = { evaluate: evaluate, evaluateAll: evaluateAll, describe: describe, valueLabel: valueLabel, DIMS: DIMS };
 }(window));

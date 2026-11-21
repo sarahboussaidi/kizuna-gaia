@@ -44,7 +44,7 @@
       miss_t: 'Informations manquantes', miss_area: 'Surface de la parcelle : les volumes sont donnés par hectare.', miss_head: 'Hauteur de pompage : pas de calcul d’énergie.', miss_ghi: 'Rayonnement solaire : pas de dimensionnement.', miss_kc: 'Coefficient cultural : saisissez une valeur.', miss_climate: 'Données climatiques indisponibles : reconstruisez le profil sur la page Land Intelligence.',
       method_t: 'Méthode et sources', src_climate: 'Climat :', src_solar: 'Rayonnement :', src_om: 'Open-Meteo (rayonnement de courte longueur d’onde)',
       method_p: 'Pluie efficace : méthode USDA-SCS mensuelle, utilisée dans FAO CROPWAT. Les valeurs Kc par défaut sont tirées de FAO-56 (tableau 12) et restent à vérifier sur la publication. Le dimensionnement solaire suppose un rayonnement sur panneau proche du rayonnement horizontal.',
-      sim: 'Estimation de modèle, pas une mesure.'
+      sim: 'Estimation de modèle, pas une mesure.', summary: 'Résumé'
     },
     ar: {
       n_title: 'الماء والطاقة',
@@ -86,7 +86,91 @@
       miss_t: 'معلومات ناقصة', miss_area: 'مساحة القطعة: تُعطى الأحجام للهكتار.', miss_head: 'ارتفاع الضخ: لا حساب للطاقة.', miss_ghi: 'الإشعاع الشمسي: لا حساب للحقل الشمسي.', miss_kc: 'المعامل الزراعي: أدخل قيمة.', miss_climate: 'البيانات المناخية غير متاحة: أعد بناء الملف في صفحة ذكاء الأرض.',
       method_t: 'المنهجية والمصادر', src_climate: 'المناخ:', src_solar: 'الإشعاع:', src_om: 'Open-Meteo (إشعاع الموجة القصيرة)',
       method_p: 'المطر الفعّال: طريقة USDA-SCS الشهرية المستعملة في FAO CROPWAT. قيم Kc الافتراضية مأخوذة من FAO-56 (الجدول 12) ويجب التحقق منها. يفترض حساب الحقل الشمسي أن الإشعاع على اللوح قريب من الإشعاع الأفقي.',
-      sim: 'تقدير نموذجي وليس قياساً.'
+      sim: 'تقدير نموذجي وليس قياساً.', summary: 'Résumé'
+    },
+    en: {
+      n_title: 'Water & energy',
+      g_eyebrow: 'Groundwater guard · the nexus, not a stand-alone technology',
+      g_t: 'The solar pump stops at the crop’s need',
+      g_p: 'A solar array sized for the hottest month can pump far more than the crop needs the rest of the year, and every extra cubic metre is almost free. The groundwater guard turns the FAO-56 need into a pumping ceiling, month by month, and lower still if the aquifer or the permit requires it.',
+      g_cap: 'What the sun could pump', g_need: 'Crop need', g_allowed: 'Guard ceiling', g_blocked: 'Over-pumping avoided', g_freed: 'Solar energy freed',
+      g_peak: 'at most {v} m³ per day', g_ratio: 'the need', g_pct: 'of what the pump could draw', g_freed_u: 'kWh/yr for cooling, processing or the neighbours',
+      g_st_guarded: 'Protected: the ceiling blocks over-pumping', g_st_aquifer_limited: 'Limited by the aquifer: the ceiling is below the need', g_st_no_surplus: 'No surplus: the solar array does not exceed the need',
+      g_deficit: 'The renewable resource covers only {p} % of the need. {v} m³/yr are missing: deficit irrigation, mulching, agrivoltaic shade or a less demanding crop.',
+      g_chart: 'What the sun could pump, the need and the ceiling, by month',
+      g_ctl_t: 'Pump controller settings', g_ctl_p: 'To programme in the controller with a water meter: the pump cuts out as soon as the day’s volume is reached, even if there is still sun.',
+      g_th_cap: 'Possible (m³)', g_th_allowed: 'Ceiling (m³)', g_th_day: 'Ceiling / day (m³)', g_th_h: 'Max hours / day', g_th_blocked: 'Avoided (m³)',
+      g_in_t: 'Groundwater guard', g_in_kwp: 'Installed solar array (kWp)', g_in_kwp_h: 'Empty: the size calculated below ({k} kWp).',
+      g_in_sy: 'Authorised renewable volume (m³/yr)', g_in_sy_h: 'CRDA permit or share of the aquifer recharge. Empty: only the crop need sets the ceiling.',
+      g_in_flow: 'Pump flow rate (m³/h)', g_in_flow_h: 'To limit pumping hours per day.',
+      g_miss: 'To turn on the groundwater guard: area, pumping head and solar radiation.',
+      g_method: 'PV = kWp × days × GHI × PR ; Possible = PV × 367 × ηp / H ; Ceiling = min(Need × min(1, Renewable / ΣNeed), Possible)',
+      n_lead: 'How much water the crop needs, how much energy it takes to pump it, which solar array would supply it, and above all how much not to exceed.',
+      principle: 'Clean energy must not become unlimited water extraction.',
+      principle_p: 'Once the panels are paid for, pumping one more cubic metre costs almost nothing. So GAIA never proposes a solar array without the water quota that goes with it.',
+      in_t: 'Assumptions', in_crop: 'Crop', in_kc: 'Crop coefficient Kc', in_months: 'Irrigated crop months',
+      in_area: 'Area (ha)', in_sys: 'Irrigation system', sys_drip: 'Drip', sys_sprinkler: 'Sprinkler', sys_surface: 'Surface (gravity)',
+      in_ea: 'Application efficiency', in_head: 'Total dynamic head (m)', in_head_h: 'Well depth + drawdown + operating pressure.',
+      in_pump: 'Pumping set efficiency', in_pr: 'Solar performance ratio',
+      in_prices: 'Prices (to compare costs)', in_prices_h: 'Enter dated prices. Without prices, GAIA does not compare.',
+      p_diesel: 'Diesel (TND/L)', p_dkwh: 'Diesel generator output (kWh/L)', p_grid: 'Grid electricity (TND/kWh)', p_pv: 'Installed solar (TND/kWp)', p_life: 'Solar lifetime (years)',
+      assumption: 'Editable assumption', kc_ref: 'Default value:',
+      f_need: 'Crop need', f_rain: 'Effective rainfall', f_irr: 'Irrigation needed', f_energy: 'Pumping energy', f_quota: 'Annual quota',
+      per_ha: 'per ha', per_year: 'per year',
+      c_water_t: 'Water: need, useful rain and irrigation, by month', c_energy_t: 'Pumping energy by month',
+      s_etc: 'Need ETc', s_pe: 'Effective rainfall', s_irg: 'Gross irrigation',
+      solar_t: 'Solar array needed', solar_p: 'Sized for the most demanding month', solar_none: 'No sizing: the area, pumping head or radiation is missing.',
+      cost_t: 'Annual cost compared', cost_none: 'Enter at least one price to compare.',
+      cost_diesel: 'Diesel pumping', cost_grid: 'Grid pumping', cost_solar: 'Solar (investment spread over its lifetime)',
+      cost_note: 'Energy cost only; maintenance and equipment replacement are not included.',
+      quota_t: 'Monthly pumping quota', quota_p: 'The volume not to exceed: it is the calculated agronomic need, not the pump’s capacity. A lower official allocation takes priority.',
+      th_month: 'Month', th_vol: 'Volume (m³)', th_kwh: 'Energy (kWh)', th_kwp: 'kWp required',
+      miss_t: 'Missing information', miss_area: 'Plot area: volumes are given per hectare.', miss_head: 'Pumping head: no energy calculation.', miss_ghi: 'Solar radiation: no sizing.', miss_kc: 'Crop coefficient: enter a value.', miss_climate: 'Climate data unavailable: rebuild the profile on the Land Intelligence page.',
+      method_t: 'Method and sources', src_climate: 'Climate:', src_solar: 'Radiation:', src_om: 'Open-Meteo (shortwave radiation)',
+      method_p: 'Effective rainfall: monthly USDA-SCS method, as used in FAO CROPWAT. Default Kc values come from FAO-56 (table 12) and remain to be checked against the publication. Solar sizing assumes radiation on the panel close to horizontal radiation.',
+      sim: 'Model estimate, not a measurement.', summary: 'Summary'
+    },
+    ja: {
+      n_title: '水とエネルギー',
+      g_eyebrow: '地下水ガード · 単独の技術ではなく、ネクサスとして',
+      g_t: '太陽光ポンプは作物の必要量で止まる',
+      g_p: '最も暑い月に合わせた太陽光アレイは、それ以外の月には作物の必要量をはるかに超えて揚水でき、余分な1 m³はほぼ無料です。地下水ガードはFAO-56の必要水量を月ごとの揚水上限に変え、帯水層や許可がそれを求めるならさらに低くします。',
+      g_cap: '太陽で汲み上げられる量', g_need: '作物の必要量', g_allowed: 'ガードの上限', g_blocked: '防いだ過剰揚水', g_freed: '余った太陽光エネルギー',
+      g_peak: '1日あたり最大{v} m³', g_ratio: '必要量', g_pct: '（ポンプが汲める量に対して）', g_freed_u: 'kWh/年を冷蔵、加工、近隣に回せます',
+      g_st_guarded: '保護中：上限が過剰揚水を止めています', g_st_aquifer_limited: '帯水層による制限：上限が必要量を下回っています', g_st_no_surplus: '余剰なし：太陽光アレイは必要量を超えません',
+      g_deficit: '再生可能な水資源は必要量の{p} %しか満たしません。{v} m³/年が不足：不足灌漑、マルチング、営農型太陽光の日陰、または水を必要としない作物で補います。',
+      g_chart: '太陽で汲める量・必要量・上限（月別）',
+      g_ctl_t: 'ポンプ制御装置の設定', g_ctl_p: '水量計と合わせて制御装置に設定します。日射が残っていても、その日の量に達した時点でポンプが止まります。',
+      g_th_cap: '可能量（m³）', g_th_allowed: '上限（m³）', g_th_day: '1日の上限（m³）', g_th_h: '1日の最大時間', g_th_blocked: '防いだ量（m³）',
+      g_in_t: '地下水ガード', g_in_kwp: '設置済み太陽光アレイ（kWp）', g_in_kwp_h: '空欄：下で計算したサイズ（{k} kWp）。',
+      g_in_sy: '許可された再生可能水量（m³/年）', g_in_sy_h: 'CRDAの許可、または帯水層の涵養量の一部。空欄：作物の必要量だけで上限を決めます。',
+      g_in_flow: 'ポンプ流量（m³/h）', g_in_flow_h: '1日の揚水時間を制限するため。',
+      g_miss: '地下水ガードを有効にするには：面積、揚程、日射量。',
+      g_method: 'PV = kWp × 日数 × GHI × PR ; 可能量 = PV × 367 × ηp / H ; 上限 = min(必要量 × min(1, 再生可能量 / Σ必要量), 可能量)',
+      n_lead: '作物に必要な水の量、それを汲み上げるエネルギー、それをまかなう太陽光アレイ、そして何より超えてはならない量。',
+      principle: 'クリーンエネルギーが無制限の取水につながってはならない。',
+      principle_p: 'パネルの代金を払い終えると、もう1 m³汲むコストはほぼゼロです。だからGAIAは、水の割当量なしに太陽光アレイを提案することはありません。',
+      in_t: '前提条件', in_crop: '作物', in_kc: '作物係数Kc', in_months: '灌漑する月',
+      in_area: '面積（ha）', in_sys: '灌漑方式', sys_drip: '点滴', sys_sprinkler: 'スプリンクラー', sys_surface: '地表（重力式）',
+      in_ea: '灌水効率', in_head: '全揚程（m）', in_head_h: '井戸の深さ＋水位低下＋使用圧力。',
+      in_pump: 'ポンプ設備の効率', in_pr: '太陽光の性能比',
+      in_prices: '価格（コスト比較用）', in_prices_h: '日付つきの価格を入力してください。価格がなければGAIAは比較しません。',
+      p_diesel: '軽油（TND/L）', p_dkwh: 'ディーゼル発電機の出力（kWh/L）', p_grid: '系統電力（TND/kWh）', p_pv: '太陽光の設置費（TND/kWp）', p_life: '太陽光の寿命（年）',
+      assumption: '変更できる前提', kc_ref: '既定値：',
+      f_need: '作物の必要量', f_rain: '有効雨量', f_irr: '必要な灌漑量', f_energy: '揚水エネルギー', f_quota: '年間割当量',
+      per_ha: 'haあたり', per_year: '年あたり',
+      c_water_t: '水：必要量・有効雨量・灌漑量（月別）', c_energy_t: '月別の揚水エネルギー',
+      s_etc: '必要量ETc', s_pe: '有効雨量', s_irg: '総灌漑量',
+      solar_t: '必要な太陽光アレイ', solar_p: '最も需要の大きい月に合わせて設計', solar_none: '設計できません：面積、揚程、または日射量が不足しています。',
+      cost_t: '年間コストの比較', cost_none: '比較するには価格を1つ以上入力してください。',
+      cost_diesel: 'ディーゼル揚水', cost_grid: '系統電力揚水', cost_solar: '太陽光（投資を寿命で按分）',
+      cost_note: 'エネルギーコストのみ。保守と機器交換は含みません。',
+      quota_t: '月ごとの揚水割当量', quota_p: '超えてはならない量です。ポンプの能力ではなく、計算した農学的な必要量です。公式の割当がこれより低い場合はそちらが優先されます。',
+      th_month: '月', th_vol: '量（m³）', th_kwh: 'エネルギー（kWh）', th_kwp: '必要kWp',
+      miss_t: '欠けている情報', miss_area: '区画の面積：量はヘクタールあたりで表示しています。', miss_head: '揚程：エネルギーを計算できません。', miss_ghi: '日射量：設計できません。', miss_kc: '作物係数：値を入力してください。', miss_climate: '気候データを取得できません。ランド・インテリジェンスでプロファイルを作り直してください。',
+      method_t: '方法と出典', src_climate: '気候：', src_solar: '日射：', src_om: 'Open-Meteo（短波放射）',
+      method_p: '有効雨量：FAO CROPWATで使われる月別USDA-SCS法。Kcの既定値はFAO-56（表12）によるもので、原典で確認が必要です。太陽光の設計では、パネル面の日射が水平面日射に近いと仮定しています。',
+      sim: 'モデルによる推定値で、実測ではありません。', summary: '概要'
     }
   });
 
@@ -230,7 +314,7 @@
 
     // headline flow
     var volTxt = hasArea ? fmt(T.vol) + ' m³' : fmt(T.volHa) + ' m³';
-    out.appendChild(el('div', { class: 'flow', 'aria-label': 'Résumé' }, [
+    out.appendChild(el('div', { class: 'flow', 'aria-label': t('summary') }, [
       el('div', { class: 'fbox water' }, [el('b', null, [t('f_need')]), el('div', { class: 'v' }, [fmt(T.etc) + ' mm']), el('span', { class: 'u' }, ['ETc · ' + t('per_year')])]),
       el('div', { class: 'fbox water' }, [el('b', null, [t('f_rain')]), el('div', { class: 'v' }, [fmt(T.pe) + ' mm']), el('span', { class: 'u' }, ['Pe · ' + t('per_year')])]),
       el('div', { class: 'fbox water' }, [el('b', null, [t('f_irr')]), el('div', { class: 'v' }, [fmt(T.irg) + ' mm']), el('span', { class: 'u' }, [volTxt + (hasArea ? '' : ' ' + t('per_ha'))])]),
@@ -271,7 +355,7 @@
       el('div', { class: 'gp-card' }, [
         el('h2', null, [t('cost_t')]),
         costRows.length ? el('div', { class: 'gp-table-wrap' }, [el('table', { class: 'gp-table', style: 'margin-top:8px' }, [el('tbody', null, costRows.map(function (c) {
-          return el('tr', { class: 'cost-row' }, [el('td', null, [t(c[1])]), el('td', { class: 'num' }, [fmt(r.costs[c[0]]) + ' TND / ' + t('per_year').replace('par ', '')])]);
+          return el('tr', { class: 'cost-row' }, [el('td', null, [t(c[1])]), el('td', { class: 'num' }, [fmt(r.costs[c[0]]) + ' TND / ' + t('per_year').replace(/^(par|per) /, '').replace('あたり', '')])]);
         }))]), el('p', { class: 'assump', style: 'margin-top:8px' }, [t('cost_note')])]) : el('p', { class: 'small muted', style: 'margin-top:8px' }, [t('cost_none')])
       ])
     ]));
@@ -313,7 +397,9 @@
   // crop labels live in land.js; provide them here too
   G.addStrings({
     fr: { c_olive: 'Olivier', c_palm: 'Palmier dattier', c_citrus: 'Agrumes', c_cereal: 'Céréales', c_veg: 'Maraîchage', c_other: 'Autre' },
-    ar: { c_olive: 'زيتون', c_palm: 'نخيل التمر', c_citrus: 'قوارص', c_cereal: 'حبوب', c_veg: 'خضروات', c_other: 'أخرى' }
+    ar: { c_olive: 'زيتون', c_palm: 'نخيل التمر', c_citrus: 'قوارص', c_cereal: 'حبوب', c_veg: 'خضروات', c_other: 'أخرى' },
+    en: { c_olive: 'Olive', c_palm: 'Date palm', c_citrus: 'Citrus', c_cereal: 'Cereals', c_veg: 'Vegetables', c_other: 'Other' },
+    ja: { c_olive: 'オリーブ', c_palm: 'ナツメヤシ', c_citrus: '柑橘', c_cereal: '穀物', c_veg: '野菜', c_other: 'その他' }
   });
   renderAll();
   G.onLang(renderAll);

@@ -1,7 +1,7 @@
 /* ==========================================================================
    GAIA core — shared by every platform page.
    - configuration and integration boundaries
-   - FR / AR interface (RTL), remembered per browser
+   - FR / AR (RTL) / EN / JA interface, remembered per browser
    - the selected parcel (GAIA LAND DNA), remembered per browser
    - header, footer, small UI helpers, accessible SVG bar charts
    ========================================================================== */
@@ -71,12 +71,53 @@
       need_parcel_p: 'تعتمد هذه الصفحة على ملف «غايا لاند دي إن إي» لقطعتك. حدّدها على الخريطة لتبني غايا الملف من بيانات مفتوحة.',
       go_land: 'افتح ذكاء الأرض',
       months: ['جانفي', 'فيفري', 'مارس', 'أفريل', 'ماي', 'جوان', 'جويلية', 'أوت', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر']
+    },
+    en: {
+      tagline: 'Intelligence that understands the land',
+      nav_home: 'Home', nav_land: 'Land Intelligence', nav_engine: 'Compatibility', nav_lab: 'AI Lab',
+      nav_health: 'Plant health', nav_nexus: 'Water & energy', nav_biz: 'Business model', nav_farm: 'Dashboard', nav_agv: 'Agrivoltaics', nav_lib: 'Library',
+      parcel_none: 'No plot', parcel_pick: 'Choose a plot',
+      skip: 'Skip to content',
+      foot_line: 'GAIA does not impose technology on the land. GAIA adapts technology to the land.',
+      foot_honest: 'Open data, cited for every value. Modules that are not connected say so.',
+      verdict_ok: 'Feasible', verdict_adapt: 'Feasible with adaptation', verdict_no: 'Not recommended', verdict_unk: 'Not enough evidence',
+      unknown: 'Not assessed', info: 'To check', pass: 'Met', fail: 'Not met',
+      dim_climate: 'Climate', dim_terrain: 'Terrain', dim_water: 'Water', dim_materials: 'Materials and cost',
+      dim_org: 'Local organisation', dim_reg: 'Regulation',
+      origin_jp: 'Japan', origin_tn: 'Tunisia',
+      conf_high: 'high', conf_medium: 'medium', conf_low: 'low', conf_declared: 'declared', conf_missing: 'missing', conf_error: 'unavailable',
+      status_live: 'Working', status_demo: 'Demo', status_plan: 'Planned', status_concept: 'Concept',
+      need_parcel_t: 'Choose a plot first',
+      need_parcel_p: 'This page reads the GAIA LAND DNA profile of your plot. Select it on the map and GAIA builds the profile from open data.',
+      go_land: 'Open Land Intelligence',
+      months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    },
+    ja: {
+      tagline: '土地を理解するインテリジェンス',
+      nav_home: 'ホーム', nav_land: 'ランド・インテリジェンス', nav_engine: '適合性', nav_lab: 'AIラボ',
+      nav_health: '植物の健康', nav_nexus: '水とエネルギー', nav_biz: 'ビジネスモデル', nav_farm: 'ダッシュボード', nav_agv: '営農型太陽光', nav_lib: 'ライブラリ',
+      parcel_none: '区画なし', parcel_pick: '区画を選ぶ',
+      skip: '本文へ移動',
+      foot_line: 'GAIAは技術を土地に押しつけません。技術を土地に合わせます。',
+      foot_honest: 'すべての値にオープンデータの出典を表示。未接続のモジュールはそう明示します。',
+      verdict_ok: '実施可能', verdict_adapt: '調整すれば実施可能', verdict_no: '推奨しない', verdict_unk: '根拠不足',
+      unknown: '未評価', info: '要確認', pass: '満たす', fail: '満たさない',
+      dim_climate: '気候', dim_terrain: '地形', dim_water: '水', dim_materials: '資材とコスト',
+      dim_org: '地域の組織', dim_reg: '規制',
+      origin_jp: '日本', origin_tn: 'チュニジア',
+      conf_high: '高', conf_medium: '中', conf_low: '低', conf_declared: '申告値', conf_missing: '欠測', conf_error: '取得不可',
+      status_live: '稼働中', status_demo: 'デモ', status_plan: '予定', status_concept: '構想',
+      need_parcel_t: 'まず区画を選んでください',
+      need_parcel_p: 'このページは区画の「GAIA LAND DNA」プロファイルを読み込みます。地図で区画を選ぶと、GAIAがオープンデータからプロファイルを作成します。',
+      go_land: 'ランド・インテリジェンスを開く',
+      months: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
     }
   };
 
   var lang = load('gaia.lang', 'fr');
   if (!DICT[lang]) lang = 'fr';
-  var extraDict = { fr: {}, ar: {} };
+  var extraDict = { fr: {}, ar: {}, en: {}, ja: {} };
+  var LOCALES = { fr: 'fr-FR', ar: 'ar-TN', en: 'en-GB', ja: 'ja-JP' };
 
   function addStrings(map) {
     Object.keys(map).forEach(function (l) { Object.assign(extraDict[l] || (extraDict[l] = {}), map[l]); });
@@ -84,8 +125,37 @@
   function t(key) {
     var d = Object.assign({}, DICT[lang], extraDict[lang] || {});
     if (d[key] !== undefined) return d[key];
+    if (lang === 'ja') { var e = Object.assign({}, DICT.en, extraDict.en); if (e[key] !== undefined) return e[key]; }
     var f = Object.assign({}, DICT.fr, extraDict.fr);
     return f[key] !== undefined ? f[key] : key;
+  }
+  // Data text (source labels, notes, record fields) is written in French. In EN / JA
+  // it goes through a phrase table: exact strings first, then patterns for strings
+  // built with values. FR and AR show it unchanged, as before.
+  var PHRASES = { en: {}, ja: {} }, PATTERNS = { en: [], ja: [] };
+  function addPhrases(map) {
+    Object.keys(map).forEach(function (l) {
+      if (!PHRASES[l]) { PHRASES[l] = {}; PATTERNS[l] = []; }
+      Object.assign(PHRASES[l], map[l].exact || {});
+      (map[l].patterns || []).forEach(function (p) { PATTERNS[l].push(p); });
+    });
+  }
+  function tr(s) {
+    if (typeof s !== 'string' || !s) return s;
+    var P = PHRASES[lang]; if (!P) return s;
+    if (P[s] !== undefined) return P[s];
+    var pats = PATTERNS[lang];
+    for (var i = 0; i < pats.length; i++) {
+      var m = s.match(pats[i][0]);
+      if (m) return typeof pats[i][1] === 'function' ? pats[i][1](m, tr) : s.replace(pats[i][0], pats[i][1]);
+    }
+    return s;
+  }
+  // Land DNA field path → readable label (EN / JA); FR / AR keep the path, as before.
+  function fieldLabel(path) {
+    var k = 'fld_' + path.replace(/\./g, '_');
+    if (lang !== 'en' && lang !== 'ja') return path;
+    var v = t(k); return v === k ? path : v;
   }
   function applyI18n(root) {
     (root || document).querySelectorAll('[data-i18n]').forEach(function (n) { n.textContent = t(n.getAttribute('data-i18n')); });
@@ -127,7 +197,7 @@
   function clear(n) { while (n.firstChild) n.removeChild(n.firstChild); return n; }
   function fmt(x, digits) {
     if (x === null || x === undefined || isNaN(x)) return '—';
-    return Number(x).toLocaleString(lang === 'ar' ? 'ar-TN' : 'fr-FR', { maximumFractionDigits: digits === undefined ? 0 : digits, minimumFractionDigits: 0 });
+    return Number(x).toLocaleString(LOCALES[lang] || 'fr-FR', { maximumFractionDigits: digits === undefined ? 0 : digits, minimumFractionDigits: 0 });
   }
 
   var ICONS = {
@@ -195,9 +265,11 @@
         })),
         el('div', { class: 'gp-tools' }, [
           el('a', { id: 'gp-parcel', class: 'gp-parcel', href: 'land.html' }),
-          el('div', { class: 'gp-lang', role: 'group', 'aria-label': 'Langue / اللغة' }, [
+          el('div', { class: 'gp-lang', role: 'group', 'aria-label': 'Langue / اللغة / Language / 言語' }, [
             el('button', { type: 'button', 'data-l': 'fr', lang: 'fr', onclick: function () { setLang('fr'); } }, ['FR']),
-            el('button', { type: 'button', 'data-l': 'ar', lang: 'ar', onclick: function () { setLang('ar'); } }, ['عربي'])
+            el('button', { type: 'button', 'data-l': 'ar', lang: 'ar', onclick: function () { setLang('ar'); } }, ['عربي']),
+            el('button', { type: 'button', 'data-l': 'en', lang: 'en', onclick: function () { setLang('en'); } }, ['EN']),
+            el('button', { type: 'button', 'data-l': 'ja', lang: 'ja', onclick: function () { setLang('ja'); } }, ['日本語'])
           ])
         ])
       ])
@@ -307,7 +379,13 @@
           kz_save: 'Envoyer', kz_cancel: 'Annuler', kz_ok_local: 'Merci. Correction enregistrée sur cet appareil, en attente de relecture.', kz_ok_sent: 'Merci. Correction envoyée pour relecture.' },
     ar: { kz_btn: 'الإبلاغ عن خطأ (كايزن)', kz_dlg_t: 'غايا كايزن — تصحيحك', kz_dlg_p: 'قل ما هو خاطئ أو ما تعرفه عن أرضك. يراجع مهندس فلاحي كل تصحيح قبل أن يغيّر بطاقة أو نموذجاً.',
           kz_what: 'تصحيحك', kz_who: 'أنت', who_farmer: 'فلاح', who_expert: 'مهندس / تقني فلاحي', who_other: 'أخرى',
-          kz_save: 'إرسال', kz_cancel: 'إلغاء', kz_ok_local: 'شكراً. حُفظ التصحيح على هذا الجهاز في انتظار المراجعة.', kz_ok_sent: 'شكراً. أُرسل التصحيح للمراجعة.' }
+          kz_save: 'إرسال', kz_cancel: 'إلغاء', kz_ok_local: 'شكراً. حُفظ التصحيح على هذا الجهاز في انتظار المراجعة.', kz_ok_sent: 'شكراً. أُرسل التصحيح للمراجعة.' },
+    en: { kz_btn: 'Report an error (Kaizen)', kz_dlg_t: 'GAIA Kaizen — your correction', kz_dlg_p: 'Tell us what is wrong or what you know about your land. An agronomist reviews every correction before it changes a record or a model.',
+          kz_what: 'Your correction', kz_who: 'You are', who_farmer: 'Farmer', who_expert: 'Agronomist / technician', who_other: 'Other',
+          kz_save: 'Send', kz_cancel: 'Cancel', kz_ok_local: 'Thank you. Correction saved on this device, waiting for review.', kz_ok_sent: 'Thank you. Correction sent for review.' },
+    ja: { kz_btn: '誤りを報告（カイゼン）', kz_dlg_t: 'GAIAカイゼン — あなたの修正', kz_dlg_p: '間違っている点や、ご自身の土地について知っていることを教えてください。記録やモデルを変更する前に、農業技術者がすべての修正を確認します。',
+          kz_what: 'あなたの修正', kz_who: 'あなたは', who_farmer: '農家', who_expert: '農業技術者・指導員', who_other: 'その他',
+          kz_save: '送信', kz_cancel: 'キャンセル', kz_ok_local: 'ありがとうございます。修正はこの端末に保存され、確認待ちです。', kz_ok_sent: 'ありがとうございます。修正を確認のため送信しました。' }
   });
   function recordFeedback(item, done) {
     item.at = new Date().toISOString(); item.expert_status = 'pending';
@@ -343,7 +421,7 @@
   }
 
   global.GAIA = {
-    CONFIG: CONFIG, t: t, addStrings: addStrings, applyI18n: applyI18n, setLang: setLang,
+    CONFIG: CONFIG, t: t, tr: tr, addPhrases: addPhrases, fieldLabel: fieldLabel, addStrings: addStrings, applyI18n: applyI18n, setLang: setLang,
     lang: function () { return lang; }, onLang: function (fn) { langListeners.push(fn); },
     getParcel: getParcel, setParcel: setParcel, load: load, save: save,
     el: el, clear: clear, fmt: fmt, icon: icon, pill: pill, note: note, confBadge: confBadge,

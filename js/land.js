@@ -29,7 +29,8 @@
       a_engine: 'Évaluer les techniques compatibles', a_lab: "Poser une question à l'AI Lab", a_nexus: 'Calculer eau et énergie',
       demo_none: 'Aucune donnée inventée : une source indisponible laisse la valeur vide, avec la raison.',
       search_none: 'Aucun résultat en Tunisie.', search_err: 'Recherche indisponible (service OpenStreetMap Nominatim). Cliquez directement sur la carte.',
-      out_tn: 'Ce point semble hors de Tunisie. GAIA est conçu pour des parcelles tunisiennes.'
+      out_tn: 'Ce point semble hors de Tunisie. GAIA est conçu pour des parcelles tunisiennes.',
+      l_leaflet: 'La bibliothèque de carte (Leaflet) n’a pas pu être chargée. Saisissez les coordonnées à gauche.', l_err: 'Erreur inattendue : ', l_years: 'ans', l_demo_pill: 'démo', l_pin: 'Parcelle', l_map_aria: 'Carte de la Tunisie', l_base_aria: 'Fond de carte'
     },
     ar: {
       l_eyebrow: 'غايا لاند دي إن إي', l_title: 'اختر قطعة أرضك',
@@ -56,7 +57,64 @@
       a_engine: 'تقييم التقنيات المتوافقة', a_lab: 'اطرح سؤالاً على مختبر الذكاء', a_nexus: 'حساب الماء والطاقة',
       demo_none: 'لا توجد بيانات مختلقة: المصدر غير المتاح يترك القيمة فارغة مع ذكر السبب.',
       search_none: 'لا نتائج في تونس.', search_err: 'البحث غير متاح. انقر مباشرة على الخريطة.',
-      out_tn: 'يبدو أن هذه النقطة خارج تونس. صُممت غايا لقطع الأرض التونسية.'
+      out_tn: 'يبدو أن هذه النقطة خارج تونس. صُممت غايا لقطع الأرض التونسية.',
+      l_leaflet: 'تعذّر تحميل مكتبة الخرائط (Leaflet). أدخل الإحداثيات على اليمين.', l_err: 'خطأ غير متوقع: ', l_years: 'سنوات', l_demo_pill: 'تجريبية', l_pin: 'القطعة', l_map_aria: 'خريطة تونس', l_base_aria: 'خلفية الخريطة'
+    },
+    en: {
+      l_eyebrow: 'GAIA LAND DNA', l_title: 'Choose your plot',
+      l_intro: 'Click the map, search for a place or enter coordinates. GAIA then builds the plot’s profile from open data.',
+      l_search: 'Search for a place', l_search_ph: 'e.g. Beni Khedache, Medenine', l_go: 'Search', l_regions: 'Go to a region',
+      l_name: 'Plot name (optional)', l_crop: 'Crop', l_water: 'Available water',
+      c_olive: 'Olive', c_palm: 'Date palm', c_citrus: 'Citrus', c_cereal: 'Cereals', c_veg: 'Vegetables', c_other: 'Other',
+      w_rainfed: 'Rain only', w_well: 'Well or borehole', w_network: 'Irrigation network', w_shared: 'Shared source (GDA)',
+      l_more: 'Your farm', l_more_hint: 'This information refines the profile. Without it, GAIA marks it “missing”.',
+      l_demo: 'Pre-fill with demo values', l_demo_done: 'Demo values added to the empty fields (marked “demo” in the profile). Replace them with your own.',
+      st_none: 'None', k_fill: 'Fill in', st_approx: 'approximate regional value', na: 'not applicable', l_area: 'Area (ha)', l_well: 'Well depth (m)', l_pump: 'Current pumping',
+      p_none: 'None', p_diesel: 'Diesel pump', p_grid: 'Grid pump', p_solar: 'Solar pump',
+      l_soil: 'Soil (if known)', s_unknown: 'I don’t know', s_sandy: 'Sandy', s_loamy: 'Loamy', s_clayey: 'Clayey',
+      l_struct: 'Existing structures', st_terr: 'Terraces',
+      l_build: 'Build the LAND DNA profile', l_build_hint: 'Place a point on the map first.', l_ready: 'Point placed. You can build the profile.',
+      l_plan: 'Map', l_sat: 'Satellite',
+      st_climate: 'Climate — Open-Meteo', st_terrain: 'Relief — Copernicus DEM', st_solar: 'Sun — NASA POWER', st_soil: 'Soil — SoilGrids / regional reference',
+      d_empty_t: 'No profile yet', d_empty_p: 'The LAND DNA profile will appear here: each value with its source, resolution and confidence, and the list of what is missing.',
+      d_title: 'LAND DNA', d_conf: 'Overall confidence', d_missing: 'Missing information', d_none_missing: 'No essential information is missing.',
+      g_climate: 'Climate', g_terrain: 'Relief', g_solar: 'Sun', g_soil: 'Soil', g_farm: 'Farm',
+      k_rain: 'Mean annual rainfall', k_rain_range: 'Year-to-year range', k_et0: 'Reference evapotranspiration', k_tmax: 'Max. of the hottest month', k_tmin: 'Min. of the coldest month',
+      k_elev: 'Elevation', k_slope: 'Mean slope', k_aspect: 'Aspect', k_ghi: 'Global radiation', k_texture: 'Texture', k_clay: 'Clay 0–30 cm', k_soc: 'Organic carbon',
+      k_crop: 'Crop', k_water: 'Water source', k_well: 'Well depth', k_pump: 'Pumping', k_area: 'Area', k_struct: 'Structures',
+      a_engine: 'Assess compatible practices', a_lab: 'Ask the AI Lab a question', a_nexus: 'Calculate water and energy',
+      demo_none: 'No invented data: an unavailable source leaves the value empty, with the reason.',
+      search_none: 'No results in Tunisia.', search_err: 'Search unavailable (OpenStreetMap Nominatim service). Click directly on the map.',
+      out_tn: 'This point seems to be outside Tunisia. GAIA is designed for Tunisian plots.',
+      l_leaflet: 'The map library (Leaflet) could not be loaded. Enter the coordinates on the left.', l_err: 'Unexpected error: ', l_years: 'years', l_demo_pill: 'demo', l_pin: 'Plot', l_map_aria: 'Map of Tunisia', l_base_aria: 'Base map'
+    },
+    ja: {
+      l_eyebrow: 'GAIA LAND DNA', l_title: '区画を選ぶ',
+      l_intro: '地図をクリックするか、場所を検索するか、座標を入力してください。GAIAがオープンデータから区画のプロファイルを作成します。',
+      l_search: '場所を検索', l_search_ph: '例：Beni Khedache, Medenine', l_go: '検索', l_regions: '地域へ移動',
+      l_name: '区画名（任意）', l_crop: '作物', l_water: '利用できる水',
+      c_olive: 'オリーブ', c_palm: 'ナツメヤシ', c_citrus: '柑橘', c_cereal: '穀物', c_veg: '野菜', c_other: 'その他',
+      w_rainfed: '雨水のみ', w_well: '井戸・ボーリング井', w_network: '灌漑網', w_shared: '共同水源（GDA）',
+      l_more: 'あなたの農場', l_more_hint: 'これらの情報でプロファイルの精度が上がります。未入力の場合、GAIAは「欠測」と表示します。',
+      l_demo: 'デモ値で入力する', l_demo_done: '空欄にデモ値を入れました（プロファイルでは「デモ」と表示）。ご自身の値に置き換えてください。',
+      st_none: 'なし', k_fill: '入力する', st_approx: 'おおよその地域値', na: '該当なし', l_area: '面積（ha）', l_well: '井戸の深さ（m）', l_pump: '現在の揚水方法',
+      p_none: 'なし', p_diesel: 'ディーゼルポンプ', p_grid: '系統電力ポンプ', p_solar: '太陽光ポンプ',
+      l_soil: '土壌（わかれば）', s_unknown: 'わからない', s_sandy: '砂質', s_loamy: 'ローム質', s_clayey: '粘土質',
+      l_struct: '既存の構造物', st_terr: '段々畑',
+      l_build: 'LAND DNAプロファイルを作成', l_build_hint: 'まず地図上に地点を置いてください。', l_ready: '地点を置きました。プロファイルを作成できます。',
+      l_plan: '地図', l_sat: '衛星写真',
+      st_climate: '気候 — Open-Meteo', st_terrain: '地形 — Copernicus DEM', st_solar: '日射 — NASA POWER', st_soil: '土壌 — SoilGrids／地域参照値',
+      d_empty_t: 'まだプロファイルがありません', d_empty_p: 'ここにLAND DNAプロファイルが表示されます。各値の出典・解像度・信頼度と、欠けている情報の一覧です。',
+      d_title: 'LAND DNA', d_conf: '総合信頼度', d_missing: '欠けている情報', d_none_missing: '欠けている重要な情報はありません。',
+      g_climate: '気候', g_terrain: '地形', g_solar: '日射', g_soil: '土壌', g_farm: '農場',
+      k_rain: '年平均降水量', k_rain_range: '年ごとの幅', k_et0: '基準蒸発散量', k_tmax: '最暑月の最高気温', k_tmin: '最寒月の最低気温',
+      k_elev: '標高', k_slope: '平均傾斜', k_aspect: '斜面の向き', k_ghi: '全天日射量', k_texture: '土性', k_clay: '粘土 0–30 cm', k_soc: '有機炭素',
+      k_crop: '作物', k_water: '水源', k_well: '井戸の深さ', k_pump: '揚水', k_area: '面積', k_struct: '構造物',
+      a_engine: '適合する技術を評価', a_lab: 'AIラボに質問する', a_nexus: '水とエネルギーを計算',
+      demo_none: 'データは作りません。取得できない出典は値を空欄にし、理由を示します。',
+      search_none: 'チュニジア国内に結果がありません。', search_err: '検索を利用できません（OpenStreetMap Nominatim）。地図を直接クリックしてください。',
+      out_tn: 'この地点はチュニジア国外のようです。GAIAはチュニジアの区画向けに設計されています。',
+      l_leaflet: '地図ライブラリ（Leaflet）を読み込めませんでした。左側に座標を入力してください。', l_err: '予期しないエラー：', l_years: '年', l_demo_pill: 'デモ', l_pin: '区画', l_map_aria: 'チュニジアの地図', l_base_aria: '背景地図'
     }
   });
 
@@ -80,7 +138,7 @@
       L.geoJSON(window.GAIA_TUNISIA, { interactive: false, style: { color: '#1F3A2B', weight: 1.5, fill: true, fillColor: '#A9B89A', fillOpacity: 0.08 } }).addTo(map);
     }
   } else {
-    G.clear(document.getElementById('map')).appendChild(G.note('err', 'La bibliothèque de carte (Leaflet) n’a pas pu être chargée. Saisissez les coordonnées à gauche.'));
+    G.clear(document.getElementById('map')).appendChild(G.note('err', t('l_leaflet')));
   }
 
   function setBase(which) {
@@ -105,7 +163,7 @@
     lat = Math.round(lat * 1e5) / 1e5; lon = Math.round(lon * 1e5) / 1e5;
     latI.value = lat; lonI.value = lon;
     if (map) {
-      if (marker) marker.setLatLng([lat, lon]); else marker = L.marker([lat, lon], { keyboard: true, title: 'Parcelle', icon: L.divIcon({ className: '', html: '<div class="gp-pin"></div>', iconSize: [22, 22], iconAnchor: [11, 22] }) }).addTo(map);
+      if (marker) marker.setLatLng([lat, lon]); else marker = L.marker([lat, lon], { keyboard: true, title: t('l_pin'), icon: L.divIcon({ className: '', html: '<div class="gp-pin"></div>', iconSize: [22, 22], iconAnchor: [11, 22] }) }).addTo(map);
       if (!fromMap) map.setView([lat, lon], Math.max(map.getZoom(), 12));
     }
     var inTn = lat >= 30 && lat <= 37.6 && lon >= 7.4 && lon <= 11.8;
@@ -131,7 +189,7 @@
     var q = qI.value.trim(); if (!q) return;
     qMsg.textContent = ''; G.clear(qRes); qRes.hidden = true;
     qMsg.appendChild(el('span', { class: 'gp-spin' }));
-    fetch('https://nominatim.openstreetmap.org/search?format=json&limit=6&countrycodes=tn&accept-language=' + (G.lang() === 'ar' ? 'ar' : 'fr') + '&q=' + encodeURIComponent(q))
+    fetch('https://nominatim.openstreetmap.org/search?format=json&limit=6&countrycodes=tn&accept-language=' + G.lang() + '&q=' + encodeURIComponent(q))
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(function (list) {
         qMsg.textContent = '';
@@ -207,7 +265,7 @@
       renderDNA(dna);
       buildB.disabled = false;
     }).catch(function (e) {
-      G.clear(document.getElementById('dna')).appendChild(G.note('err', 'Erreur inattendue : ' + e.message));
+      G.clear(document.getElementById('dna')).appendChild(G.note('err', t('l_err') + e.message));
       buildB.disabled = false;
     });
   });
@@ -235,16 +293,16 @@
     if (f && f.status === 'na') v = el('span', { class: 'v', style: 'font-size:15px;color:var(--g-ink-3)' }, [t('na')]);
     else if (!f || f.status !== 'ok' || f.value === null) v = el('span', { class: 'v', style: 'font-size:15px;color:var(--s-no)' }, ['—']);
     else if (opts.text) v = el('span', { class: 'v', style: 'font-size:15px' }, [opts.text(f.value)]);
-    else v = el('span', { class: 'v' }, [fmt(f.value, opts.digits || 0), ' ', el('small', null, [f.unit || ''])]);
+    else v = el('span', { class: 'v' }, [fmt(f.value, opts.digits || 0), ' ', el('small', null, [G.tr(f.unit || '')])]);
     var src = el('div', { class: 'src' }, [
       f && f.status === 'na' ? null : G.confBadge(f ? (f.confidence || (f.status === 'ok' ? 'medium' : 'missing')) : 'missing'),
-      f && f.source === 'Valeur de démonstration' ? G.pill('demo', 'démo') : null,
-      f && f.source ? (f.url ? el('a', { href: f.url, target: '_blank', rel: 'noopener' }, [f.source]) : el('span', null, [f.source])) : null,
-      f && f.resolution ? el('span', null, ['· ' + f.resolution]) : null,
+      f && f.source === 'Valeur de démonstration' ? G.pill('demo', t('l_demo_pill')) : null,
+      f && f.source ? (f.url ? el('a', { href: f.url, target: '_blank', rel: 'noopener' }, [G.tr(f.source)]) : el('span', null, [G.tr(f.source)])) : null,
+      f && f.resolution ? el('span', null, ['· ' + G.tr(f.resolution)]) : null,
       f && f.period ? el('span', null, ['· ' + f.period]) : null
     ]);
     var parts = [el('span', { class: 'k' }, [label]), v, src];
-    if (f && f.note) parts.push(el('div', { class: 'src', style: 'margin-top:2px' }, [f.note]));
+    if (f && f.note) parts.push(el('div', { class: 'src', style: 'margin-top:2px' }, [G.tr(f.note)]));
     if (opts.extra) parts.push(opts.extra);
     if (opts.input && (!f || f.status === 'missing' || f.source === 'Valeur de démonstration')) {
       parts.push(el('button', { type: 'button', class: 'gp-btn ghost sm', style: 'margin-top:6px', onclick: function () {
@@ -281,7 +339,7 @@
     var vl = GAIA_ENGINE.valueLabel;
     var groups = [
       ['g_climate', [
-        row(t('k_rain'), dna.climate.rain_mm, { extra: dna.climate.rain_mm.extra ? el('div', { class: 'src' }, [t('k_rain_range') + ' : ' + fmt(dna.climate.rain_mm.extra.min) + '–' + fmt(dna.climate.rain_mm.extra.max) + ' mm (' + dna.climate.rain_mm.extra.years + ' ans)']) : null }),
+        row(t('k_rain'), dna.climate.rain_mm, { extra: dna.climate.rain_mm.extra ? el('div', { class: 'src' }, [t('k_rain_range') + ' : ' + fmt(dna.climate.rain_mm.extra.min) + '–' + fmt(dna.climate.rain_mm.extra.max) + ' mm (' + dna.climate.rain_mm.extra.years + ' ' + t('l_years') + ')']) : null }),
         row(t('k_et0'), dna.climate.et0_mm),
         row(t('k_tmax'), dna.climate.tmax_hot, { digits: 1 }),
         row(t('k_tmin'), dna.climate.tmin_cold, { digits: 1 })
@@ -305,7 +363,7 @@
       el('h3', null, [t('d_missing')]),
       miss.length ? el('ul', { class: 'small', style: 'margin:8px 0 0;padding-inline-start:18px;color:var(--g-ink-2)' }, miss.map(function (m) {
         var f = GAIA_DNA.fieldAt(dna, m);
-        return el('li', null, [m + (f && f.note ? ' — ' + f.note : '')]);
+        return el('li', null, [G.fieldLabel(m) + (f && f.note ? ' — ' + G.tr(f.note) : '')]);
       })) : el('p', { class: 'small muted' }, [t('d_none_missing')])
     ]));
 

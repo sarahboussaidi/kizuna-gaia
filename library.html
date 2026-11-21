@@ -34,15 +34,17 @@
     <p class="lead" data-i18n="lb_lead">Chaque fiche décrit une technique, ses conditions, ses coûts et ses sources. Ce sont ces fiches que lisent le moteur de compatibilité et l'AI Lab ; rien n'est affirmé en dehors d'elles.</p>
   </header>
   <div class="lib-tools">
-    <div class="gp-field" style="flex:1;min-width:220px"><label for="s" class="sr">Rechercher</label><input id="s" type="search" data-i18n-ph="lb_search" placeholder="Rechercher une technique"></div>
-    <div id="chips" role="group" aria-label="Filtres" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+    <div class="gp-field" style="flex:1;min-width:220px"><label for="s" class="sr" data-i18n="lb_search">Rechercher</label><input id="s" type="search" data-i18n-ph="lb_search" placeholder="Rechercher une technique"></div>
+    <div id="chips" role="group" aria-label="Filtres" data-i18n-aria="lb_filters" style="display:flex;flex-wrap:wrap;gap:6px"></div>
   </div>
   <p id="count" class="small muted" aria-live="polite" style="margin-bottom:10px"></p>
   <div id="grid" class="gp-grid gp-cols-3"></div>
 </main>
 <dialog class="gp-dialog" id="dlg" aria-labelledby="dlg-title"><div class="in" id="dlg-in"></div></dialog>
 <script src="js/gaia-core.js"></script>
+<script src="js/i18n-data.js"></script>
 <script src="js/kb.js"></script>
+<script src="js/kb-i18n.js"></script>
 <script>
 (function () {
   var G = GAIA, el = G.el, t = G.t, KB = GAIA_KB;
@@ -50,11 +52,19 @@
     fr: { lb_title: 'Bibliothèque des techniques', lb_lead: "Chaque fiche décrit une technique, ses conditions, ses coûts et ses sources. Ce sont ces fiches que lisent le moteur de compatibilité et l'AI Lab ; rien n'est affirmé en dehors d'elles.",
       lb_search: 'Rechercher une technique', lb_count: 'fiches', lb_close: 'Fermer', k_origin: 'Origine', k_desc: 'Description', k_cond: 'Conditions',
       k_adapt: 'Adaptations', k_mat: 'Matériaux', k_cost: 'Coûts', k_actors: 'Acteurs locaux', k_reg: 'Réglementation', k_risk: 'Risques', k_src: 'Sources', k_status: 'Validation', k_actions: 'Actions',
-      hard: 'obligatoire', soft: 'secondaire', prov: 'seuil provisoire', no_src: 'source à ajouter', none: 'Aucune' },
+      hard: 'obligatoire', soft: 'secondaire', prov: 'seuil provisoire', no_src: 'source à ajouter', none: 'Aucune', lb_filters: 'Filtres' },
     ar: { lb_title: 'مكتبة التقنيات', lb_lead: 'تصف كل بطاقة تقنية وشروطها وتكاليفها ومصادرها. هذه البطاقات هي ما يقرؤه محرك التوافق ومختبر الذكاء.',
       lb_search: 'ابحث عن تقنية', lb_count: 'بطاقات', lb_close: 'إغلاق', k_origin: 'الأصل', k_desc: 'الوصف', k_cond: 'الشروط',
       k_adapt: 'التكييفات', k_mat: 'المواد', k_cost: 'التكاليف', k_actors: 'الفاعلون المحليون', k_reg: 'التنظيمات', k_risk: 'المخاطر', k_src: 'المصادر', k_status: 'المصادقة', k_actions: 'الخطوات',
-      hard: 'إلزامي', soft: 'ثانوي', prov: 'عتبة مؤقتة', no_src: 'المصدر يُضاف لاحقاً', none: 'لا يوجد' }
+      hard: 'إلزامي', soft: 'ثانوي', prov: 'عتبة مؤقتة', no_src: 'المصدر يُضاف لاحقاً', none: 'لا يوجد', lb_filters: 'المرشحات' },
+    en: { lb_title: 'Library of practices', lb_lead: 'Each record describes a practice, its conditions, costs and sources. These records are what the compatibility engine and the AI Lab read; nothing is claimed outside them.',
+      lb_search: 'Search for a practice', lb_count: 'records', lb_close: 'Close', k_origin: 'Origin', k_desc: 'Description', k_cond: 'Conditions',
+      k_adapt: 'Adaptations', k_mat: 'Materials', k_cost: 'Costs', k_actors: 'Local actors', k_reg: 'Regulation', k_risk: 'Risks', k_src: 'Sources', k_status: 'Validation', k_actions: 'Actions',
+      hard: 'mandatory', soft: 'secondary', prov: 'provisional threshold', no_src: 'source to add', none: 'None', lb_filters: 'Filters' },
+    ja: { lb_title: '技術ライブラリ', lb_lead: '各記録には、技術の内容、条件、コスト、出典を記しています。適合性エンジンとAIラボが読むのはこれらの記録だけで、それ以外のことは主張しません。',
+      lb_search: '技術を検索', lb_count: '件の記録', lb_close: '閉じる', k_origin: '出自', k_desc: '説明', k_cond: '条件',
+      k_adapt: '調整', k_mat: '資材', k_cost: 'コスト', k_actors: '地域の関係者', k_reg: '規制', k_risk: 'リスク', k_src: '出典', k_status: '検証', k_actions: '行動',
+      hard: '必須', soft: '副次', prov: '暫定しきい値', no_src: '出典を追加予定', none: 'なし', lb_filters: '絞り込み' }
   });
   G.mountShell('lib');
 
@@ -81,7 +91,7 @@
     chips();
     var grid = G.clear(document.getElementById('grid'));
     var list = KB.records.filter(match);
-    document.getElementById('count').textContent = list.length + ' ' + t('lb_count');
+    document.getElementById('count').textContent = list.length + (G.lang() === 'ja' ? '' : ' ') + t('lb_count');
     list.forEach(function (r) {
       grid.appendChild(el('button', { type: 'button', class: 'rec', onclick: function () { open(r); } }, [
         el('span', { class: 'origin ' + r.origin }, [el('i', { class: 'dot' }), t(r.origin === 'jp' ? 'origin_jp' : 'origin_tn')]),
@@ -94,7 +104,7 @@
   }
   function condText(c) {
     var v = c.op === 'in' ? c.value.join(', ') : c.op === 'between' ? c.value[0] + '–' + c.value[1] : (c.op === 'max' ? '≤ ' : '≥ ') + c.value;
-    return c.field + ' ' + v + ' (' + t(c.hard ? 'hard' : 'soft') + (c.provisional ? ', ' + t('prov') : '') + ') — ' + c.why;
+    return G.fieldLabel(c.field) + ' ' + v + ' (' + t(c.hard ? 'hard' : 'soft') + (c.provisional ? ', ' + t('prov') : '') + ') — ' + c.why;
   }
   function open(r) {
     var box = G.clear(document.getElementById('dlg-in'));
@@ -120,7 +130,7 @@
   }
   document.getElementById('dlg').addEventListener('close', function () { try { history.replaceState(null, '', location.pathname); } catch (e) {} });
   document.getElementById('s').addEventListener('input', function (e) { q = e.target.value.trim().toLowerCase(); render(); });
-  G.addStrings({ fr: { draft: 'Brouillon, non validée par un expert' }, ar: { draft: 'مسودة غير مصادق عليها' } });
+  G.addStrings({ fr: { draft: 'Brouillon, non validée par un expert' }, ar: { draft: 'مسودة غير مصادق عليها' }, en: { draft: 'Draft, not validated by an expert' }, ja: { draft: '下書き（専門家未検証）' } });
   render();
   G.onLang(render);
   if (location.hash) { var r = KB.get(location.hash.slice(1)); if (r) open(r); }

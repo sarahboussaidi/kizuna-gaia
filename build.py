@@ -171,6 +171,7 @@ FOOT = u'''</main>
   </div>
 </footer>
 
+<script src="js/story-i18n.js"></script>
 <script src="app.js"></script>
 {extra}</body>
 </html>
@@ -812,6 +813,9 @@ for path in ('login.html',):
     if 'class="hanko"' not in html and 'class="brand"' in html:
         html = html.replace('<span class="brand-word"',
                             '<span class="hanko" aria-hidden="true">&#32070;</span>\n      <span class="brand-word"', 1)
+    if 'js/story-i18n.js' not in html:
+        html = html.replace('<script src="app.js"></script>',
+                            '<script src="js/story-i18n.js"></script>\n<script src="app.js"></script>', 1)
     io.open(path, 'w', encoding='utf-8').write(html)
     print('patched', path)
 

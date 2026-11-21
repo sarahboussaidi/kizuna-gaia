@@ -113,6 +113,13 @@ body.gp[dir="rtl"] .eyebrow { letter-spacing: 0; }
 @media (max-width: 1100px) {
   .gp-nav { order: 3; width: 100%; overflow-x: auto; flex-wrap: nowrap; padding-bottom: 4px; }
 }
+.gp-lang button { white-space: nowrap; }
+/* four languages: on a phone the switcher and the parcel badge share a wrapping row */
+@media (max-width: 600px) {
+  .gp-tools { flex-wrap: wrap; min-width: 0; max-width: 100%; }
+  .gp-parcel { max-width: 100%; min-width: 0; }
+  .gp-lang button { min-width: 0; padding: 0 9px; }
+}
 
 /* page head */
 .gp-head { padding: 34px 0 18px; }
@@ -266,3 +273,9 @@ body.gp[dir="rtl"] .dna-row .v { font-family: var(--g-ar); }
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
 }
+
+/* Japanese interface: system Japanese sans for text, Noto Serif JP behind the display face for headings */
+html[lang="ja"] body.gp { font-family: "DM Sans", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Noto Sans JP", Meiryo, system-ui, sans-serif; line-break: strict; word-break: normal; overflow-wrap: anywhere; }
+html[lang="ja"] .gp h1, html[lang="ja"] .gp h2, html[lang="ja"] .gp h3 { font-family: "Fraunces", "Noto Serif JP", "Yu Mincho", serif; letter-spacing: 0; }
+html[lang="ja"] .eyebrow, html[lang="ja"] .dna-group h3 { letter-spacing: 0.04em; }
+.gp-lang button[lang="ja"] { font-family: var(--g-jp); }
