@@ -16,7 +16,7 @@ from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
-from . import engine, nexus, solar
+from . import business, engine, nexus, solar
 
 DATA = Path(__file__).resolve().parent.parent / "data"
 KB = json.loads((DATA / "knowledge.json").read_text(encoding="utf-8"))
@@ -80,6 +80,63 @@ class NexusIn(BaseModel):
 @app.post("/nexus/calculate")
 def nexus_calculate(body: NexusIn) -> dict:
     return nexus.compute(**body.model_dump())
+
+
+class PaygIn(BaseModel):
+    kit_tnd: Optional[float] = Field(None, description="installed price of the solar pump kit (TND)")
+    diesel_tnd_year: Optional[float] = Field(None, description="what the farm spends on pumping diesel per year (TND)")
+    deposit_pct: float = 0.10
+    term_months: int = 36
+    fee_rate: float = 0.08
+    share_cap: float = 0.70
+    maint_tnd_year: float = 0
+    monthly_kwh: Optional[list[Optional[float]]] = Field(None, min_length=12, max_length=12)
+    seasonal: bool = False
+    start_month: int = Field(0, ge=0, le=11)
+    life_y: float = 20
+
+
+@app.post("/business/payg")
+def business_payg(body: PaygIn) -> dict:
+    return business.payg(**body.model_dump())
+
+
+class CoopMember(BaseModel):
+    name: Optional[str] = None
+    quota_m3: float
+    diesel_tnd_year: Optional[float] = None
+
+
+class CoopIn(BaseModel):
+    kit_tnd: Optional[float] = None
+    individual_kit_tnd: Optional[float] = None
+    members: list[CoopMember] = []
+    deposit_pct: float = 0.10
+    term_months: int = 36
+    fee_rate: float = 0.08
+    reserve_pct: float = 0.05
+
+
+@app.post("/business/coop")
+def business_coop(body: CoopIn) -> dict:
+    d = body.model_dump()
+    return business.coop(**d)
+
+
+class AdoptionIn(BaseModel):
+    ghi_mean: Optional[float] = None
+    water_source: Optional[str] = None
+    has_quota: bool = False
+    payg: Optional[PaygIn] = None
+    ease: dict[str, bool] = {}
+    partners: dict[str, bool] = {}
+
+
+@app.post("/business/adoption")
+def business_adoption(body: AdoptionIn) -> dict:
+    d = body.model_dump()
+    d["payg"] = business.payg(**d["payg"]) if d["payg"] else None
+    return business.adoption(**d)
 
 
 class SolarIn(BaseModel):

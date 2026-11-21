@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Modèle économique — GAIA</title>
+<meta name="description" content="Kit de pompage solaire payé à l'usage par paiement mobile, à partir du gazole économisé ; pompe partagée en coopérative ; quatre tests d'adoption et résilience des fermes connectées.">
+<meta name="theme-color" content="#1F3A2B">
+<link rel="icon" href="images/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=DM+Sans:wght@400;500;600;700&family=Noto+Serif+JP:wght@400;600&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="platform.css">
+<style>
+  .bm { display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 1fr); gap: 18px; align-items: start; }
+  @media (max-width: 1000px) { .bm { grid-template-columns: 1fr; } }
+  .bm-in { position: sticky; top: 84px; }
+  @media (max-width: 1000px) { .bm-in { position: static; } }
+  .bm-in .gp-field { margin-top: 12px; }
+  .seg { display: flex; gap: 4px; flex-wrap: wrap; }
+  .seg button { border: 1px solid var(--g-line-2); background: #fff; border-radius: 8px; min-height: 36px; padding: 0 12px; font: 600 13px var(--g-sans); cursor: pointer; color: var(--g-ink-2); }
+  body.gp[dir="rtl"] .seg button { font-family: var(--g-ar); }
+  .seg button[aria-pressed="true"] { background: var(--g-forest); color: var(--g-ivory); border-color: var(--g-forest); }
+  .seg button:disabled { opacity: .5; cursor: not-allowed; }
+  .kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+  @media (max-width: 860px) { .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .kpi { background: var(--g-paper); border: 1px solid var(--g-line); border-radius: 12px; padding: 12px 14px; }
+  .kpi b { display: block; font-size: 12px; color: var(--g-ink-3); font-weight: 600; }
+  .kpi .v { font-family: var(--g-display); font-size: 23px; font-weight: 600; color: var(--g-forest); margin-top: 2px; }
+  body.gp[dir="rtl"] .kpi .v { font-family: var(--g-ar); }
+  .kpi .u { font-size: 12.5px; color: var(--g-ink-3); }
+  .kpi.hi { border-color: var(--g-gold); background: var(--s-adapt-bg); }
+  .tests { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 12px; margin-top: 12px; }
+  .test { background: var(--g-paper); border: 1px solid var(--g-line); border-radius: 12px; padding: 14px; }
+  .test h3 { font-size: 16px; margin: 8px 0 4px; }
+  .test ul { margin: 6px 0 0; padding-inline-start: 18px; font-size: 13.5px; color: var(--g-ink-2); }
+  .checks { display: grid; gap: 6px; margin-top: 10px; }
+  .checks label { display: flex; gap: 8px; align-items: flex-start; font-size: 13.5px; color: var(--g-ink-2); cursor: pointer; }
+  .checks input { margin-top: 3px; width: 16px; height: 16px; accent-color: var(--g-forest); }
+  .members { display: grid; gap: 8px; margin-top: 10px; }
+  .mrow { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1fr) 40px; gap: 6px; align-items: end; }
+  .mrow input { width: 100%; min-height: 38px; border: 1px solid var(--g-line-2); border-radius: 8px; padding: 0 8px; font: 14px var(--g-sans); background: #fff; }
+  .mrow .lab { font-size: 11.5px; font-weight: 600; color: var(--g-ink-3); }
+  .mrow button, .btn-s { border: 1px solid var(--g-line-2); background: #fff; border-radius: 8px; min-height: 38px; padding: 0 12px; font: 600 13px var(--g-sans); cursor: pointer; color: var(--g-ink-2); }
+  body.gp[dir="rtl"] .mrow button, body.gp[dir="rtl"] .btn-s, body.gp[dir="rtl"] .mrow input { font-family: var(--g-ar); }
+  .res3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 12px; margin-top: 12px; }
+  .res3 .k { font-family: 'Noto Serif JP', serif; font-size: 22px; color: var(--g-gold-ink); }
+  .res3 .ind { margin-top: 8px; font-family: var(--g-display); font-size: 20px; font-weight: 600; color: var(--g-forest); }
+  body.gp[dir="rtl"] .res3 .ind { font-family: var(--g-ar); }
+  .assump { font-size: 12.5px; color: var(--g-ink-3); }
+  .formula { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13px; background: var(--g-ivory); border: 1px solid var(--g-line); border-radius: 8px; padding: 8px 10px; direction: ltr; text-align: left; overflow-x: auto; }
+  .sec-t { margin-top: 34px; }
+</style>
+</head>
+<body class="gp">
+<main id="main" class="wrap">
+  <header class="gp-head">
+    <p class="eyebrow">GAIA BUSINESS MODEL · M5</p>
+    <h1><span data-i18n="b_title">Modèle économique</span><span class="jp-mark">縁 · 結</span></h1>
+    <p class="lead" data-i18n="b_lead">Le panneau n'est pas l'innovation ; le modèle autour l'est. Un kit de pompage solaire payé par mensualités mobiles, à partir du gazole qu'il remplace, avec le quota d'eau inscrit dans le contrat.</p>
+  </header>
+  <div id="app"></div>
+</main>
+<script src="js/gaia-core.js"></script>
+<script src="js/landdna.js"></script>
+<script src="js/nexus-core.js"></script>
+<script src="js/business-core.js"></script>
+<script src="js/business.js"></script>
+</body>
+</html>

@@ -21,6 +21,7 @@
       m_health: 'Santé des plantes', m_health_p: "Photo d'une feuille, contrôle de qualité, puis diagnostic — ou « je ne suis pas sûr ».",
       m_nexus: 'Eau & énergie', m_nexus_p: "Besoin en eau FAO-56, énergie de pompage, champ solaire et quota d'eau mensuel.",
       m_agv: 'Agrivoltaïsme', m_agv_p: 'Hauteur, espacement et orientation des panneaux : électricité et lumière restante pour la culture.',
+      m_biz: 'Modèle économique', m_biz_p: 'Kit de pompage solaire payé à l’usage par paiement mobile, pompe partagée en coopérative, quatre tests d’adoption.',
       m_lib: 'Bibliothèque', m_lib_p: 'Les fiches techniques sourcées qui alimentent le moteur et l’assistant.',
       open: 'Ouvrir →',
       st_live: 'Fonctionnel', st_sim: 'Simulation', st_rules: 'Mode règles', st_partial: 'Partiel', st_off: 'Modèle non connecté', st_concept: 'Concept',
@@ -41,6 +42,7 @@
       d_engine: 'Règles explicites sur 11 fiches sourcées, toutes en brouillon tant qu’un agronome ne les a pas validées.',
       d_lab: 'Réponses composées à partir des fiches et du profil ; branchement LLM prévu côté serveur.',
       d_health: 'Contrôle de qualité de la photo dans le navigateur ; aucun modèle entraîné pour l’instant.',
+      d_biz: 'Mensualités calculées à partir du gazole économisé ; aucun prix inventé.',
       d_nexus: 'Calcul FAO-56 et énergie de pompage sur les données climatiques de la parcelle.',
       d_agv: 'Modèle physique simplifié dans le navigateur ; version pvlib côté serveur.',
       d_kaizen: 'Corrections enregistrées sur l’appareil et exportables ; relecture experte à organiser.',
@@ -63,6 +65,7 @@
       m_health: 'صحة النبات', m_health_p: 'صورة ورقة، فحص للجودة، ثم تشخيص — أو «لست متأكدة».',
       m_nexus: 'الماء والطاقة', m_nexus_p: 'حاجة الماء حسب FAO-56، طاقة الضخ، الحقل الشمسي، والحصة الشهرية للماء.',
       m_agv: 'الزراعة الضوئية', m_agv_p: 'ارتفاع الألواح وتباعدها واتجاهها: الكهرباء والضوء المتبقي للزراعة.',
+      m_biz: 'النموذج الاقتصادي', m_biz_p: 'منظومة ضخ شمسية بالدفع حسب الاستعمال عبر الهاتف، مضخة مشتركة في تعاضدية، وأربعة اختبارات للتبنّي.',
       m_lib: 'المكتبة', m_lib_p: 'البطاقات التقنية الموثقة بمصادر التي تغذي المحرك والمساعد.',
       open: 'افتح ←',
       st_live: 'يعمل', st_sim: 'محاكاة', st_rules: 'وضع القواعد', st_partial: 'جزئي', st_off: 'النموذج غير متصل', st_concept: 'مفهوم',
@@ -83,6 +86,7 @@
       d_engine: 'قواعد صريحة على 11 بطاقة موثقة، كلها مسودات إلى أن يصادق عليها مهندس فلاحي.',
       d_lab: 'إجابات مركبة من البطاقات والملف؛ ربط نموذج لغوي مخطط على الخادم.',
       d_health: 'فحص جودة الصورة في المتصفح؛ لا يوجد نموذج مدرَّب حالياً.',
+      d_biz: 'أقساط محسوبة من الغازوال الموفَّر؛ دون أسعار مخترعة.',
       d_nexus: 'حساب FAO-56 وطاقة الضخ على البيانات المناخية للقطعة.',
       d_agv: 'نموذج فيزيائي مبسط في المتصفح؛ نسخة pvlib على الخادم.',
       d_kaizen: 'تُحفظ التصحيحات على الجهاز ويمكن تصديرها؛ مراجعة الخبراء لم تُنظَّم بعد.',
@@ -182,6 +186,7 @@
     ['land.html', 'm_land', 'm_land_p', 'live', 'st_live', '地'], ['engine.html', 'm_engine', 'm_engine_p', 'live', 'st_live', '橋'],
     ['lab.html', 'm_lab', 'm_lab_p', 'demo', 'st_rules', '知'], ['health.html', 'm_health', 'm_health_p', 'plan', 'st_off', '葉'],
     ['nexus.html', 'm_nexus', 'm_nexus_p', 'live', 'st_live', '水'], ['agrivoltaic.html', 'm_agv', 'm_agv_p', 'demo', 'st_sim', '陽'],
+    ['business.html', 'm_biz', 'm_biz_p', 'live', 'st_live', '結'],
     ['library.html', 'm_lib', 'm_lib_p', 'live', 'st_live', '書']
   ];
   function modules() {
@@ -227,7 +232,7 @@
 
   function status() {
     var R = [['m_land', 'live', 'st_live', 'd_land'], ['m_engine', 'live', 'st_live', 'd_engine'], ['m_lab', 'demo', 'st_rules', 'd_lab'], ['m_health', 'plan', 'st_off', 'd_health'],
-      ['m_nexus', 'live', 'st_live', 'd_nexus'], ['m_agv', 'demo', 'st_sim', 'd_agv'], ['kaizen', 'demo', 'st_partial', 'd_kaizen'], ['kizuna', 'plan', 'st_concept', 'd_kizuna']];
+      ['m_nexus', 'live', 'st_live', 'd_nexus'], ['m_biz', 'live', 'st_live', 'd_biz'], ['m_agv', 'demo', 'st_sim', 'd_agv'], ['kaizen', 'demo', 'st_partial', 'd_kaizen'], ['kizuna', 'plan', 'st_concept', 'd_kizuna']];
     return el('section', { class: 'sec', 'aria-labelledby': 'h-st' }, [
       el('h2', { id: 'h-st' }, [t('status_t')]), el('p', { class: 'lead' }, [t('status_p')]),
       el('div', { class: 'gp-card status gp-table-wrap' }, [el('table', { class: 'gp-table' }, [
