@@ -157,6 +157,7 @@
     G.barChart(c2, { labels: months, unit: '%', title: t('c_light'), series: [{ name: t('k_light'), color: '#7C9455', values: r.months.map(function (x) { return x ? x.lightShare * 100 : null; }) }] });
     drawSection();
     drawGuard(r.kwp);
+    if (window.GAIA_AGV_UI) window.GAIA_AGV_UI.onUpdate();
   }
 
   function drawSection() {
@@ -210,9 +211,22 @@
     var hourIn = el('input', { id: 'xs-h', type: 'range', min: 5, max: 19, step: 0.25, value: C.hour, oninput: function (e) { C.hour = +e.target.value; hourOut.textContent = fmt(C.hour, 1) + ' h'; persist(); drawSection(); } });
 
     gwBox = el('div', { class: 'gp-card', style: 'border:2px solid #2F5A75' });
+    var aiBox = el('section', { class: 'gp-card ai-box', id: 'solar-brain' });
+    var playing = null, playBtn = el('button', { type: 'button', class: 'gp-btn ghost sm', onclick: function () {
+      if (playing) { clearInterval(playing); playing = null; playBtn.textContent = t('play'); return; }
+      playBtn.textContent = t('pause');
+      if (C.hour >= 18.75) C.hour = 5;
+      playing = setInterval(function () {
+        if (!document.body.contains(playBtn)) { clearInterval(playing); return; }
+        C.hour = Math.round((C.hour + 0.25) * 4) / 4;
+        if (C.hour > 19) { C.hour = 19; clearInterval(playing); playing = null; playBtn.textContent = t('play'); }
+        hourIn.value = C.hour; hourOut.textContent = fmt(C.hour, 1) + ' h'; drawSection();
+      }, 90);
+    } }, [t('play')]);
     kpiBox = el('div', { class: 'kpis' }); c1 = el('div'); c2 = el('div'); xs = el('div', { class: 'xs-wrap' }); xsCaption = el('p', { class: 'small muted', style: 'margin-top:6px', 'aria-live': 'polite' });
 
     app.appendChild(el('div', { style: 'display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px' }, [G.pill('demo', t('sim_badge')), el('span', { class: 'small muted' }, [t('sim_note')])]));
+    app.appendChild(aiBox);
     app.appendChild(el('div', { class: 'av' }, [
       el('div', { class: 'gp-card av-in' }, [
         el('h2', null, [t('in_t')]),
@@ -231,7 +245,7 @@
         gwBox,
         el('div', { class: 'gp-card' }, [
           el('h2', null, [t('xs_t')]), el('div', { style: 'margin-top:10px' }, [xs]), xsCaption,
-          el('div', { class: 'xs-ctl' }, [el('label', { for: 'xs-m' }, [t('xs_month'), monthSel]), el('label', { for: 'xs-h' }, [t('xs_hour'), hourIn, hourOut])])
+          el('div', { class: 'xs-ctl' }, [el('label', { for: 'xs-m' }, [t('xs_month'), monthSel]), el('label', { for: 'xs-h' }, [t('xs_hour'), hourIn, hourOut]), playBtn])
         ]),
         el('div', { class: 'gp-card' }, [el('h2', null, [t('c_energy')]), c1]),
         el('div', { class: 'gp-card' }, [el('h2', null, [t('c_light')]), c2]),
@@ -240,6 +254,8 @@
       ])
     ]));
     update();
+    if (window.GAIA_AGV_UI) window.GAIA_AGV_UI.mount(aiBox, { C: C, dna: dna, ghi: ghi, CM: CM, geom: geom, persist: persist, render: render,
+      sim: function () { return S.simulate(geom()); } });
   }
 
   render();

@@ -34,6 +34,35 @@
   .xs-ctl select, .xs-ctl input { min-height: 36px; }
   .insight { border-inline-start: 3px solid var(--g-gold); padding: 8px 12px; background: var(--s-adapt-bg); color: var(--g-gold-ink); border-radius: 0 8px 8px 0; font-size: 14px; }
   body.gp[dir="rtl"] .insight { border-radius: 8px 0 0 8px; }
+  /* GAIA Solar Brain */
+  .ai-box { margin-bottom: 18px; border: 1.5px solid var(--g-gold); background: linear-gradient(180deg, #FFFBF0, var(--g-paper) 220px); }
+  .ai-hero h2 { font-size: clamp(22px, 3vw, 30px); margin-top: 4px; }
+  .ai-lead { color: var(--g-ink-2); max-width: 820px; margin-top: 6px; font-size: 15px; }
+  .ai-ctl { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; margin: 12px 0; }
+  .ai-ctl label { font-size: 13px; font-weight: 600; color: var(--g-ink-2); display: inline-flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .ai-ctl select { min-height: 38px; }
+  .ai-jp { flex-wrap: nowrap !important; background: #FBEFEF; border: 1px solid #E9C9C9; color: #7A2E2E !important; padding: 6px 10px; border-radius: 10px; max-width: 520px; }
+  .ai-jp input { width: 18px; height: 18px; accent-color: #BC002D; }
+  .ai-jp-h { color: var(--g-ink-3); max-width: 820px; margin-top: -4px; }
+  .ai-seg { display: inline-flex; flex-wrap: wrap; border: 1px solid var(--g-line-2); border-radius: 10px; overflow: hidden; }
+  .ai-seg button { border: 0; background: var(--g-paper); min-height: 38px; padding: 0 12px; font: 600 13px var(--g-sans); color: var(--g-ink-2); cursor: pointer; border-inline-end: 1px solid var(--g-line); }
+  .ai-seg button:last-child { border-inline-end: 0; }
+  .ai-seg button[aria-checked="true"] { background: var(--g-forest); color: #fff; }
+  .ai-alpha input { width: 150px; accent-color: var(--g-forest); }
+  .ai-opt { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+  @media (max-width: 1000px) { .ai-opt { grid-template-columns: 1fr; } }
+  .ai-plot { background: var(--g-paper); border: 1px solid var(--g-line); border-radius: 12px; padding: 6px; }
+  .ai-res { background: #FFF8E6; border: 1px solid #E8D3A0; border-radius: 12px; padding: 14px; }
+  .ai-res.idle { background: var(--g-paper); border-style: dashed; border-color: var(--g-line-2); color: var(--g-ink-2); }
+  .ai-res .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ai-res .kpi .v { font-size: 21px; }
+  .ai-win { background: #F3F7EE; }
+  .ai-win th { color: var(--g-forest); }
+  .ai-bar { display: block; height: 8px; border-radius: 4px; background: var(--g-sand-soft); overflow: hidden; }
+  .ai-bar i { display: block; height: 100%; border-radius: 4px; }
+  .ai-log { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
+  .ai-log li { font-size: 13.5px; color: var(--g-ink-2); display: flex; gap: 8px; align-items: baseline; }
+  .ai-log li i { flex: 0 0 10px; height: 10px; border-radius: 3px; display: inline-block; }
 </style>
 </head>
 <body class="gp">
@@ -51,6 +80,8 @@
 <script src="js/solar-core.js"></script>
 <script src="js/nexus-core.js"></script>
 <script src="js/guard-core.js"></script>
+<script src="js/agv-ai-core.js"></script>
+<script src="js/agv-ai.js"></script>
 <script src="js/agrivoltaic.js"></script>
 </body>
 </html>
