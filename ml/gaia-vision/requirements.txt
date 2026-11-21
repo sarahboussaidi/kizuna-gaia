@@ -1,4 +1,9 @@
 torch>=2.3
+timm>=0.9
+huggingface_hub
+pyarrow
+matplotlib
+onnxscript
 torchvision>=0.18
 onnx>=1.16
 onnxruntime>=1.18

@@ -45,7 +45,7 @@ def main():
            "test_coverage": float(sel.mean()), "test_accuracy_when_answering": float(okt[sel].mean()) if sel.any() else None}
     print(rep)
     torch.onnx.export(m, torch.zeros(1, 3, t.SIZE, t.SIZE), f"models_out/{a.name}.onnx", input_names=["input"],
-                      output_names=["logits"], dynamic_axes={"input": {0: "n"}, "logits": {0: "n"}}, opset_version=17)
+                      output_names=["logits"], dynamic_axes={"input": {0: "n"}, "logits": {0: "n"}}, opset_version=17, dynamo=False)
     fname = "stage1-tree.onnx" if a.name == "tree" else f"{a.name.split('_', 1)[1]}.onnx"
     import os; os.replace(f"models_out/{a.name}.onnx", f"models_out/{fname}")
     # keys match what js/health.js reads: file, classes, temperature, threshold

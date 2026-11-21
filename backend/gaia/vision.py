@@ -95,7 +95,9 @@ def softmax(logits: np.ndarray, temperature: float = 1.0) -> np.ndarray:
 def run_stage(model_dir: Path, spec: dict, x: np.ndarray) -> dict:
     path = model_dir / spec["file"]
     sess = _session(str(path), path.stat().st_mtime)
-    out = sess.run(None, {sess.get_inputs()[0].name: x})[0]
+    # several stages can share one ONNX file with one output per head; spec["output"] names it
+    names = [o.name for o in sess.get_outputs()]
+    out = sess.run([spec.get("output") or names[0]], {sess.get_inputs()[0].name: x})[0]
     probs = softmax(out, spec.get("temperature", 1.0))
     classes = spec["classes"]
     if len(probs) != len(classes):

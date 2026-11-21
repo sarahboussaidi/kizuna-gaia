@@ -1,6 +1,36 @@
 {
-  "_note": "Key = <tree>/<disease>. An entry is shipped ONLY when validated_by is filled by an agronomist. Trees: olive, palm, citrus.",
+  "_note": "Key = <plant>/<disease>. An entry is shipped in the manifest ONLY when validated_by is filled by an agronomist (e.g. CRDA, INRAT, IRESA, Institut de l'Olivier). The texts below are DRAFTS written from general integrated-pest-management guidance: they are not shown in GAIA until someone qualified checks, corrects and signs them.",
   "olive/peacock_spot": {"fr": "", "ar": "", "validated_by": "", "date": ""},
   "olive/aculus_olearius": {"fr": "", "ar": "", "validated_by": "", "date": ""},
-  "olive/healthy": {"fr": "", "ar": "", "validated_by": "", "date": ""}
+  "olive/healthy": {"fr": "", "ar": "", "validated_by": "", "date": ""},
+  "tomato/late_blight": {
+    "fr": "BROUILLON. Mildiou : retirer et détruire les feuilles atteintes, ne pas mouiller le feuillage (irrigation au goutte-à-goutte), aérer la culture. Traitement préventif à base de cuivre selon l'homologation locale ; demander conseil au CRDA si la maladie s'étend.",
+    "ar": "مسودة. اللفحة المتأخرة: إزالة الأوراق المصابة وإتلافها، تجنّب ترطيب الأوراق (الري قطرة قطرة)، تهوية الزراعة. مكافحة وقائية بمركّبات النحاس حسب المبيدات المصادق عليها محليا؛ استشر المندوبية الجهوية للفلاحة إذا انتشر المرض.",
+    "en": "DRAFT. Late blight: remove and destroy affected leaves, keep foliage dry (drip irrigation), improve airflow. Preventive copper-based treatment as locally approved; ask the regional agriculture office if it spreads.",
+    "validated_by": "", "date": ""},
+  "tomato/yellow_leaf_curl_virus": {
+    "fr": "BROUILLON. TYLCV, transmis par l'aleurode : arracher les plants atteints, filets insect-proof en serre, pièges jaunes, désherber autour de la parcelle. Aucun traitement ne guérit la plante.",
+    "ar": "مسودة. فيروس تجعّد واصفرار أوراق الطماطم ينقله الذباب الأبيض: اقتلاع النباتات المصابة، شباك واقية من الحشرات في البيوت المحمية، مصائد صفراء، تنظيف محيط القطعة من الأعشاب. لا يوجد علاج يشفي النبتة.",
+    "en": "DRAFT. TYLCV, spread by whitefly: uproot infected plants, insect-proof nets in greenhouses, yellow sticky traps, weed the field margins. No treatment cures the plant.",
+    "validated_by": "", "date": ""},
+  "grape/downy_mildew": {
+    "fr": "BROUILLON. Mildiou de la vigne : surveiller après pluie, effeuiller pour aérer, traitement préventif (cuivre ou produit homologué) avant les périodes humides.",
+    "ar": "مسودة. البياض الزغبي للكرمة: المراقبة بعد الأمطار، إزالة بعض الأوراق للتهوية، مكافحة وقائية (نحاس أو مبيد مصادق عليه) قبل الفترات الرطبة.",
+    "en": "DRAFT. Grape downy mildew: scout after rain, thin leaves for airflow, preventive treatment (copper or an approved product) before humid spells.",
+    "validated_by": "", "date": ""},
+  "grape/powdery_mildew": {
+    "fr": "BROUILLON. Oïdium : soufre (poudrage ou mouillable) en préventif, aérer la végétation ; éviter les traitements soufrés aux heures chaudes (> 30 °C).",
+    "ar": "مسودة. البياض الدقيقي: الكبريت (تعفير أو قابل للبلل) بصفة وقائية، تهوية النبات؛ تجنّب الكبريت في ساعات الحرّ (أكثر من 30 درجة).",
+    "en": "DRAFT. Powdery mildew: preventive sulphur (dust or wettable), open the canopy; avoid sulphur in the hot hours (> 30 °C).",
+    "validated_by": "", "date": ""},
+  "citrus/greening": {
+    "fr": "BROUILLON. Huanglongbing (greening) suspecté : maladie de quarantaine. Ne pas déplacer de plants, signaler au CRDA / services de protection des végétaux pour confirmation en laboratoire.",
+    "ar": "مسودة. اشتباه في مرض اخضرار الحمضيات (هوانغلونغبينغ): مرض حجر زراعي. لا تنقل الشتلات، وأبلغ المندوبية الجهوية للفلاحة / مصالح وقاية النباتات للتأكيد المخبري.",
+    "en": "DRAFT. Suspected Huanglongbing (greening): a quarantine disease. Do not move plants; report to plant-protection services for a lab confirmation.",
+    "validated_by": "", "date": ""},
+  "palm/dubas": {
+    "fr": "BROUILLON. Dubas (Ommatissus lybicus) : surveiller le miellat sur les palmes, aérer les palmiers trop denses ; la lutte se fait en campagne collective encadrée par les services agricoles.",
+    "ar": "مسودة. حشرة الدوباس: مراقبة الندوة العسلية على السعف، تخفيف كثافة النخيل؛ تتم المكافحة في حملات جماعية بإشراف المصالح الفلاحية.",
+    "en": "DRAFT. Dubas bug (Ommatissus lybicus): watch for honeydew on fronds, thin over-dense groves; control is done in collective campaigns run by the agriculture services.",
+    "validated_by": "", "date": ""}
 }

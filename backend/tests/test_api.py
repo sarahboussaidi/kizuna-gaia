@@ -86,7 +86,9 @@ def test_solar_simulation_is_labelled_and_plausible():
     assert 0 < res["light_share_year"] < 1
 
 
-def test_diagnose_refuses_without_model():
+def test_diagnose_refuses_without_model(tmp_path, monkeypatch):
+    import gaia.main as m
+    monkeypatch.setattr(m, "MODEL_DIR", tmp_path)   # a model now ships in backend/models; test the empty case explicitly
     r = client.post("/diagnose", files={"image": ("leaf.jpg", b"\xff\xd8\xff", "image/jpeg")})
     assert r.status_code == 503
     assert r.json()["detail"]["status"] == "model_not_loaded"
@@ -337,3 +339,18 @@ console.log(JSON.stringify(qs.map(q=>{const a=R.analyse(q,recs);return {topics:a
     assert out[3]["topics"] == ["soil"]
     assert out[4]["top"] == "tn-jessour"                       # one-letter typo
     assert out[5]["topics"] == [] and out[5]["score"] < 2      # off-topic: stays "not sure"
+
+
+def test_diagnose_with_shipped_model():
+    """the shipped multi-head ONNX answers a real photo through the shared-file 'output' path."""
+    import io
+    import gaia.main as m
+    if not (m.MODEL_DIR / "manifest.json").exists():
+        pytest.skip("no shipped model")
+    from PIL import Image
+    buf = io.BytesIO(); Image.new("RGB", (300, 200), (40, 140, 40)).save(buf, "JPEG")
+    r = client.post("/diagnose", files={"image": ("leaf.jpg", buf.getvalue(), "image/jpeg")})
+    assert r.status_code == 200
+    body = r.json()
+    assert body["status"] in {"ok", "unsure", "unsupported_tree", "no_disease_model"}
+    assert body["stage1"]["top"]["label"] in m.vision.load_manifest(m.MODEL_DIR)["stage1"]["classes"]

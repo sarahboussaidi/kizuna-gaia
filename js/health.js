@@ -324,11 +324,18 @@
     var m = Math.max.apply(null, z), e = z.map(function (v) { return Math.exp(v - m); }), s = e.reduce(function (a, b) { return a + b; }, 0);
     return e.map(function (v) { return v / s; });
   }
+  // one session per file: stage 1 and every stage 2 head can share a single ONNX file (spec.output names the head)
+  var sessions = {}, lastRun = { file: null, tensor: null, out: null };
   function runModel(spec, tensor) {
-    return window.ort.InferenceSession.create(baseUrl() + spec.file).then(function (sess) {
+    var url = baseUrl() + spec.file;
+    sessions[url] = sessions[url] || window.ort.InferenceSession.create(url);
+    return sessions[url].then(function (sess) {
       var feeds = {}; feeds[sess.inputNames[0]] = tensor;
-      return sess.run(feeds).then(function (out) {
-        var probs = softmax(out[sess.outputNames[0]].data, spec.temperature);
+      // the shared file returns every head in one run: reuse it for stage 2 on the same photo
+      var run = lastRun.file === url && lastRun.tensor === tensor ? Promise.resolve(lastRun.out)
+        : sess.run(feeds).then(function (o) { lastRun = { file: url, tensor: tensor, out: o }; return o; });
+      return run.then(function (out) {
+        var probs = softmax(out[spec.output || sess.outputNames[0]].data, spec.temperature);
         var ranked = spec.classes.map(function (c, i) { return { label: c, p: probs[i] }; }).sort(function (a, b) { return b.p - a.p; });
         return { ranked: ranked, top: ranked[0], abstain: ranked[0].p < (spec.threshold || 0.5) };
       });

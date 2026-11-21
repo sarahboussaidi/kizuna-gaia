@@ -1,5 +1,9 @@
 # GAIA vision — train & plug in the models (steps 2–6)
 
+**v2 (current model, `models/gaia-vision/`)**: leakage-free split, frozen EfficientNet-B0 + linear heads, lab vs field
+evaluation. Why v1 looked perfect but overfit, the results and the commands: [TRAINING_REPORT.md](TRAINING_REPORT.md).
+The notebooks below are the v1 pipeline (kept for olive / Kaggle data); prefer `scripts/10_*`–`14_*`.
+
 Easiest way: open `GAIA_Vision_Kaggle.ipynb` (Kaggle, GPU + Internet on) or `GAIA_Vision_Training.ipynb` (Colab) and run all cells.
 Plants covered: olive, palm (date palm), citrus + 13 PlantVillage crops (apple, blueberry, cherry, corn, grape, peach, pepper,
 potato, raspberry, soybean, squash, strawberry, tomato). Plants with a single class in PlantVillage (blueberry, raspberry,

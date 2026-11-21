@@ -1,0 +1,328 @@
+{
+  "version": "2026.11-effb0-v2",
+  "backbone": "efficientnet_b0 (timm, ImageNet ra weights), frozen; one linear head per stage",
+  "input": {
+    "size": 224,
+    "mean": [
+      0.485,
+      0.456,
+      0.406
+    ],
+    "std": [
+      0.229,
+      0.224,
+      0.225
+    ]
+  },
+  "stage1": {
+    "file": "gaia-vision-effb0.onnx",
+    "output": "stage1",
+    "classes": [
+      "citrus",
+      "grape",
+      "other",
+      "palm",
+      "pepper",
+      "potato",
+      "tomato"
+    ],
+    "temperature": 0.6332,
+    "threshold": 0.3
+  },
+  "stage2": {
+    "citrus": {
+      "file": "gaia-vision-effb0.onnx",
+      "output": "citrus",
+      "classes": [
+        "black_spot",
+        "canker",
+        "die_back",
+        "greening",
+        "healthy",
+        "mealybugs",
+        "powdery_mildew",
+        "shot_hole",
+        "spiny_whitefly"
+      ],
+      "temperature": 0.5443,
+      "threshold": 0.3
+    },
+    "grape": {
+      "file": "gaia-vision-effb0.onnx",
+      "output": "grape",
+      "classes": [
+        "bacterial_leaf_spot",
+        "black_rot",
+        "downy_mildew",
+        "esca",
+        "healthy",
+        "isariopsis_leaf_spot",
+        "powdery_mildew"
+      ],
+      "temperature": 0.4238,
+      "threshold": 0.3
+    },
+    "palm": {
+      "file": "gaia-vision-effb0.onnx",
+      "output": "palm",
+      "classes": [
+        "black_scorch",
+        "dubas",
+        "dubas_bug",
+        "fusarium_wilt",
+        "healthy",
+        "honeydew",
+        "leaf_spots",
+        "magnesium_deficiency",
+        "manganese_deficiency",
+        "parlatoria_blanchardi",
+        "potassium_deficiency",
+        "rachis_blight"
+      ],
+      "temperature": 0.7618,
+      "threshold": 0.68
+    },
+    "pepper": {
+      "file": "gaia-vision-effb0.onnx",
+      "output": "pepper",
+      "classes": [
+        "bacterial_spot",
+        "healthy"
+      ],
+      "temperature": 0.7778,
+      "threshold": 0.3
+    },
+    "potato": {
+      "file": "gaia-vision-effb0.onnx",
+      "output": "potato",
+      "classes": [
+        "early_blight",
+        "healthy",
+        "late_blight"
+      ],
+      "temperature": 0.8451,
+      "threshold": 0.92
+    },
+    "tomato": {
+      "file": "gaia-vision-effb0.onnx",
+      "output": "tomato",
+      "classes": [
+        "bacterial_spot",
+        "early_blight",
+        "healthy",
+        "late_blight",
+        "leaf_mold",
+        "mosaic_virus",
+        "septoria_leaf_spot",
+        "spider_mites",
+        "target_spot",
+        "yellow_leaf_curl_virus"
+      ],
+      "temperature": 0.8799,
+      "threshold": 0.99
+    }
+  },
+  "guidance": {},
+  "evaluation": {
+    "note": "Held-out test split after near-duplicate grouping. 'lab' = PlantVillage plain-background photos, 'field' = PlantDoc / orchard photos. No Tunisian test set yet: measure one before any public demo.",
+    "stage1": {
+      "test_lab": {
+        "n": 1374,
+        "accuracy": 0.9534,
+        "macro_f1": 0.9425,
+        "coverage_at_threshold": 1.0,
+        "accuracy_when_answering": 0.9534,
+        "ece": 0.018
+      },
+      "test_field": {
+        "n": 1966,
+        "accuracy": 0.9405,
+        "macro_f1": 0.7831,
+        "coverage_at_threshold": 0.9995,
+        "accuracy_when_answering": 0.9405,
+        "ece": 0.0095
+      },
+      "dropped_classes_too_few_images": []
+    },
+    "citrus": {
+      "test_lab": null,
+      "test_field": {
+        "n": 506,
+        "accuracy": 0.9684,
+        "macro_f1": 0.9619,
+        "coverage_at_threshold": 1.0,
+        "accuracy_when_answering": 0.9684,
+        "ece": 0.019
+      },
+      "leaky_random_split_test_accuracy": 0.9658,
+      "dropped_classes_too_few_images": [
+        "melanose"
+      ]
+    },
+    "grape": {
+      "test_lab": {
+        "n": 256,
+        "accuracy": 0.9805,
+        "macro_f1": 0.9823,
+        "coverage_at_threshold": 1.0,
+        "accuracy_when_answering": 0.9805,
+        "ece": 0.0173
+      },
+      "test_field": {
+        "n": 438,
+        "accuracy": 0.9224,
+        "macro_f1": 0.8622,
+        "coverage_at_threshold": 1.0,
+        "accuracy_when_answering": 0.9224,
+        "ece": 0.0407
+      },
+      "lab_only_baseline": {
+        "test_lab": {
+          "n": 256,
+          "accuracy": 0.0,
+          "macro_f1": 0.0,
+          "coverage_at_threshold": 0.0,
+          "accuracy_when_answering": null,
+          "ece": 0.1429
+        },
+        "test_field": {
+          "n": 438,
+          "accuracy": 0.1461,
+          "macro_f1": 0.0939,
+          "coverage_at_threshold": 0.0,
+          "accuracy_when_answering": null,
+          "ece": 0.0032
+        }
+      },
+      "leaky_random_split_test_accuracy": 0.9549,
+      "dropped_classes_too_few_images": []
+    },
+    "palm": {
+      "test_lab": null,
+      "test_field": {
+        "n": 701,
+        "accuracy": 0.8074,
+        "macro_f1": 0.7625,
+        "coverage_at_threshold": 0.7646,
+        "accuracy_when_answering": 0.9011,
+        "ece": 0.035
+      },
+      "leaky_random_split_test_accuracy": 0.8902,
+      "dropped_classes_too_few_images": []
+    },
+    "pepper": {
+      "test_lab": {
+        "n": 134,
+        "accuracy": 0.9925,
+        "macro_f1": 0.9925,
+        "coverage_at_threshold": 1.0,
+        "accuracy_when_answering": 0.9925,
+        "ece": 0.0386
+      },
+      "test_field": {
+        "n": 20,
+        "accuracy": 0.65,
+        "macro_f1": 0.6491,
+        "coverage_at_threshold": 1.0,
+        "accuracy_when_answering": 0.65,
+        "ece": 0.2772
+      },
+      "lab_only_baseline": {
+        "test_lab": {
+          "n": 134,
+          "accuracy": 1.0,
+          "macro_f1": 1.0,
+          "coverage_at_threshold": 1.0,
+          "accuracy_when_answering": 1.0,
+          "ece": 0.0529
+        },
+        "test_field": {
+          "n": 20,
+          "accuracy": 0.7,
+          "macro_f1": 0.697,
+          "coverage_at_threshold": 1.0,
+          "accuracy_when_answering": 0.7,
+          "ece": 0.1575
+        }
+      },
+      "leaky_random_split_test_accuracy": 0.9613,
+      "dropped_classes_too_few_images": []
+    },
+    "potato": {
+      "test_lab": {
+        "n": 167,
+        "accuracy": 0.9521,
+        "macro_f1": 0.9414,
+        "coverage_at_threshold": 0.6886,
+        "accuracy_when_answering": 1.0,
+        "ece": 0.0597
+      },
+      "test_field": {
+        "n": 24,
+        "accuracy": 0.5417,
+        "macro_f1": 0.5525,
+        "coverage_at_threshold": 0.2917,
+        "accuracy_when_answering": 0.7143,
+        "ece": 0.2325
+      },
+      "lab_only_baseline": {
+        "test_lab": {
+          "n": 167,
+          "accuracy": 0.988,
+          "macro_f1": 0.9859,
+          "coverage_at_threshold": 0.0838,
+          "accuracy_when_answering": 1.0,
+          "ece": 0.0847
+        },
+        "test_field": {
+          "n": 24,
+          "accuracy": 0.4167,
+          "macro_f1": 0.4447,
+          "coverage_at_threshold": 0.0417,
+          "accuracy_when_answering": 1.0,
+          "ece": 0.3403
+        }
+      },
+      "leaky_random_split_test_accuracy": 0.9086,
+      "dropped_classes_too_few_images": []
+    },
+    "tomato": {
+      "test_lab": {
+        "n": 663,
+        "accuracy": 0.9125,
+        "macro_f1": 0.9137,
+        "coverage_at_threshold": 0.2157,
+        "accuracy_when_answering": 1.0,
+        "ece": 0.0545
+      },
+      "test_field": {
+        "n": 112,
+        "accuracy": 0.4821,
+        "macro_f1": 0.4772,
+        "coverage_at_threshold": 0.0714,
+        "accuracy_when_answering": 0.875,
+        "ece": 0.2248
+      },
+      "lab_only_baseline": {
+        "test_lab": {
+          "n": 663,
+          "accuracy": 0.9065,
+          "macro_f1": 0.9097,
+          "coverage_at_threshold": 0.0845,
+          "accuracy_when_answering": 1.0,
+          "ece": 0.0977
+        },
+        "test_field": {
+          "n": 112,
+          "accuracy": 0.25,
+          "macro_f1": 0.2061,
+          "coverage_at_threshold": 0.0268,
+          "accuracy_when_answering": 0.3333,
+          "ece": 0.3852
+        }
+      },
+      "leaky_random_split_test_accuracy": 0.8353,
+      "dropped_classes_too_few_images": []
+    }
+  }
+}
