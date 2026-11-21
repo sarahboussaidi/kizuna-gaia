@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tableau de bord de la ferme — GAIA</title>
+<meta name="description" content="Mesurer pour gérer : eau pompée face au quota de la culture, énergie solaire produite, économies et CO₂ évité, alertes et prévision d'irrigation sur 7 jours.">
+<meta name="theme-color" content="#1F3A2B">
+<link rel="icon" href="images/icon.svg" type="image/svg+xml">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=DM+Sans:wght@400;500;600;700&family=Noto+Serif+JP:wght@400;600&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="platform.css">
+<style>
+  .fd-farm { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; background: var(--g-paper); border: 1px solid var(--g-line); border-radius: var(--g-r); padding: 12px 16px; }
+  .fd-farm > div:first-child { display: flex; flex-direction: column; min-width: 0; }
+  .fd-farm strong { font-size: 15px; color: var(--g-forest); overflow-wrap: anywhere; }
+  .fd-src { display: flex; flex-wrap: wrap; gap: 6px; margin-inline-start: auto; }
+  .fd-chip { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 600; border-radius: 999px; padding: 5px 10px; }
+  .fd-chip.demo { background: var(--s-demo-bg); color: var(--s-demo); }
+  .fd-chip.live { background: var(--s-ok-bg); color: var(--s-ok); }
+
+  .fd-today { margin-top: 16px; background: #17241C; color: #EEF0E6; border-radius: var(--g-r); padding: 20px 22px; }
+  .fd-today .eyebrow { color: #B9C3A9; }
+  .fd-today h2 { color: #F7F4EC; font-size: clamp(26px, 4.4vw, 38px); margin-top: 6px; }
+  .fd-today p { color: #C9CFC0; margin-top: 6px; max-width: 62ch; }
+  .fd-today p.warn { color: #E6D09A; display: flex; align-items: center; gap: 6px; }
+
+  .fd-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-top: 16px; }
+  .fd-kpi { display: flex; flex-direction: column; gap: 4px; background: var(--g-paper); border: 1px solid var(--g-line); border-radius: var(--g-r); padding: 14px 16px; border-top: 3px solid var(--g-line-2); }
+  .fd-kpi .lab { font-size: 12.5px; font-weight: 600; color: var(--g-ink-3); }
+  .fd-kpi .v { font-family: var(--g-display); font-size: 28px; font-weight: 600; color: var(--g-forest); line-height: 1.1; }
+  body.gp[dir="rtl"] .fd-kpi .v { font-family: var(--g-ar); }
+  .fd-kpi .sub { font-size: 13px; color: var(--g-ink-2); }
+  .fd-kpi.water { border-top-color: #2F5A75; } .fd-kpi.energy { border-top-color: #A88746; }
+  .fd-kpi.money { border-top-color: var(--g-forest); } .fd-kpi.co2 { border-top-color: var(--g-sage); }
+  .fd-kpi.spared { border-top-color: #9CB7C9; background: var(--s-adapt-bg); }
+  .fd-meter { position: relative; display: block; height: 10px; border-radius: 999px; background: var(--g-ivory); border: 1px solid var(--g-line); overflow: hidden; margin: 4px 0 2px; }
+  .fd-meter .fill { position: absolute; inset-block: 0; inset-inline-start: 0; background: #2F5A75; border-radius: 999px; }
+  .fd-meter .fill.near { background: var(--g-gold); }
+  .fd-meter .fill.over { background: var(--s-no); }
+
+  .fd-alerts { margin-top: 16px; }
+  .fd-alerts ul { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 8px; }
+  .fd-al { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 6px 10px; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--g-line); border-inline-start-width: 4px; background: #fff; }
+  .fd-al .tag { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; white-space: nowrap; padding-top: 2px; }
+  .fd-al .txt { flex: 1 1 240px; font-size: 14.5px; }
+  .fd-al.critical { border-inline-start-color: var(--s-no); background: var(--s-no-bg); } .fd-al.critical .tag { color: var(--s-no); }
+  .fd-al.warning { border-inline-start-color: var(--s-adapt); background: var(--s-adapt-bg); } .fd-al.warning .tag { color: var(--s-adapt); }
+  .fd-al.info { border-inline-start-color: var(--s-unk); } .fd-al.info .tag { color: var(--s-unk); }
+  .fd-al.good { border-inline-start-color: var(--s-ok); background: var(--s-ok-bg); } .fd-al.good .tag { color: var(--s-ok); }
+
+  .fd-days { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; margin-top: 12px; }
+  @media (max-width: 860px) { .fd-days { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  @media (max-width: 480px) { .fd-days { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .fd-day { display: flex; flex-direction: column; gap: 2px; border: 1px solid var(--g-line); border-radius: 10px; padding: 10px; background: #fff; }
+  .fd-day b { font-size: 14px; color: var(--g-forest); }
+  .fd-day .dt { font-size: 12px; color: var(--g-ink-3); }
+  .fd-day .need { font-family: var(--g-display); font-size: 20px; font-weight: 600; color: #2F5A75; margin: 4px 0; }
+  .fd-day.skip .need { font-family: var(--g-sans); font-size: 14px; color: var(--g-ink-2); }
+  .fd-day.skip { background: var(--g-ivory); }
+  .fd-day .meta { font-size: 12.5px; color: var(--g-ink-2); }
+
+  .fd-chart { max-width: 760px; }
+  .fd-set { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 12px; }
+  @media (max-width: 480px) { .fd-set { grid-template-columns: 1fr; } }
+  .fd-set .gp-field { margin-top: 10px; }
+</style>
+</head>
+<body class="gp">
+<main id="main" class="wrap">
+  <header class="gp-head">
+    <p class="eyebrow">GAIA FARM DASHBOARD · M5</p>
+    <h1><span data-i18n="fd_title">Tableau de bord de la ferme</span><span class="jp-mark">測</span></h1>
+    <p class="lead" data-i18n="fd_lead">Mesurer pour gérer : l'eau pompée face au quota de la culture, l'énergie du soleil, ce que cela fait économiser, et ce qui arrive cette semaine.</p>
+  </header>
+  <div id="app"></div>
+</main>
+<script src="js/gaia-core.js"></script>
+<script src="js/landdna.js"></script>
+<script src="js/farm-core.js"></script>
+<script src="js/farm.js"></script>
+</body>
+</html>

@@ -20,6 +20,7 @@
       m_lab: 'AI Lab', m_lab_p: 'Un assistant qui connaît votre parcelle et cite ses fiches. Il dit quand les preuves manquent.',
       m_health: 'Santé des plantes', m_health_p: "Photo d'une feuille, contrôle de qualité, puis diagnostic — ou « je ne suis pas sûr ».",
       m_nexus: 'Eau & énergie', m_nexus_p: "Besoin en eau FAO-56, énergie de pompage, champ solaire et quota d'eau mensuel.",
+      m_farm: 'Tableau de bord', m_farm_p: "Eau pompée face au quota, énergie solaire, économies, alertes et irrigation conseillée pour 7 jours.",
       m_agv: 'Agrivoltaïsme', m_agv_p: 'Hauteur, espacement et orientation des panneaux : électricité et lumière restante pour la culture.',
       m_lib: 'Bibliothèque', m_lib_p: 'Les fiches techniques sourcées qui alimentent le moteur et l’assistant.',
       open: 'Ouvrir →',
@@ -62,6 +63,7 @@
       m_lab: 'مختبر الذكاء', m_lab_p: 'مساعد يعرف قطعتك ويستشهد ببطاقاته، ويقول متى تنقص الأدلة.',
       m_health: 'صحة النبات', m_health_p: 'صورة ورقة، فحص للجودة، ثم تشخيص — أو «لست متأكدة».',
       m_nexus: 'الماء والطاقة', m_nexus_p: 'حاجة الماء حسب FAO-56، طاقة الضخ، الحقل الشمسي، والحصة الشهرية للماء.',
+      m_farm: 'لوحة المتابعة', m_farm_p: 'الماء المضخوخ مقابل الحصة، الطاقة الشمسية، التوفير، التنبيهات والري المنصوح به لسبعة أيام.',
       m_agv: 'الزراعة الضوئية', m_agv_p: 'ارتفاع الألواح وتباعدها واتجاهها: الكهرباء والضوء المتبقي للزراعة.',
       m_lib: 'المكتبة', m_lib_p: 'البطاقات التقنية الموثقة بمصادر التي تغذي المحرك والمساعد.',
       open: 'افتح ←',
@@ -182,7 +184,7 @@
     ['land.html', 'm_land', 'm_land_p', 'live', 'st_live', '地'], ['engine.html', 'm_engine', 'm_engine_p', 'live', 'st_live', '橋'],
     ['lab.html', 'm_lab', 'm_lab_p', 'demo', 'st_rules', '知'], ['health.html', 'm_health', 'm_health_p', 'plan', 'st_off', '葉'],
     ['nexus.html', 'm_nexus', 'm_nexus_p', 'live', 'st_live', '水'], ['agrivoltaic.html', 'm_agv', 'm_agv_p', 'demo', 'st_sim', '陽'],
-    ['library.html', 'm_lib', 'm_lib_p', 'live', 'st_live', '書']
+    ['farm.html', 'm_farm', 'm_farm_p', 'demo', 'st_sim', '測'], ['library.html', 'm_lib', 'm_lib_p', 'live', 'st_live', '書']
   ];
   function modules() {
     return el('section', { class: 'sec', id: 'modules', 'aria-labelledby': 'h-mods' }, [
