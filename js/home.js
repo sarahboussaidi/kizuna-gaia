@@ -23,6 +23,15 @@
       m_farm: 'Tableau de bord', m_farm_p: "Eau pompée face au quota, énergie solaire, économies, alertes et irrigation conseillée pour 7 jours.",
       m_agv: 'Agrivoltaïsme', m_agv_p: 'Hauteur, espacement et orientation des panneaux : électricité et lumière restante pour la culture.',
       m_biz: 'Modèle économique', m_biz_p: 'Kit de pompage solaire payé à l’usage par paiement mobile, pompe partagée en coopérative, quatre tests d’adoption.',
+      m_season: 'Ma saison', m_season_p: 'Les actions du mois pour votre culture, les alertes sécheresse, pluie, chaleur et gel sur les vraies prévisions, et l’eau utilisée face au quota.',
+      m_cal: 'Calendrier cultural', m_cal_p: 'Olivier, palmier dattier, agrumes, céréales : les étapes de l’année croisées avec la pluie et le besoin en eau de votre parcelle.',
+      m_soil: 'Mon sol', m_soil_p: 'Tests du bocal, du vinaigre et du trou d’eau : texture, calcaire et infiltration, enregistrés dans votre profil.',
+      m_mott: 'Mottainai', m_mott_p: 'Bois de taille, grignons, margines, palmes, paille : la seconde vie de chaque résidu, avec les précautions.',
+      st_data: 'Données réelles', st_declared: 'Saisie agriculteur', st_rules2: 'Règles sourcées',
+      d_season: 'Prévisions Open-Meteo en direct et relevés de compteur saisis ; aucune valeur simulée.',
+      d_cal: 'Étapes sourcées quand une source existe, sinon marquées « à valider » ; climat de la parcelle (ERA5).',
+      d_soil: 'Triangle des textures USDA, FAO-56 tableau 19 ; données enregistrées comme déclarées.',
+      d_mott: 'Fiches de résidus avec sources ; aucune quantité inventée.',
       m_lib: 'Bibliothèque', m_lib_p: 'Les fiches techniques sourcées qui alimentent le moteur et l’assistant.',
       open: 'Ouvrir →',
       st_live: 'Fonctionnel', st_sim: 'Simulation', st_rules: 'Mode règles', st_partial: 'Partiel', st_off: 'Modèle non connecté', st_concept: 'Concept',
@@ -68,6 +77,15 @@
       m_farm: 'لوحة المتابعة', m_farm_p: 'الماء المضخوخ مقابل الحصة، الطاقة الشمسية، التوفير، التنبيهات والري المنصوح به لسبعة أيام.',
       m_agv: 'الزراعة الضوئية', m_agv_p: 'ارتفاع الألواح وتباعدها واتجاهها: الكهرباء والضوء المتبقي للزراعة.',
       m_biz: 'النموذج الاقتصادي', m_biz_p: 'منظومة ضخ شمسية بالدفع حسب الاستعمال عبر الهاتف، مضخة مشتركة في تعاضدية، وأربعة اختبارات للتبنّي.',
+      m_season: 'موسمي', m_season_p: 'أعمال الشهر لزراعتك، تنبيهات الجفاف والمطر والحرارة والصقيع من التوقعات الحقيقية، والماء المستعمل مقارنة بالحصة.',
+      m_cal: 'الرزنامة الفلاحية', m_cal_p: 'الزيتون ونخيل التمر والقوارص والحبوب: مراحل السنة مع أمطار قطعتك وحاجتها للماء.',
+      m_soil: 'تربتي', m_soil_p: 'اختبارات الإناء والخل والحفرة: القوام والكلس والتسرّب، تُحفظ في ملفك.',
+      m_mott: 'موتايناي', m_mott_p: 'أغصان التقليم والفيتورة والمرجين والجريد والتبن: الحياة الثانية لكل بقايا، مع الاحتياطات.',
+      st_data: 'بيانات حقيقية', st_declared: 'إدخال الفلاح', st_rules2: 'قواعد موثقة',
+      d_season: 'توقعات Open-Meteo مباشرة وقراءات عداد يُدخلها الفلاح؛ لا قيمة محاكاة.',
+      d_cal: 'مراحل موثقة عند وجود مصدر، وإلا مؤشَّر عليها «للتثبت»؛ مناخ القطعة (ERA5).',
+      d_soil: 'مثلث القوام USDA، الجدول 19 من FAO-56؛ تُحفظ البيانات كمصرّح بها.',
+      d_mott: 'بطاقات بقايا بمصادرها؛ لا كميات مختلقة.',
       m_lib: 'المكتبة', m_lib_p: 'البطاقات التقنية الموثقة بمصادر التي تغذي المحرك والمساعد.',
       open: 'افتح ←',
       st_live: 'يعمل', st_sim: 'محاكاة', st_rules: 'وضع القواعد', st_partial: 'جزئي', st_off: 'النموذج غير متصل', st_concept: 'مفهوم',
@@ -279,6 +297,8 @@
     ['lab.html', 'm_lab', 'm_lab_p', 'demo', 'st_rules', '知'], ['health.html', 'm_health', 'm_health_p', 'plan', 'st_off', '葉'],
     ['nexus.html', 'm_nexus', 'm_nexus_p', 'live', 'st_live', '水'], ['agrivoltaic.html', 'm_agv', 'm_agv_p', 'demo', 'st_sim', '陽'],
     ['farm.html', 'm_farm', 'm_farm_p', 'demo', 'st_sim', '測'],
+    ['season.html', 'm_season', 'm_season_p', 'live', 'st_data', '季'], ['calendar.html', 'm_cal', 'm_cal_p', 'live', 'st_rules2', '暦'],
+    ['soil.html', 'm_soil', 'm_soil_p', 'live', 'st_declared', '土'], ['mottainai.html', 'm_mott', 'm_mott_p', 'live', 'st_rules2', '惜'],
     ['business.html', 'm_biz', 'm_biz_p', 'live', 'st_live', '結'],
     ['library.html', 'm_lib', 'm_lib_p', 'live', 'st_live', '書']
   ];
@@ -311,7 +331,7 @@
   }
 
   function concepts() {
-    var C = [['改善', 'kaizen', 'health.html'], ['里山', 'satoyama', 'engine.html'], ['もったいない', 'mottainai', 'nexus.html'], ['絆', 'kizuna', null], ['侘寂', 'wabisabi', 'health.html']];
+    var C = [['改善', 'kaizen', 'health.html'], ['里山', 'satoyama', 'engine.html'], ['もったいない', 'mottainai', 'mottainai.html'], ['絆', 'kizuna', null], ['侘寂', 'wabisabi', 'health.html']];
     return el('section', { class: 'sec', 'aria-labelledby': 'h-con' }, [
       el('h2', { id: 'h-con' }, [t('con_t')]),
       el('div', { class: 'concepts' }, C.map(function (c) {
@@ -325,7 +345,7 @@
 
   function status() {
     var R = [['m_land', 'live', 'st_live', 'd_land'], ['m_engine', 'live', 'st_live', 'd_engine'], ['m_lab', 'demo', 'st_rules', 'd_lab'], ['m_health', 'plan', 'st_off', 'd_health'],
-      ['m_nexus', 'live', 'st_live', 'd_nexus'], ['m_biz', 'live', 'st_live', 'd_biz'], ['m_agv', 'demo', 'st_sim', 'd_agv'], ['kaizen', 'demo', 'st_partial', 'd_kaizen'], ['kizuna', 'plan', 'st_concept', 'd_kizuna']];
+      ['m_nexus', 'live', 'st_live', 'd_nexus'], ['m_biz', 'live', 'st_live', 'd_biz'], ['m_agv', 'demo', 'st_sim', 'd_agv'], ['m_season', 'live', 'st_data', 'd_season'], ['m_cal', 'live', 'st_rules2', 'd_cal'], ['m_soil', 'live', 'st_declared', 'd_soil'], ['m_mott', 'live', 'st_rules2', 'd_mott'], ['kaizen', 'demo', 'st_partial', 'd_kaizen'], ['kizuna', 'plan', 'st_concept', 'd_kizuna']];
     return el('section', { class: 'sec', 'aria-labelledby': 'h-st' }, [
       el('h2', { id: 'h-st' }, [t('status_t')]), el('p', { class: 'lead' }, [t('status_p')]),
       el('div', { class: 'gp-card status gp-table-wrap' }, [el('table', { class: 'gp-table' }, [

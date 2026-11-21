@@ -35,7 +35,7 @@
     fr: {
       tagline: "L'intelligence qui comprend la terre",
       nav_home: 'Accueil', nav_land: 'Land Intelligence', nav_engine: 'Compatibilité', nav_lab: 'AI Lab',
-      nav_health: 'Santé des plantes', nav_nexus: 'Eau & énergie', nav_biz: 'Modèle économique', nav_farm: 'Tableau de bord', nav_agv: 'Agrivoltaïsme', nav_lib: 'Bibliothèque',
+      nav_health: 'Santé des plantes', nav_nexus: 'Eau & énergie', nav_biz: 'Modèle économique', nav_farm: 'Tableau de bord', nav_season: 'Ma saison', nav_agv: 'Agrivoltaïsme', nav_lib: 'Bibliothèque',
       parcel_none: 'Aucune parcelle', parcel_pick: 'Choisir une parcelle',
       skip: 'Aller au contenu',
       foot_line: "GAIA n'impose pas la technologie à la terre. GAIA adapte la technologie à la terre.",
@@ -55,7 +55,7 @@
     ar: {
       tagline: 'ذكاء يفهم الأرض',
       nav_home: 'الرئيسية', nav_land: 'ذكاء الأرض', nav_engine: 'التوافق', nav_lab: 'مختبر الذكاء',
-      nav_health: 'صحة النبات', nav_nexus: 'الماء والطاقة', nav_biz: 'النموذج الاقتصادي', nav_farm: 'لوحة المتابعة', nav_agv: 'الطاقة الزراعية الشمسية', nav_lib: 'المكتبة',
+      nav_health: 'صحة النبات', nav_nexus: 'الماء والطاقة', nav_biz: 'النموذج الاقتصادي', nav_farm: 'لوحة المتابعة', nav_season: 'موسمي', nav_agv: 'الطاقة الزراعية الشمسية', nav_lib: 'المكتبة',
       parcel_none: 'لا توجد قطعة', parcel_pick: 'اختر قطعة أرض',
       skip: 'انتقل إلى المحتوى',
       foot_line: 'غايا لا تفرض التكنولوجيا على الأرض، بل تكيّف التكنولوجيا مع الأرض.',
@@ -234,7 +234,7 @@
   /* ---------------------------------------------------------- shell */
   var NAV = [
     ['home', 'home.html', 'nav_home'], ['land', 'land.html', 'nav_land'], ['engine', 'engine.html', 'nav_engine'],
-    ['lab', 'lab.html', 'nav_lab'], ['health', 'health.html', 'nav_health'], ['nexus', 'nexus.html', 'nav_nexus'], ['farm', 'farm.html', 'nav_farm'],
+    ['lab', 'lab.html', 'nav_lab'], ['health', 'health.html', 'nav_health'], ['nexus', 'nexus.html', 'nav_nexus'], ['farm', 'farm.html', 'nav_farm'], ['season', 'season.html', 'nav_season'],
     ['biz', 'business.html', 'nav_biz'], ['agv', 'agrivoltaic.html', 'nav_agv'], ['lib', 'library.html', 'nav_lib']
   ];
 

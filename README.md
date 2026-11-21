@@ -56,6 +56,12 @@ the story, bridge and community sections are read back from their own pages, so 
 | `health.html` | Plant health: photo quality check, then a two-stage tree / disease model (see below) |
 | `lab.html` | AI Lab: free questions in French, Arabic or English, answered from the knowledge records and the parcel profile (`js/lab-retrieval.js`); optional Claude wording through the API |
 | `library.html` | The 11 knowledge records with their sources |
+| `season.html` | My season: this month's actions for the declared crop, drought / rain / heat / frost alerts from the live Open-Meteo forecast, and water used (farmer's meter readings) against the FAO-56 monthly quota. No simulated value |
+| `calendar.html` | Crop calendar for olive, date palm, citrus and cereals, crossed with the plot's ERA5 rain and net irrigation need, plus the 24 Japanese solar terms (sekki) |
+| `soil.html` | Soil helper: jar, vinegar and water-hole tests → USDA texture class, lime, infiltration, FAO-56 available water, saved in the profile as *declared* |
+| `mottainai.html` | Mottainai: crop residues (pruning wood, pomace, olive mill wastewater, palm fronds, straw…) and their second life, with cautions and sources |
+
+The season pages share `js/season-data.js` (crop calendars, residues, sekki — each stage cites a source or is marked *à valider*) and `js/soil-core.js` (pure functions, testable with node).
 
 The knowledge base lives in `js/kb.js`. After changing it, run `node tools/export_kb.js` to refresh `backend/data/knowledge.json`
 (the same command exports the regional soil table to `backend/data/soil_tn.json`).
