@@ -18,7 +18,7 @@ pytest -q                                        # needs node for the JS parity 
 | `POST /analyze` | compatibility rules, verdicts feasible / adapt / insufficient / rejected | implemented, parity-tested against the browser engine |
 | `POST /nexus/calculate` | FAO-56 water need → pumping energy → solar size → monthly quota | implemented, parity-tested |
 | `POST /solar/simulate` | agrivoltaic simulation with pvlib (SPA, Erbs, isotropic) + 2-D row shading | implemented, labelled *simulation* |
-| `POST /diagnose` | plant health | returns **503 model_not_loaded** until a validated model is installed |
+| `POST /diagnose` | two-stage plant health (tree, then disease) with ONNX models from `models/gaia-vision/manifest.json` (or `GAIA_MODEL_DIR`); abstains when unsure | implemented; returns **503 model_not_loaded** until a validated model is installed (none is shipped yet) |
 | `POST /feedback` | Kaizen correction, appended to `data/feedback.jsonl` with `expert_status: pending` | implemented |
 
 To make the website send Kaizen feedback here, set `feedbackEndpoint: 'http://127.0.0.1:8000/feedback'` in `js/gaia-core.js` (`CONFIG`).

@@ -16,7 +16,7 @@ from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
-from . import engine, nexus, solar
+from . import engine, nexus, solar, vision
 
 DATA = Path(__file__).resolve().parent.parent / "data"
 KB = json.loads((DATA / "knowledge.json").read_text(encoding="utf-8"))
@@ -106,14 +106,13 @@ def solar_simulate(body: SolarIn) -> dict:
 
 @app.post("/diagnose")
 async def diagnose(image: UploadFile = File(...)) -> dict:
-    manifest = MODEL_DIR / "manifest.json"
-    if not manifest.exists():
-        raise HTTPException(503, detail={
-            "status": "model_not_loaded",
-            "message": "No validated plant-health model is installed. GAIA does not return a diagnosis without one.",
-            "expected": str(manifest)})
-    # A real model is wired here once trained and validated (see report, M2).
-    raise HTTPException(501, detail={"status": "not_implemented", "message": "Server-side inference not wired yet; use the in-browser ONNX path."})
+    """Two-stage plant-health check. 503 with a clear status when no usable model is installed."""
+    try:
+        return vision.diagnose(MODEL_DIR, await image.read())
+    except vision.VisionUnavailable as e:
+        raise HTTPException(503, detail=e.detail) from e
+    except vision.BadImage as e:
+        raise HTTPException(422, detail={"status": "bad_image", "message": str(e)}) from e
 
 
 class FeedbackIn(BaseModel):

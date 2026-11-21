@@ -86,3 +86,73 @@ def test_feedback_appends(tmp_path, monkeypatch):
 def test_knowledge_endpoint():
     assert client.get("/knowledge/techniques").json()["count"] == 11
     assert all(r["origin"] == "jp" for r in client.get("/knowledge/techniques?origin=jp").json()["records"])
+
+
+# ---------------------------------------------------------------- vision with a test-only model
+def _fixed_logits_model(path, logits):
+    """A tiny ONNX graph that ignores its input and returns fixed logits. For tests only."""
+    import numpy as np
+    from onnx import TensorProto, helper, numpy_helper
+    x = helper.make_tensor_value_info("x", TensorProto.FLOAT, [1, 3, 8, 8])
+    y = helper.make_tensor_value_info("y", TensorProto.FLOAT, [1, len(logits)])
+    w = numpy_helper.from_array(np.zeros((3 * 8 * 8, len(logits)), np.float32), "w")
+    b = numpy_helper.from_array(np.asarray([logits], np.float32), "b")
+    shp = numpy_helper.from_array(np.asarray([1, -1], np.int64), "shp")
+    g = helper.make_graph([helper.make_node("Reshape", ["x", "shp"], ["f"]),
+                           helper.make_node("MatMul", ["f", "w"], ["m"]),
+                           helper.make_node("Add", ["m", "b"], ["y"])], "t", [x], [y], [w, b, shp])
+    model = helper.make_model(g, opset_imports=[helper.make_opsetid("", 13)])
+    model.ir_version = 8
+    path.write_bytes(model.SerializeToString())
+
+
+def _png():
+    import io
+    from PIL import Image
+    buf = io.BytesIO()
+    Image.new("RGB", (40, 30), (60, 140, 50)).save(buf, "PNG")
+    return buf.getvalue()
+
+
+def _install(tmp_path, monkeypatch, s1_logits, s2_logits=None, threshold=0.6):
+    import pytest
+    pytest.importorskip("onnxruntime"); pytest.importorskip("onnx"); pytest.importorskip("PIL")
+    import gaia.main as m
+    _fixed_logits_model(tmp_path / "s1.onnx", s1_logits)
+    man = {"version": "test", "input": {"size": 8},
+           "stage1": {"file": "s1.onnx", "classes": ["olive", "palm", "citrus", "other"], "threshold": threshold}}
+    if s2_logits:
+        _fixed_logits_model(tmp_path / "olive.onnx", s2_logits)
+        man["stage2"] = {"olive": {"file": "olive.onnx", "classes": ["healthy", "peacock_spot"], "threshold": threshold}}
+        man["guidance"] = {"olive/peacock_spot": {"fr": "test", "validated_by": "test"}}
+    (tmp_path / "manifest.json").write_text(json.dumps(man))
+    monkeypatch.setattr(m, "MODEL_DIR", tmp_path)
+
+
+def test_diagnose_two_stages(tmp_path, monkeypatch):
+    _install(tmp_path, monkeypatch, [5, 0, 0, 0], [0, 5])
+    r = client.post("/diagnose", files={"image": ("leaf.png", _png(), "image/png")})
+    assert r.status_code == 200, r.text
+    body = r.json()
+    assert body["status"] == "ok" and body["tree"] == "olive" and body["disease"] == "peacock_spot"
+    assert body["guidance"]["validated_by"] == "test"
+
+
+def test_diagnose_abstains_when_unsure(tmp_path, monkeypatch):
+    _install(tmp_path, monkeypatch, [1, 1, 1, 1])
+    r = client.post("/diagnose", files={"image": ("leaf.png", _png(), "image/png")})
+    assert r.status_code == 200 and r.json()["status"] == "unsure" and r.json()["disease"] is None
+
+
+def test_diagnose_rejects_bad_image(tmp_path, monkeypatch):
+    _install(tmp_path, monkeypatch, [5, 0, 0, 0])
+    r = client.post("/diagnose", files={"image": ("leaf.jpg", b"not an image", "image/jpeg")})
+    assert r.status_code == 422 and r.json()["detail"]["status"] == "bad_image"
+
+
+def test_diagnose_reports_broken_manifest(tmp_path, monkeypatch):
+    import gaia.main as m
+    (tmp_path / "manifest.json").write_text(json.dumps({"stage1": {"file": "missing.onnx", "classes": ["olive"]}}))
+    monkeypatch.setattr(m, "MODEL_DIR", tmp_path)
+    r = client.post("/diagnose", files={"image": ("leaf.png", b"x", "image/png")})
+    assert r.status_code == 503 and r.json()["detail"]["status"] == "manifest_invalid"
