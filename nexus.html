@@ -31,6 +31,11 @@
   .formula { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13px; background: var(--g-ivory); border: 1px solid var(--g-line); border-radius: 8px; padding: 8px 10px; direction: ltr; text-align: left; overflow-x: auto; }
   .assump { font-size: 12.5px; color: var(--g-ink-3); }
   .cost-row td:first-child { font-weight: 600; }
+  .gp-card.guard { margin-top: 16px; border: 2px solid #2F5A75; }
+  .guard h2 { margin-top: 4px; }
+  .fbox.g-cap .v { color: var(--g-gold-ink); } .fbox.g-need .v { color: #5E7A3A; } .fbox.g-allowed { border-color: #2F5A75; background: #E4EDF3; } .fbox.g-allowed .v { color: #2F5A75; }
+  .fbox.g-blocked .v { color: var(--s-ok); } .fbox.g-freed .v { color: var(--g-gold-ink); }
+  .nx-guard-in { margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--g-line); }
 </style>
 </head>
 <body class="gp">
@@ -45,6 +50,7 @@
 <script src="js/gaia-core.js"></script>
 <script src="js/landdna.js"></script>
 <script src="js/nexus-core.js"></script>
+<script src="js/guard-core.js"></script>
 <script src="js/nexus.js"></script>
 </body>
 </html>

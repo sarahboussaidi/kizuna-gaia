@@ -18,6 +18,11 @@
       no_solar: 'Rayonnement solaire indisponible pour cette parcelle : reconstruisez le profil sur la page Land Intelligence.',
       crop_t: 'Lecture pour la culture', crop_p: "GAIA ne compare pas cette lumière aux besoins de la culture tant qu'aucune fiche sourcée ne documente la tolérance à l'ombre de cette culture.",
       method_t: 'Méthode', method_p: "Position du soleil (déclinaison de Spencer, angle horaire), fraction diffuse journalière d'Erbs à partir de l'indice de clarté, ciel isotrope sur le plan des panneaux, ombre portée en coupe 2-D. L'énergie applique le ratio de performance, qui regroupe pertes thermiques et pertes système. La version serveur utilise pvlib.",
+      gw_t: 'Si ce champ alimente une pompe : le garde-nappe',
+      gw_p: "Ces panneaux pourraient pomper {c} m³ d'eau par an, soit {x} fois ce que la culture demande ({n} m³). Le garde-nappe plafonne la pompe à {a} m³ : {b} m³ restent dans la nappe et {f} kWh restent disponibles pour d'autres usages.",
+      gw_ok: "Ce champ ne dépasse pas le besoin de la culture : pas de surpompage possible.",
+      gw_none: "Renseignez la page Eau & énergie (surface, hauteur de pompage) pour voir combien d'eau ce champ pourrait pomper et le plafond qui protège la nappe.",
+      gw_go: 'Voir le garde-nappe',
       sun_el: 'hauteur du soleil', sun_az: 'azimut', src: 'Rayonnement :', src_om: 'Open-Meteo (rayonnement de courte longueur d’onde)'
     },
     ar: {
@@ -34,6 +39,11 @@
       no_solar: 'الإشعاع الشمسي غير متاح لهذه القطعة: أعد بناء الملف في صفحة ذكاء الأرض.',
       crop_t: 'قراءة للزراعة', crop_p: 'لا تقارن غايا هذا الضوء بحاجة الزراعة ما دامت لا توجد بطاقة موثقة بمصادر عن تحمّل هذه الزراعة للظل.',
       method_t: 'المنهجية', method_p: 'موقع الشمس (ميل سبنسر والزاوية الساعية)، الجزء المنتشر اليومي حسب إربس انطلاقاً من مؤشر الصفاء، سماء متجانسة على مستوى الألواح، ظل في مقطع ثنائي الأبعاد. تطبّق الطاقة نسبة الأداء التي تجمع الخسائر الحرارية وخسائر المنظومة. تستعمل نسخة الخادم مكتبة pvlib.',
+      gw_t: 'إذا شغّل هذا الحقل مضخة: حارس المائدة المائية',
+      gw_p: 'يمكن لهذه الألواح ضخ {c} م³ من الماء سنوياً، أي {x} مرة ما تحتاجه الزراعة ({n} م³). يحدد الحارس سقف المضخة بـ {a} م³: يبقى {b} م³ في المائدة و{f} ك.و.س متاحة لاستعمالات أخرى.',
+      gw_ok: 'هذا الحقل لا يتجاوز حاجة الزراعة: لا ضخ مفرط ممكن.',
+      gw_none: 'أكمل صفحة الماء والطاقة (المساحة، ارتفاع الضخ) لترى كم يمكن لهذا الحقل أن يضخ والسقف الذي يحمي المائدة.',
+      gw_go: 'عرض حارس المائدة',
       sun_el: 'ارتفاع الشمس', sun_az: 'السمت', src: 'الإشعاع:', src_om: 'Open-Meteo (إشعاع الموجة القصيرة)'
     }
   });
@@ -71,7 +81,27 @@
     ]);
   }
 
-  var kpiBox, c1, c2, xs, xsCaption;
+  var kpiBox, c1, c2, xs, xsCaption, gwBox;
+
+  // Groundwater guard: what this array could pump if it drove the farm's well.
+  function drawGuard(kwp) {
+    if (!gwBox) return;
+    G.clear(gwBox);
+    var saved = G.load('gaia.nexus.inputs', null), v = saved && saved.parcelAt === dna.builtAt ? saved.values : null;
+    var N = window.GAIA_NEXUS, GG = window.GAIA_GUARD;
+    var nb = function (x) { var y = parseFloat(String(x).replace(',', '.')); return isNaN(y) ? null : y; };
+    var g = v && CM && N && GG ? GG.guard({ et0: CM.et0, rain: CM.rain, ghi: ghi, kc: nb(v.kc), months: v.months, area_ha: nb(v.area), ea: nb(v.ea),
+      head_m: nb(v.head), pump_eff: nb(v.pump_eff), pr: nb(v.pr), pv_kwp: kwp, safe_yield_m3_year: nb(v.safe_yield) }) : null;
+    gwBox.appendChild(el('h2', null, [t('gw_t')]));
+    if (!g || g.status === 'incomplete') { gwBox.appendChild(el('p', { class: 'small', style: 'margin-top:6px;color:var(--g-ink-2)' }, [t('gw_none')])); }
+    else {
+      var T = g.totals;
+      gwBox.appendChild(el('p', { class: 'small', style: 'margin-top:6px;color:var(--g-ink-2)' }, [T.blocked > 0 ? t('gw_p')
+        .replace('{c}', fmt(T.capacity)).replace('{x}', fmt(T.over_ratio, 1)).replace('{n}', fmt(T.need)).replace('{a}', fmt(T.allowed))
+        .replace('{b}', fmt(T.blocked)).replace('{f}', fmt(T.freed_kwh)) : t('gw_ok')]));
+    }
+    gwBox.appendChild(el('a', { class: 'gp-btn ghost', href: 'nexus.html', style: 'margin-top:10px' }, [t('gw_go')]));
+  }
   function geom() { return { lat: dna.location.lat, ghi: ghi, tilt: C.tilt, azimuth: C.azimuth, height: C.height, width: C.width, pitch: C.pitch, area_ha: C.area, density_wp_m2: C.density, pr: C.pr }; }
 
   function update() {
@@ -84,6 +114,7 @@
     G.barChart(c1, { labels: months, unit: 'kWh', title: t('c_energy'), series: [{ name: t('k_energy'), color: '#A88746', values: r.months.map(function (x) { return x ? x.energy_kwh : null; }) }] });
     G.barChart(c2, { labels: months, unit: '%', title: t('c_light'), series: [{ name: t('k_light'), color: '#7C9455', values: r.months.map(function (x) { return x ? x.lightShare * 100 : null; }) }] });
     drawSection();
+    drawGuard(r.kwp);
   }
 
   function drawSection() {
@@ -136,6 +167,7 @@
     var hourOut = el('output', { for: 'xs-h' }, [fmt(C.hour, 1) + ' h']);
     var hourIn = el('input', { id: 'xs-h', type: 'range', min: 5, max: 19, step: 0.25, value: C.hour, oninput: function (e) { C.hour = +e.target.value; hourOut.textContent = fmt(C.hour, 1) + ' h'; persist(); drawSection(); } });
 
+    gwBox = el('div', { class: 'gp-card', style: 'border:2px solid #2F5A75' });
     kpiBox = el('div', { class: 'kpis' }); c1 = el('div'); c2 = el('div'); xs = el('div', { class: 'xs-wrap' }); xsCaption = el('p', { class: 'small muted', style: 'margin-top:6px', 'aria-live': 'polite' });
 
     app.appendChild(el('div', { style: 'display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px' }, [G.pill('demo', t('sim_badge')), el('span', { class: 'small muted' }, [t('sim_note')])]));
@@ -154,6 +186,7 @@
       el('div', { class: 'gp-grid' }, [
         kpiBox,
         el('p', { class: 'insight' }, [t('insight_h')]),
+        gwBox,
         el('div', { class: 'gp-card' }, [
           el('h2', null, [t('xs_t')]), el('div', { style: 'margin-top:10px' }, [xs]), xsCaption,
           el('div', { class: 'xs-ctl' }, [el('label', { for: 'xs-m' }, [t('xs_month'), monthSel]), el('label', { for: 'xs-h' }, [t('xs_hour'), hourIn, hourOut])])

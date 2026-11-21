@@ -4,7 +4,7 @@ from pathlib import Path
 import pytest
 from fastapi.testclient import TestClient
 
-from gaia import engine, nexus
+from gaia import engine, guard, nexus
 from gaia.main import KB, app
 
 client = TestClient(app)
@@ -86,3 +86,63 @@ def test_feedback_appends(tmp_path, monkeypatch):
 def test_knowledge_endpoint():
     assert client.get("/knowledge/techniques").json()["count"] == 11
     assert all(r["origin"] == "jp" for r in client.get("/knowledge/techniques?origin=jp").json()["records"])
+
+
+# --- groundwater guard -------------------------------------------------------
+GUARDS = [dict(NEXUS), dict(NEXUS, pv_kwp=15, flow_m3_h=6), dict(NEXUS, safe_yield_m3_year=4000)]
+
+
+@pytest.fixture(scope="module")
+def js_guard():
+    if not shutil.which("node"):
+        pytest.skip("node not installed")
+    p = subprocess.run(["node", str(Path(__file__).with_name("js_ref.js"))],
+                       input=json.dumps({"profiles": [], "nexus": NEXUS, "guard": GUARDS}),
+                       capture_output=True, text=True, check=True)
+    return json.loads(p.stdout)["guard"]
+
+
+def test_guard_matches_js(js_guard):
+    for inp, ref in zip(GUARDS, js_guard):
+        py = guard.guard(**inp)
+        assert py["status"] == ref["status"]
+        for k in ("need", "capacity", "allowed", "blocked", "deficit", "freed_kwh", "share"):
+            assert py["totals"][k] == pytest.approx(ref["totals"][k])
+        for a, b in zip(py["months"], ref["months"]):
+            assert a["allowed_m3"] == pytest.approx(b["allowed_m3"])
+            assert (a["hours_per_day"] is None) == (b["hours_per_day"] is None)
+
+
+def test_guard_never_pumps_more_than_the_crop_needs():
+    res = guard.guard(**GUARDS[1])
+    for x in res["months"]:
+        assert x["allowed_m3"] <= x["need_m3"] + 1e-9
+        assert x["allowed_m3"] <= x["capacity_m3"] + 1e-9
+    assert res["totals"]["blocked"] > 0 and res["status"] == "guarded"
+    assert res["totals"]["over_ratio"] > 1
+
+
+def test_sized_array_matches_need_in_peak_month_and_over_pumps_elsewhere():
+    res = guard.guard(**NEXUS)
+    peak = res["nexus"]["solar"]["peak_month"]
+    assert res["months"][peak]["capacity_m3"] == pytest.approx(res["months"][peak]["need_m3"])
+    winter = res["months"][0]
+    assert winter["capacity_m3"] > winter["need_m3"]
+    assert res["totals"]["freed_kwh"] > 0
+
+
+def test_safe_yield_scales_every_month_down():
+    res = guard.guard(**GUARDS[2])
+    assert res["status"] == "aquifer_limited"
+    assert res["totals"]["allowed"] == pytest.approx(4000)
+    assert res["totals"]["deficit"] == pytest.approx(res["totals"]["need"] - 4000)
+
+
+def test_guard_endpoint_reports_missing_and_does_not_guess():
+    body = {k: v for k, v in NEXUS.items() if k != "head_m"}
+    res = client.post("/nexus/guard", json=body).json()
+    assert res["status"] == "incomplete"
+    assert set(res["missing"]) >= {"head", "pv"}
+    assert res["totals"] is None
+    ok_ = client.post("/nexus/guard", json=GUARDS[1]).json()
+    assert ok_["status"] == "guarded" and ok_["kwp_source"] == "installed"

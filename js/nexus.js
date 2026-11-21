@@ -1,11 +1,26 @@
 /* Water–Energy Nexus page (M4). Reads GAIA LAND DNA; calculations in nexus-core.js. */
 (function () {
   'use strict';
-  var G = window.GAIA, el = G.el, t = G.t, fmt = G.fmt, D = window.GAIA_DNA, N = window.GAIA_NEXUS;
+  var G = window.GAIA, el = G.el, t = G.t, fmt = G.fmt, D = window.GAIA_DNA, N = window.GAIA_NEXUS, GG = window.GAIA_GUARD;
 
   G.addStrings({
     fr: {
       n_title: 'Eau & énergie',
+      g_eyebrow: 'Garde-nappe · le nexus, pas une technologie isolée',
+      g_t: 'La pompe solaire s’arrête au besoin de la culture',
+      g_p: "Un champ solaire dimensionné sur le mois le plus chaud peut pomper bien plus que la culture n’en demande le reste de l’année, et chaque mètre cube en plus est presque gratuit. Le garde-nappe transforme le besoin FAO-56 en plafond de pompage, mois par mois, et plus bas encore si la nappe ou l’autorisation l’exige.",
+      g_cap: 'Ce que le soleil permettrait de pomper', g_need: 'Besoin de la culture', g_allowed: 'Plafond du garde-nappe', g_blocked: 'Pompage excessif évité', g_freed: 'Énergie solaire libérée',
+      g_peak: 'au plus {v} m³ par jour', g_ratio: 'le besoin', g_pct: 'de ce que la pompe pourrait tirer', g_freed_u: 'kWh/an pour le froid, la transformation ou les voisins',
+      g_st_guarded: 'Protégé : le plafond bloque le surpompage', g_st_aquifer_limited: 'Limité par la nappe : le plafond est sous le besoin', g_st_no_surplus: 'Pas de surplus : le champ solaire ne dépasse pas le besoin',
+      g_deficit: 'La ressource renouvelable ne couvre que {p} % du besoin. Il manque {v} m³/an : irrigation déficitaire, paillage, ombrage agrivoltaïque ou culture moins exigeante.',
+      g_chart: 'Ce que le soleil pourrait pomper, le besoin et le plafond, par mois',
+      g_ctl_t: 'Réglages du contrôleur de pompe', g_ctl_p: "À programmer dans le contrôleur avec un compteur d’eau : la pompe coupe dès que le volume du jour est atteint, même s’il reste du soleil.",
+      g_th_cap: 'Possible (m³)', g_th_allowed: 'Plafond (m³)', g_th_day: 'Plafond / jour (m³)', g_th_h: 'Heures max / jour', g_th_blocked: 'Évité (m³)',
+      g_in_t: 'Garde-nappe', g_in_kwp: 'Champ solaire installé (kWc)', g_in_kwp_h: 'Vide : la taille calculée ci-dessous ({k} kWc).',
+      g_in_sy: 'Volume renouvelable autorisé (m³/an)', g_in_sy_h: "Autorisation du CRDA ou part de la recharge de la nappe. Vide : seul le besoin de la culture fixe le plafond.",
+      g_in_flow: 'Débit de la pompe (m³/h)', g_in_flow_h: 'Pour limiter les heures de pompage par jour.',
+      g_miss: 'Pour activer le garde-nappe : surface, hauteur de pompage et rayonnement solaire.',
+      g_method: 'PV = kWc × jours × GHI × PR ; Possible = PV × 367 × ηp / H ; Plafond = min(Besoin × min(1, Renouvelable / ΣBesoin), Possible)',
       n_lead: "Combien d'eau la culture demande, combien d'énergie il faut pour la pomper, quel champ solaire la fournirait, et surtout combien ne pas dépasser.",
       principle: "Une énergie propre ne doit pas devenir une extraction d'eau illimitée.",
       principle_p: "Quand les panneaux sont payés, pomper un mètre cube de plus ne coûte presque rien. GAIA ne propose donc jamais un champ solaire sans le quota d'eau qui va avec.",
@@ -33,6 +48,21 @@
     },
     ar: {
       n_title: 'الماء والطاقة',
+      g_eyebrow: 'حارس المائدة المائية · ترابط الماء والطاقة وليس تقنية معزولة',
+      g_t: 'تتوقف المضخة الشمسية عند حاجة الزراعة',
+      g_p: 'حقل شمسي محسوب على أحرّ شهر يمكنه أن يضخ أكثر بكثير مما تحتاجه الزراعة بقية السنة، وكل متر مكعب إضافي شبه مجاني. يحوّل حارس المائدة المائية حاجة FAO-56 إلى سقف للضخ شهراً بشهر، وأقل من ذلك إذا فرضته المائدة أو الرخصة.',
+      g_cap: 'ما تسمح الشمس بضخه', g_need: 'حاجة الزراعة', g_allowed: 'سقف الحارس', g_blocked: 'ضخ مفرط تم تجنبه', g_freed: 'طاقة شمسية محررة',
+      g_peak: 'على الأكثر {v} م³ في اليوم', g_ratio: 'الحاجة', g_pct: 'مما يمكن للمضخة سحبه', g_freed_u: 'ك.و.س/سنة للتبريد أو التحويل أو الجيران',
+      g_st_guarded: 'محمي: السقف يمنع الضخ المفرط', g_st_aquifer_limited: 'محدود بالمائدة: السقف أقل من الحاجة', g_st_no_surplus: 'لا فائض: الحقل الشمسي لا يتجاوز الحاجة',
+      g_deficit: 'الموارد المتجددة تغطي {p} % فقط من الحاجة. ينقص {v} م³/سنة: ري ناقص، تغطية التربة، ظل الألواح أو زراعة أقل استهلاكاً.',
+      g_chart: 'ما يمكن للشمس ضخه، الحاجة والسقف، حسب الشهر',
+      g_ctl_t: 'إعدادات وحدة التحكم في المضخة', g_ctl_p: 'تُبرمج في وحدة التحكم مع عداد ماء: تتوقف المضخة حين يبلغ حجم اليوم حتى لو بقيت الشمس.',
+      g_th_cap: 'الممكن (م³)', g_th_allowed: 'السقف (م³)', g_th_day: 'السقف / يوم (م³)', g_th_h: 'أقصى ساعات / يوم', g_th_blocked: 'المتجنَّب (م³)',
+      g_in_t: 'حارس المائدة المائية', g_in_kwp: 'الحقل الشمسي المركب (ك.و.ذ)', g_in_kwp_h: 'فارغ: الحجم المحسوب أدناه ({k} ك.و.ذ).',
+      g_in_sy: 'الحجم المتجدد المرخص (م³/سنة)', g_in_sy_h: 'رخصة المندوبية الجهوية للفلاحة أو حصة تغذية المائدة. فارغ: حاجة الزراعة وحدها تحدد السقف.',
+      g_in_flow: 'تدفق المضخة (م³/س)', g_in_flow_h: 'لتحديد ساعات الضخ في اليوم.',
+      g_miss: 'لتفعيل الحارس: المساحة، ارتفاع الضخ والإشعاع الشمسي.',
+      g_method: 'PV = kWc × jours × GHI × PR ; Possible = PV × 367 × ηp / H ; Plafond = min(Besoin × min(1, Renouvelable / ΣBesoin), Possible)',
       n_lead: 'كم تحتاج الزراعة من الماء، وكم يلزم من الطاقة لضخه، وأي حقل شمسي يمكن أن يوفرها، والأهم: ما الكمية التي لا يجب تجاوزها.',
       principle: 'لا يجب أن تتحول الطاقة النظيفة إلى استخراج غير محدود للماء.',
       principle_p: 'حين تُسدَّد كلفة الألواح، يصبح ضخ متر مكعب إضافي شبه مجاني. لذلك لا تقترح غايا أبداً حقلاً شمسياً دون حصة الماء المرافقة له.',
@@ -72,7 +102,8 @@
     crop: cropKey, kc: N.CROPS[cropKey].kc, months: N.CROPS[cropKey].months.slice(),
     area: V('area_ha') || '', sys: 'drip', ea: N.EFFICIENCY.drip,
     head: V('water.well_depth_m') ? Math.round(V('water.well_depth_m') + 10) : '', pump_eff: 0.45, pr: 0.75,
-    diesel_tnd_l: '', diesel_kwh_l: '', grid_tnd_kwh: '', pv_tnd_kwp: '', pv_life_y: 20
+    diesel_tnd_l: '', diesel_kwh_l: '', grid_tnd_kwh: '', pv_tnd_kwp: '', pv_life_y: 20,
+    pv_kwp: '', safe_yield: '', flow: ''
   }, saved && saved.parcelAt === dna.builtAt ? saved.values : {});
 
   var CM = dna.climateMonthly, SM = dna.solarMonthly;
@@ -118,6 +149,13 @@
       field('nx-head', 'in_head', S.head, function (v) { S.head = num(v); }, 'in_head_h'),
       field('nx-pe', 'in_pump', S.pump_eff, function (v) { S.pump_eff = num(v); }, 'assumption', { min: 0.1, max: 0.9 }),
       field('nx-pr', 'in_pr', S.pr, function (v) { S.pr = num(v); }, 'assumption', { min: 0.3, max: 1 }),
+      el('div', { class: 'nx-guard-in' }, [
+        el('h3', null, [t('g_in_t')]),
+        field('nx-g1', 'g_in_kwp', S.pv_kwp, function (v) { S.pv_kwp = num(v); }),
+        kwpHint = el('span', { class: 'assump' }),
+        field('nx-g2', 'g_in_sy', S.safe_yield, function (v) { S.safe_yield = num(v); }, 'g_in_sy_h'),
+        field('nx-g3', 'g_in_flow', S.flow, function (v) { S.flow = num(v); }, 'g_in_flow_h')
+      ]),
       el('details', { class: 'gp-more' }, [
         el('summary', null, [t('in_prices')]),
         el('p', { class: 'hint small muted' }, [t('in_prices_h')]),
@@ -130,7 +168,55 @@
     ]);
   }
 
-  var out;
+  var out, kwpHint;
+  function guardCard(r, months) {
+    var g = GG.guard({ ghi: ghi, head_m: num(S.head), pump_eff: num(S.pump_eff), pr: num(S.pr), area_ha: num(S.area),
+      pv_kwp: num(S.pv_kwp), safe_yield_m3_year: num(S.safe_yield), flow_m3_h: num(S.flow) }, r);
+    if (kwpHint) kwpHint.textContent = t('g_in_kwp_h').replace('{k}', r.solar ? fmt(r.solar.kwp, 1) : '—');
+    var head = [el('p', { class: 'eyebrow', style: 'margin:0' }, [t('g_eyebrow')]), el('h2', null, [t('g_t')]),
+      el('p', { class: 'small', style: 'margin-top:6px;color:var(--g-ink-2);max-width:80ch' }, [t('g_p')])];
+    if (g.status === 'incomplete') return el('div', { class: 'gp-card guard' }, head.concat([G.note('info', t('g_miss'))]));
+    var T = g.totals;
+    var kind = g.status === 'aquifer_limited' ? 'adapt' : 'ok';
+    var tiles = [
+      ['g_cap', fmt(T.capacity) + ' m³', fmt(T.over_ratio, 1) + ' × ' + t('g_ratio'), 'cap'],
+      ['g_need', fmt(T.need) + ' m³', 'FAO-56 · ' + t('per_year'), 'need'],
+      ['g_allowed', fmt(T.allowed) + ' m³', t('g_peak').replace('{v}', fmt(T.peak_daily_m3)), 'allowed'],
+      ['g_blocked', fmt(T.blocked) + ' m³', fmt(T.blocked_pct * 100) + ' % ' + t('g_pct'), 'blocked'],
+      ['g_freed', fmt(T.freed_kwh) + ' kWh', t('g_freed_u'), 'freed']
+    ];
+    var chart = el('div');
+    var body = head.concat([
+      el('div', { style: 'margin-top:10px' }, [G.pill(kind, t('g_st_' + g.status))]),
+      el('div', { class: 'flow', style: 'margin-top:12px' }, tiles.map(function (k) {
+        return el('div', { class: 'fbox g-' + k[3] }, [el('b', null, [t(k[0])]), el('div', { class: 'v' }, [k[1]]), el('span', { class: 'u' }, [k[2]])]);
+      })),
+      T.share < 1 ? el('div', { style: 'margin-top:12px' }, [G.note('warn', t('g_deficit').replace('{p}', fmt(T.share * 100)).replace('{v}', fmt(T.deficit)))]) : null,
+      el('h3', { style: 'margin-top:16px' }, [t('g_chart')]), chart,
+      el('h3', { style: 'margin-top:16px' }, [t('g_ctl_t')]),
+      el('p', { class: 'small', style: 'margin-top:4px;color:var(--g-ink-2)' }, [t('g_ctl_p')]),
+      el('div', { class: 'gp-table-wrap', style: 'margin-top:8px' }, [el('table', { class: 'gp-table' }, [
+        el('thead', null, [el('tr', null, [el('th', null, [t('th_month')]), el('th', { class: 'num' }, [t('g_th_cap')]), el('th', { class: 'num' }, [t('g_th_allowed')]),
+          el('th', { class: 'num' }, [t('g_th_day')]), el('th', { class: 'num' }, [t('g_th_h')]), el('th', { class: 'num' }, [t('g_th_blocked')])])]),
+        el('tbody', null, g.months.map(function (x) {
+          return el('tr', null, [el('td', null, [months[x.m]]), el('td', { class: 'num' }, [fmt(x.capacity_m3)]), el('td', { class: 'num' }, [el('b', null, [fmt(x.allowed_m3)])]),
+            el('td', { class: 'num' }, [fmt(x.daily_cap_m3, 1)]), el('td', { class: 'num' }, [x.hours_per_day === null ? '—' : fmt(x.hours_per_day, 1)]), el('td', { class: 'num' }, [fmt(x.blocked_m3)])]);
+        }))
+      ])]),
+      el('div', { class: 'formula', style: 'margin-top:10px' }, [t('g_method')]),
+      el('p', { class: 'assump', style: 'margin-top:6px' }, [t('sim') + ' · ' + (g.kwp_source === 'installed' ? t('g_in_kwp') : t('solar_t')) + ' : ' + fmt(g.kwp, 1) + ' kWc'])
+    ]);
+    var card = el('div', { class: 'gp-card guard' }, body);
+    setTimeout(function () {
+      G.barChart(chart, { labels: months, unit: 'm³', title: t('g_chart'), series: [
+        { name: t('g_cap'), color: '#C9B173', values: g.months.map(function (x) { return x.capacity_m3; }) },
+        { name: t('g_need'), color: '#7C9455', values: g.months.map(function (x) { return x.need_m3; }) },
+        { name: t('g_allowed'), color: '#2F5A75', values: g.months.map(function (x) { return x.allowed_m3; }) }
+      ] });
+    }, 0);
+    return card;
+  }
+
   function draw() {
     if (!out) return;
     G.clear(out);
@@ -152,6 +238,7 @@
       el('div', { class: 'fbox quota' }, [el('b', null, [t('f_quota')]), el('div', { class: 'v' }, [volTxt]), el('span', { class: 'u' }, [hasArea ? t('per_year') : t('per_ha') + ' · ' + t('per_year')])])
     ]));
     out.appendChild(el('p', { class: 'assump', style: 'margin-top:6px' }, [t('sim')]));
+    out.appendChild(guardCard(r, months));
 
     if (r.missing.length) {
       out.appendChild(el('div', { class: 'gp-note', style: 'margin-top:14px' }, [G.icon('info'), el('div', null, [el('b', null, [t('miss_t')]),
@@ -217,6 +304,7 @@
     G.clear(app);
     app.appendChild(el('div', { class: 'gp-principle', style: 'margin-bottom:8px' }, [t('principle')]));
     app.appendChild(el('p', { class: 'small', style: 'margin:0 0 18px;color:var(--g-ink-2);max-width:80ch' }, [t('principle_p')]));
+    persist();
     out = el('div', { 'aria-live': 'polite' });
     app.appendChild(el('div', { class: 'nx' }, [inputs(), out]));
     draw();

@@ -16,7 +16,7 @@ from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
-from . import engine, nexus, solar
+from . import engine, guard, nexus, solar
 
 DATA = Path(__file__).resolve().parent.parent / "data"
 KB = json.loads((DATA / "knowledge.json").read_text(encoding="utf-8"))
@@ -80,6 +80,18 @@ class NexusIn(BaseModel):
 @app.post("/nexus/calculate")
 def nexus_calculate(body: NexusIn) -> dict:
     return nexus.compute(**body.model_dump())
+
+
+class GuardIn(NexusIn):
+    pv_kwp: Optional[float] = Field(None, description="installed solar driving the pump; default: the size the nexus computes")
+    safe_yield_m3_year: Optional[float] = Field(None, description="permit, or the farm's share of aquifer recharge")
+    flow_m3_h: Optional[float] = Field(None, description="pump flow at the working head, for daily run-time limits")
+
+
+@app.post("/nexus/guard")
+def nexus_guard(body: GuardIn) -> dict:
+    """Groundwater guard: cap solar pumping at the crop need (and the safe yield when given)."""
+    return guard.guard(**body.model_dump())
 
 
 class SolarIn(BaseModel):
