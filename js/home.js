@@ -382,10 +382,72 @@
     ]);
   }
 
+  /* ---------------------------------------------------------- start here: three steps in plain words */
+  G.addStrings({
+    fr: { sh_title: 'Commencer en 3 étapes', sh_lead: 'Pas besoin de tout connaître. Suivez les étapes dans l\'ordre.', sh_listen: 'Écouter',
+      s1_t: 'Choisir ma terre', s1_p: 'Touchez la carte ou tapez le nom de votre village.',
+      s2_t: 'Voir ce qui marche chez moi', s2_p: 'GAIA dit oui, à adapter ou non pour chaque technique, et pourquoi.',
+      s3_t: 'Savoir combien arroser', s3_p: 'L\'eau qu\'il faut et la pompe solaire qui suffit, sans vider la nappe.',
+      sh_done: 'Fait', sh_go: 'Commencer', sh_next: 'Continuer', sh_help: 'Besoin d\'aide tout de suite ?',
+      h_leaf: 'Une plante malade : prendre une photo', h_ask: 'Poser une question', h_sell: 'Vendre ma récolte', h_access: 'Texte plus grand, lecture à voix haute' },
+    ar: { sh_title: 'ابدأ في 3 خطوات', sh_lead: 'لا حاجة لمعرفة كل شيء. اتبع الخطوات بالترتيب.', sh_listen: 'استمع',
+      s1_t: 'اختر أرضك', s1_p: 'المس الخريطة أو اكتب اسم قريتك.',
+      s2_t: 'اعرف ما ينجح في أرضك', s2_p: 'يقول غايا لكل تقنية: نعم، أو تحتاج تعديلًا، أو لا، ولماذا.',
+      s3_t: 'اعرف كم تسقي', s3_p: 'الماء اللازم والمضخة الشمسية الكافية، دون استنزاف المائدة المائية.',
+      sh_done: 'تمّ', sh_go: 'ابدأ', sh_next: 'تابع', sh_help: 'تحتاج مساعدة الآن؟',
+      h_leaf: 'نبتة مريضة: التقط صورة', h_ask: 'اطرح سؤالًا', h_sell: 'بِع محصولك', h_access: 'كتابة أكبر وقراءة بصوت عالٍ' },
+    en: { sh_title: 'Start in 3 steps', sh_lead: 'You do not need to know everything. Follow the steps in order.', sh_listen: 'Listen',
+      s1_t: 'Choose my land', s1_p: 'Tap the map or type the name of your village.',
+      s2_t: 'See what works on my land', s2_p: 'GAIA says yes, adapt or no for each method, and why.',
+      s3_t: 'Know how much to water', s3_p: 'The water you need and a solar pump that is enough, without draining the groundwater.',
+      sh_done: 'Done', sh_go: 'Start', sh_next: 'Continue', sh_help: 'Need help right now?',
+      h_leaf: 'A sick plant: take a photo', h_ask: 'Ask a question', h_sell: 'Sell my crop', h_access: 'Bigger text, read aloud' },
+    ja: { sh_title: '3つのステップで始める', sh_lead: 'すべてを知る必要はありません。順番に進めてください。', sh_listen: '聞く',
+      s1_t: '土地を選ぶ', s1_p: '地図をタップするか、村の名前を入力します。',
+      s2_t: '自分の土地に合うものを見る', s2_p: '各方法について「可・要調整・不可」とその理由を示します。',
+      s3_t: '水やりの量を知る', s3_p: '必要な水と十分なソーラーポンプ。地下水を使い過ぎません。',
+      sh_done: '完了', sh_go: '始める', sh_next: '次へ', sh_help: 'すぐに助けが必要ですか？',
+      h_leaf: '植物の病気：写真を撮る', h_ask: '質問する', h_sell: '作物を売る', h_access: '大きい文字・読み上げ' }
+  });
+  function startHere() {
+    var p = G.getParcel(), has = !!(p && p.lat !== undefined);
+    var steps = [['pin', 'land.html', 's1'], ['ok', 'engine.html', 's2'], ['drop', 'nexus.html', 's3']];
+    var nextIdx = has ? 1 : 0;
+    var sec = el('section', { class: 'sec start', 'aria-labelledby': 'h-start' });
+    var head = el('div', { class: 'start-hd' }, [
+      el('div', null, [el('h2', { id: 'h-start' }, [t('sh_title')]), el('p', { class: 'lead' }, [t('sh_lead')])])
+    ]);
+    if (window.speechSynthesis) head.appendChild(el('button', { type: 'button', class: 'gp-btn ghost start-listen', onclick: function () {
+      if (window.GAIA_A11Y) window.GAIA_A11Y.speak(sec);
+    } }, [svgSpeaker(), t('sh_listen')]));
+    sec.appendChild(head);
+    sec.appendChild(el('ol', { class: 'steps' }, steps.map(function (s, i) {
+      var done = i === 0 && has, next = i === nextIdx;
+      return el('li', { class: 'step' + (done ? ' done' : '') + (next ? ' next' : '') }, [
+        el('a', { href: s[1], 'aria-describedby': 'st-' + i }, [
+          el('span', { class: 'num', 'aria-hidden': 'true' }, [String(i + 1)]),
+          el('span', { class: 'ic' }, [G.icon(done ? 'ok' : s[0], 30)]),
+          el('span', { class: 'tx' }, [
+            el('b', null, [el('span', { class: 'sr' }, [(i + 1) + '. ']), t(s[2] + '_t')]),
+            el('small', { id: 'st-' + i }, [t(s[2] + '_p')])
+          ]),
+          el('span', { class: 'go' }, [done ? t('sh_done') : (next ? (i ? t('sh_next') : t('sh_go')) : '')])
+        ])
+      ]);
+    })));
+    var quick = [['leaf', 'health.html', 'h_leaf'], ['chat', 'lab.html', 'h_ask'], ['cash', 'market.html', 'h_sell']];
+    sec.appendChild(el('div', { class: 'quick' }, [el('h3', null, [t('sh_help')]), el('ul', { role: 'list' }, quick.map(function (q) {
+      return el('li', null, [el('a', { href: q[1] }, [G.icon(q[0], 22), t(q[2])])]);
+    }).concat([el('li', null, [el('button', { type: 'button', onclick: function () { if (window.GAIA_A11Y) window.GAIA_A11Y.open(); } }, [svgAccess(), t('h_access')])])]))]));
+    return sec;
+  }
+  function svgSpeaker() { var n = G.icon('info', 22); n.innerHTML = '<path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/>'; return n; }
+  function svgAccess() { var n = G.icon('info', 22); n.innerHTML = '<circle cx="12" cy="4.5" r="2"/><path d="M4 8.5l8 1.5 8-1.5M12 10v4.5M8.5 21l3.5-6.5 3.5 6.5"/>'; return n; }
+
   function render() {
     drawMap();
     var box = G.clear(document.getElementById('sections'));
-    [dnaPreview(), modules(), bridge(), concepts(), status()].forEach(function (n) { box.appendChild(n); });
+    [startHere(), dnaPreview(), modules(), bridge(), concepts(), status()].forEach(function (n) { box.appendChild(n); });
   }
   render();
   G.onLang(render);

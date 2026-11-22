@@ -17,7 +17,7 @@
   .chip[aria-pressed="true"] { background: var(--g-forest); color: var(--g-ivory); border-color: var(--g-forest); }
   .rec { display: flex; flex-direction: column; gap: 10px; text-align: start; cursor: pointer; border: 1px solid var(--g-line); background: var(--g-paper); border-radius: var(--g-r); padding: 18px; font: inherit; color: inherit; transition: transform .2s, box-shadow .2s; }
   .rec:hover { transform: translateY(-3px); box-shadow: var(--g-shadow); }
-  .rec h3 { font-size: 19px; }
+  .rec h2, .rec h3 { font-size: 19px; }
   .rec .fam { display: flex; flex-wrap: wrap; gap: 6px; }
   .rec .fam span { font-size: 12px; background: var(--g-sage-soft); color: var(--g-forest); border-radius: 999px; padding: 2px 9px; }
   .kv { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 8px 16px; font-size: 14.5px; margin-top: 16px; }
@@ -25,6 +25,7 @@
   .kv dd { margin: 0; color: var(--g-ink-2); }
   @media (max-width: 620px) { .kv { grid-template-columns: 1fr; } }
 </style>
+<script src="js/a11y.js" defer></script>
 </head>
 <body class="gp">
 <main id="main" class="wrap">
@@ -95,7 +96,7 @@
     list.forEach(function (r) {
       grid.appendChild(el('button', { type: 'button', class: 'rec', onclick: function () { open(r); } }, [
         el('span', { class: 'origin ' + r.origin }, [el('i', { class: 'dot' }), t(r.origin === 'jp' ? 'origin_jp' : 'origin_tn')]),
-        el('h3', null, [name(r), r.jp ? el('span', { class: 'jp', lang: 'ja', style: 'color:var(--g-gold);font-size:14px;margin-inline-start:8px' }, [r.jp]) : null]),
+        el('h2', null, [name(r), r.jp ? el('span', { class: 'jp', lang: 'ja', style: 'color:var(--g-gold-ink);font-size:14px;margin-inline-start:8px' }, [r.jp]) : null]),
         el('p', { class: 'small', style: 'color:var(--g-ink-2)' }, [r.summary]),
         el('div', { class: 'fam' }, r.families.map(function (f) { return el('span', null, [KB.families[f][G.lang()] || KB.families[f].fr]); })),
         el('div', null, [G.pill('demo', t('draft'))])

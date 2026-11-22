@@ -22,7 +22,7 @@
   /* Ink — contrast-checked against --cream */
   --ink: #2C3A2E;
   --ink-soft: #6E4E35;
-  --ink-mute: #7C6A54;
+  --ink-mute: #736049;
 
   /* Type */
   --display: "Fraunces", "Iowan Old Style", Georgia, serif;
@@ -1600,3 +1600,4 @@ section { padding-block: var(--section); position: relative; }
 }
 .hero .btn-primary { background: var(--butter); color: #2E2609; }
 .hero .btn-primary:hover { background: #F8E39A; color: #2E2609; }
+.footer .jp { color: #CBD3AE; }

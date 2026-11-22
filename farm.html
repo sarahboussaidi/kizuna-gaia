@@ -36,6 +36,7 @@
   .fd-kpi.water { border-top-color: #2F5A75; } .fd-kpi.energy { border-top-color: #A88746; }
   .fd-kpi.money { border-top-color: var(--g-forest); } .fd-kpi.co2 { border-top-color: var(--g-sage); }
   .fd-kpi.spared { border-top-color: #9CB7C9; background: var(--s-adapt-bg); }
+  .fd-kpi.spared .lab { color: var(--g-ink-2); }
   .fd-meter { position: relative; display: block; height: 10px; border-radius: 999px; background: var(--g-ivory); border: 1px solid var(--g-line); overflow: hidden; margin: 4px 0 2px; }
   .fd-meter .fill { position: absolute; inset-block: 0; inset-inline-start: 0; background: #2F5A75; border-radius: 999px; }
   .fd-meter .fill.near { background: var(--g-gold); }
@@ -67,6 +68,7 @@
   @media (max-width: 480px) { .fd-set { grid-template-columns: 1fr; } }
   .fd-set .gp-field { margin-top: 10px; }
 </style>
+<script src="js/a11y.js" defer></script>
 </head>
 <body class="gp">
 <main id="main" class="wrap">

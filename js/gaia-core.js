@@ -358,6 +358,11 @@
     pause: '<path d="M8 5v14M16 5v14"/>',
     chart: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
     star: '<path d="M12 3l2.7 5.8 6.3.8-4.6 4.3 1.2 6.2-5.6-3.1-5.6 3.1 1.2-6.2L3 9.6l6.3-.8z"/>',
+    home: '<path d="M3 11l9-7 9 7"/><path d="M5 10v10h5v-6h4v6h5V10"/>',
+    book: '<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5M8 7h7"/>',
+    chat: '<path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/>',
+    menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
+    close: '<path d="M6 6l12 12M18 6L6 18"/>',
     network: '<circle cx="5" cy="7" r="2"/><circle cx="5" cy="17" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="7" r="2"/><circle cx="19" cy="17" r="2"/><path d="M7 7.8l3.2 3M7 16.2l3.2-3M13.8 11l3.4-3.2M13.8 13l3.4 3.2"/>'
   };
   function icon(name, size) {
@@ -408,7 +413,58 @@
     }
   }
 
+  // the phone menu: every module with an icon and one plain line saying what it is for
+  var NAV_ICON = { home: 'home', land: 'pin', engine: 'ok', lab: 'chat', agent: 'network', health: 'leaf', nexus: 'drop', farm: 'chart', market: 'cash', biz: 'card', agv: 'sun', lib: 'book' };
+  addStrings({
+    fr: { menu: 'Menu', menu_title: 'Que voulez-vous faire ?', menu_close: 'Fermer le menu',
+      nd_home: 'Revenir au début', nd_land: 'Choisir mon terrain sur la carte', nd_engine: 'Voir quelles techniques marchent chez moi',
+      nd_lab: 'Poser une question et avoir une réponse', nd_agent: 'Un assistant prépare mon plan de travail', nd_health: 'Photographier une feuille malade',
+      nd_nexus: 'Combien d\'eau, quelle pompe solaire', nd_farm: 'Suivre l\'eau et l\'énergie de ma ferme', nd_market: 'Vendre ma récolte au bon prix',
+      nd_biz: 'Coûts, revenus et aides', nd_agv: 'Panneaux solaires au-dessus des cultures', nd_lib: 'Fiches pratiques et sources' },
+    ar: { menu: 'القائمة', menu_title: 'ماذا تريد أن تفعل؟', menu_close: 'إغلاق القائمة',
+      nd_home: 'العودة إلى البداية', nd_land: 'اختر أرضك على الخريطة', nd_engine: 'اعرف التقنيات التي تنجح في أرضك',
+      nd_lab: 'اطرح سؤالًا واحصل على جواب', nd_agent: 'مساعد يحضّر لك خطة العمل', nd_health: 'صوّر ورقة مريضة',
+      nd_nexus: 'كم من الماء، وأي مضخة شمسية', nd_farm: 'تابع الماء والطاقة في مزرعتك', nd_market: 'بِع محصولك بسعر جيد',
+      nd_biz: 'التكاليف والمداخيل والمساعدات', nd_agv: 'ألواح شمسية فوق المزروعات', nd_lib: 'بطاقات عملية ومصادر' },
+    en: { menu: 'Menu', menu_title: 'What do you want to do?', menu_close: 'Close the menu',
+      nd_home: 'Go back to the start', nd_land: 'Pick my land on the map', nd_engine: 'See which methods work on my land',
+      nd_lab: 'Ask a question, get an answer', nd_agent: 'An assistant prepares my work plan', nd_health: 'Take a photo of a sick leaf',
+      nd_nexus: 'How much water, which solar pump', nd_farm: 'Follow my farm\'s water and energy', nd_market: 'Sell my crop at a fair price',
+      nd_biz: 'Costs, income and support', nd_agv: 'Solar panels above the crops', nd_lib: 'Practical guides and sources' },
+    ja: { menu: 'メニュー', menu_title: '何をしますか？', menu_close: 'メニューを閉じる',
+      nd_home: '最初に戻る', nd_land: '地図で自分の土地を選ぶ', nd_engine: '自分の土地に合う方法を見る',
+      nd_lab: '質問して答えをもらう', nd_agent: 'アシスタントが作業計画を作る', nd_health: '病気の葉を撮影する',
+      nd_nexus: '必要な水とソーラーポンプ', nd_farm: '農場の水とエネルギーを記録', nd_market: '作物を適正価格で売る',
+      nd_biz: '費用・収入・支援', nd_agv: '作物の上の太陽光パネル', nd_lib: '実用ガイドと出典' }
+  });
+  addStrings({ fr: { chart_table: 'Voir les chiffres' }, ar: { chart_table: 'عرض الأرقام' }, en: { chart_table: 'Show the numbers' }, ja: { chart_table: '数値を見る' } });
+  function navMenu(current) {
+    var dlg = el('dialog', { class: 'gp-menu', 'aria-labelledby': 'gp-menu-h' });
+    function fill() {
+      clear(dlg);
+      dlg.appendChild(el('div', { class: 'gp-menu-hd' }, [
+        el('h2', { id: 'gp-menu-h' }, [t('menu_title')]),
+        el('button', { type: 'button', class: 'gp-menu-x', 'aria-label': t('menu_close'), onclick: function () { dlg.close(); } }, [icon('close', 26)])
+      ]));
+      dlg.appendChild(el('ul', { class: 'gp-menu-grid', role: 'list' }, NAV.map(function (n) {
+        return el('li', null, [el('a', { href: n[1], 'aria-current': n[0] === current ? 'page' : null }, [
+          el('span', { class: 'ic' }, [icon(NAV_ICON[n[0]] || 'info', 28)]),
+          el('span', { class: 'tx' }, [el('b', null, [t(n[2])]), el('small', null, [t('nd_' + n[0])])])
+        ])]);
+      })));
+    }
+    dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
+    var btn = el('button', { type: 'button', class: 'gp-menu-btn', 'aria-haspopup': 'dialog', onclick: function () {
+      fill(); if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', '');
+      var a = dlg.querySelector('[aria-current]') || dlg.querySelector('a'); if (a) a.focus();
+    } }, [icon('menu', 24), el('span', { 'data-i18n': 'menu' })]);
+    onLang(function () { if (dlg.open) fill(); });
+    return { btn: btn, dlg: dlg };
+  }
+  function onLang(fn) { langListeners.push(fn); }
+
   function mountShell(current) {
+    var menu = navMenu(current);
     var header = el('header', { class: 'gp-top' }, [
       el('div', { class: 'wrap gp-top-in' }, [
         el('a', { class: 'gp-brand', href: 'index.html', 'aria-label': 'GAIA' }, [
@@ -418,6 +474,7 @@
         el('nav', { class: 'gp-nav', 'aria-label': 'GAIA' }, NAV.map(function (n) {
           return el('a', { href: n[1], 'data-i18n': n[2], 'aria-current': n[0] === current ? 'page' : null });
         })),
+        menu.btn,
         el('div', { class: 'gp-tools' }, [
           el('div', { id: 'gp-account', class: 'gp-account' }),
           el('a', { id: 'gp-parcel', class: 'gp-parcel', href: 'land.html' }),
@@ -433,6 +490,7 @@
     var skip = el('a', { class: 'gp-skip', href: '#main', 'data-i18n': 'skip' });
     document.body.insertBefore(header, document.body.firstChild);
     document.body.insertBefore(skip, document.body.firstChild);
+    document.body.appendChild(menu.dlg);
 
     var foot = el('footer', { class: 'gp-foot' }, [
       el('div', { class: 'wrap gp-foot-in' }, [
@@ -449,10 +507,10 @@
 
   /* ---------------------------------------------------------- tooltips */
   var tip;
-  function bindTip(node, text) {
-    if (!tip) { tip = el('div', { class: 'gp-tip', role: 'tooltip' }); document.body.appendChild(tip); }
-    node.setAttribute('tabindex', '0');
-    node.setAttribute('aria-label', text);
+  // quiet: mouse-only tip (the same numbers are in the chart's table for keyboard and screen readers)
+  function bindTip(node, text, quiet) {
+    if (!tip) { tip = el('div', { class: 'gp-tip', 'aria-hidden': 'true' }); document.body.appendChild(tip); }
+    if (!quiet) { node.setAttribute('tabindex', '0'); node.setAttribute('aria-label', text); }
     function show(e) {
       tip.textContent = text; tip.style.opacity = '1';
       var r = node.getBoundingClientRect();
@@ -499,7 +557,7 @@
         r.setAttribute('x', x0 + j * (bw + gap)); r.setAttribute('y', y); r.setAttribute('width', bw); r.setAttribute('height', Math.max(h, 0.5));
         r.setAttribute('rx', '3'); r.setAttribute('fill', s.color);
         svg.appendChild(r);
-        bindTip(r, lab + ' · ' + s.name + ' : ' + fmt(v, opts.digits || 0) + ' ' + (opts.unit || ''));
+        bindTip(r, lab + ' · ' + s.name + ' : ' + fmt(v, opts.digits || 0) + ' ' + (opts.unit || ''), true);
       });
       var lt = document.createElementNS(svgNS, 'text');
       lt.setAttribute('x', L + i * slot + slot / 2); lt.setAttribute('y', H - 12); lt.setAttribute('text-anchor', 'middle');
@@ -514,6 +572,21 @@
         var i = el('i'); i.style.background = s.color; return el('span', null, [i, s.name]);
       })));
     }
+    // the same numbers as a table: for screen readers, keyboards, and anyone who prefers figures to bars
+    container.appendChild(el('details', { class: 'gp-chart-data' }, [
+      el('summary', null, [t('chart_table')]),
+      el('div', { class: 'gp-chart-scroll', tabindex: '0', role: 'region', 'aria-label': (opts.title || '') + ' · ' + t('chart_table') }, [
+        el('table', null, [
+          el('caption', { class: 'sr' }, [(opts.title || '') + (opts.unit ? ' (' + opts.unit + ')' : '')]),
+          el('thead', null, [el('tr', null, [el('th', { scope: 'col' }, [opts.unit || ''])].concat(series.map(function (s) { return el('th', { scope: 'col' }, [s.name]); })))]),
+          el('tbody', null, labels.map(function (lab, i) {
+            return el('tr', null, [el('th', { scope: 'row' }, [lab])].concat(series.map(function (s) {
+              var v = s.values[i]; return el('td', null, [v === null || v === undefined || isNaN(v) ? '—' : fmt(v, opts.digits || 0)]);
+            })));
+          }))
+        ])
+      ])
+    ]));
   }
   function niceStep(raw) {
     var p = Math.pow(10, Math.floor(Math.log10(raw || 1))), f = raw / p;
