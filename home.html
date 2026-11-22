@@ -29,7 +29,7 @@
   .hero .cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
   .hero .gp-btn.primary { background: #D8BE7E; color: #17241C; }
   .hero .gp-btn.primary:hover { background: #E6D09A; }
-  .hero .gp-btn.ghost { color: #EEF0E6; border-color: rgba(238, 240, 230, 0.35); }
+  .hero .gp-btn.ghost { color: #EEF0E6; border-color: rgba(238, 240, 230, 0.55); background: rgba(255, 255, 255, 0.06); }
   .hero .gp-btn.ghost:hover { background: rgba(255, 255, 255, 0.06); }
   .hero .principle { margin-top: 30px; font-size: 13.5px; color: #9FAA97; border-inline-start: 2px solid #D8BE7E; padding-inline-start: 12px; max-width: 52ch; }
   .tn-map { position: relative; }
@@ -71,7 +71,32 @@
   .bridge .gp-card p { font-size: 14px; color: var(--g-ink-2); margin-top: 6px; }
   .bridge .arrow { align-self: center; font-size: 26px; color: var(--g-gold); }
   .status { margin-top: 22px; }
+  /* start here: three big steps, plain words, one icon each */
+  .start { padding-top: 44px; }
+  .start-hd { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px; }
+  .start-listen { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; }
+  .steps { list-style: none; margin: 20px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; counter-reset: none; }
+  @media (max-width: 860px) { .steps { grid-template-columns: 1fr; } }
+  .step a { position: relative; display: grid; grid-template-columns: auto 1fr; grid-template-areas: "ic tx" "ic go"; gap: 4px 16px; align-items: center; height: 100%; min-height: 112px; padding: 18px 18px 16px; border-radius: var(--g-r); border: 2px solid var(--g-line-2); background: var(--g-paper); color: var(--g-ink); text-decoration: none; }
+  .step a:hover { border-color: var(--g-forest); }
+  .step .num { position: absolute; inset-inline-end: 14px; top: 8px; font: 700 34px/1 var(--g-display); color: var(--g-sand); }
+  .step .ic { grid-area: ic; width: 60px; height: 60px; display: grid; place-items: center; border-radius: 16px; background: var(--g-sage-soft); color: var(--g-forest); }
+  .step .tx { grid-area: tx; padding-inline-end: 30px; }
+  .step .tx b { display: block; font-size: 19px; color: var(--g-forest); line-height: 1.25; }
+  .step .tx small { display: block; margin-top: 4px; font-size: 15.5px; line-height: 1.45; color: var(--g-ink-2); }
+  .step .go { grid-area: go; font-weight: 700; color: var(--g-forest); font-size: 15px; }
+  .step.next a { border-color: var(--g-forest); box-shadow: 0 0 0 3px rgba(31, 58, 43, 0.14); }
+  .step.next .ic { background: var(--g-forest); color: #F3DFA8; }
+  .step.done .ic { background: var(--s-ok-bg); color: var(--s-ok); }
+  .step.done .go { color: var(--s-ok); }
+  .quick { margin-top: 18px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; }
+  .quick h3 { font-size: 17px; font-family: var(--g-sans); }
+  .quick ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .quick a, .quick button { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 0 16px; border-radius: 999px; border: 1.5px solid var(--g-line-2); background: var(--g-paper); color: var(--g-forest); font: 600 15.5px var(--g-sans); text-decoration: none; cursor: pointer; }
+  body.gp[dir="rtl"] .quick a, body.gp[dir="rtl"] .quick button, body.gp[dir="rtl"] .quick h3 { font-family: var(--g-ar); }
+  .quick a:hover, .quick button:hover { border-color: var(--g-forest); }
 </style>
+<script src="js/a11y.js" defer></script>
 </head>
 <body class="gp">
 <main id="main">

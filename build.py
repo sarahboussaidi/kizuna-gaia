@@ -117,6 +117,7 @@ HEAD = u'''<!doctype html>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="{fonts}" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<script src="js/a11y.js" defer></script>
 </head>
 <body class="paper-noise">
 
@@ -400,7 +401,7 @@ LANDSCAPES = u'''<section class="tint-ivory">
 def scenes():
     out = []
     for key, href, num, kan, label, hook in CHAPTERS:
-        out.append(u'''      <div class="scene">
+        out.append(u'''      <div class="scene" role="listitem">
         <a href="%s">
           <span class="row"><span class="k" lang="ja" aria-hidden="true">%s</span><span class="n" lang="ja">&#31532;%s&#31456;</span></span>
           <h3>%s</h3>

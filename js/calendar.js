@@ -60,47 +60,55 @@
 
   function grid() {
     var months = G.t('months'), now = new Date().getMonth(), c = S.CAL[crop];
+    // a real table for screen readers: each line is a role=row (display: contents keeps the CSS grid)
     var g = el('div', { class: 'ss-cal', role: 'table', 'aria-label': t('cl_year') });
-    g.appendChild(el('div', { role: 'columnheader' }));
-    months.forEach(function (m, i) { g.appendChild(el('div', { class: 'hd' + (i === now ? ' now' : ''), role: 'columnheader' }, [m])); });
+    var r;
+    function row(sep) { if (sep) g.appendChild(el('div', { class: 'row-sep', 'aria-hidden': 'true' })); r = el('div', { role: 'row', style: 'display:contents' }); g.appendChild(r); return r; }
+    function mark(on) { return el('span', { class: 'sr' }, [on ? '✓' : '—']); }
+    row();
+    r.appendChild(el('div', { role: 'columnheader' }, [el('span', { class: 'sr' }, [t('cl_year')])]));
+    months.forEach(function (m, i) { r.appendChild(el('div', { class: 'hd' + (i === now ? ' now' : ''), role: 'columnheader' }, [m])); });
     // sekki row: the two solar terms that start in each month
-    g.appendChild(el('div', { class: 'nm', style: 'font-weight:500;color:var(--g-ink-3);font-size:12px' }, [t('cl_sekki_row')]));
+    row();
+    r.appendChild(el('div', { class: 'nm', role: 'rowheader', style: 'font-weight:500;color:var(--g-ink-3);font-size:12px' }, [t('cl_sekki_row')]));
     for (var i = 0; i < 12; i++) {
       var two = S.SEKKI.filter(function (s) { return s[2] === i + 1; });
-      var cell = el('div', { class: 'clim', lang: 'ja', style: 'font-family:var(--g-jp);font-size:11px;color:var(--g-gold-ink)' }, [two.map(function (s) { return s[0]; }).join(' ')]);
-      G.bindTip(cell, two.map(function (s) { return s[0] + ' ' + s[1] + ' (' + s[3] + '/' + s[2] + ') · ' + S.meaning(s); }).join(' — '));
-      g.appendChild(cell);
+      var cell = el('div', { class: 'clim', role: 'cell', lang: 'ja', style: 'font-family:var(--g-jp);font-size:11px;color:var(--g-gold-ink)' }, [two.map(function (s) { return s[0]; }).join(' ')]);
+      G.bindTip(cell, two.map(function (s) { return s[0] + ' ' + s[1] + ' (' + s[3] + '/' + s[2] + ') · ' + S.meaning(s); }).join(' — '), true);
+      r.appendChild(cell);
     }
-    g.appendChild(el('div', { class: 'row-sep' }));
-    c.stages.forEach(function (s) {
-      g.appendChild(el('div', { class: 'nm', role: 'rowheader' }, [S.loc(s)[0]]));
+    c.stages.forEach(function (s, si) {
+      row(si === 0);
+      r.appendChild(el('div', { class: 'nm', role: 'rowheader' }, [S.loc(s)[0]]));
       for (var m = 0; m < 12; m++) {
         var on = s.m.indexOf(m) !== -1;
-        var cell = el('div', { class: 'c' + (on ? ' on' : '') + (on && s.w ? ' water' : '') + (m === now ? ' now' : ''), role: 'cell' });
-        if (on) G.bindTip(cell, S.loc(s)[0] + ' · ' + months[m]);
-        g.appendChild(cell);
+        var cell = el('div', { class: 'c' + (on ? ' on' : '') + (on && s.w ? ' water' : '') + (m === now ? ' now' : ''), role: 'cell' }, [mark(on)]);
+        if (on) G.bindTip(cell, S.loc(s)[0] + ' · ' + months[m], true);
+        r.appendChild(cell);
       }
     });
     // climate rows
     var cm = p && p.dna ? p.dna.climateMonthly : null;
     if (cm && cm.rain && cm.et0) {
-      g.appendChild(el('div', { class: 'row-sep' }));
       var need = cm.et0.map(function (e, m) { var pe = N.effectiveRain(cm.rain[m]); return e === null || pe === null ? null : Math.max(0, c.kc * e - pe); });
       var maxNeed = Math.max.apply(null, need.filter(function (v) { return v !== null; }).concat([1]));
-      g.appendChild(el('div', { class: 'nm' }, [t('cl_rain')]));
-      cm.rain.forEach(function (v) { g.appendChild(el('div', { class: 'clim' }, [v === null ? '—' : fmt(v, 0)])); });
-      g.appendChild(el('div', { class: 'nm' }, [t('cl_need')]));
+      row(true);
+      r.appendChild(el('div', { class: 'nm', role: 'rowheader' }, [t('cl_rain')]));
+      cm.rain.forEach(function (v) { r.appendChild(el('div', { class: 'clim', role: 'cell' }, [v === null ? '—' : fmt(v, 0)])); });
+      row();
+      r.appendChild(el('div', { class: 'nm', role: 'rowheader' }, [t('cl_need')]));
       need.forEach(function (v, m) {
-        var cell = el('div', { class: 'clim', style: v === null ? '' : 'background:rgba(47,90,117,' + (0.08 + 0.6 * v / maxNeed).toFixed(2) + ');color:' + (v / maxNeed > 0.55 ? '#fff' : 'var(--g-ink)') }, [v === null ? '—' : fmt(v, 0)]);
-        if (v !== null) G.bindTip(cell, months[m] + ' · ' + t('cl_need') + S.colon() + fmt(v, 0) + ' mm');
-        g.appendChild(cell);
+        var cell = el('div', { class: 'clim', role: 'cell', style: v === null ? '' : 'background:rgba(47,90,117,' + (0.08 + 0.6 * v / maxNeed).toFixed(2) + ');color:' + (v / maxNeed > 0.55 ? '#fff' : 'var(--g-ink)') }, [v === null ? '—' : fmt(v, 0)]);
+        if (v !== null) G.bindTip(cell, months[m] + ' · ' + t('cl_need') + S.colon() + fmt(v, 0) + ' mm', true);
+        r.appendChild(cell);
       });
-      g.appendChild(el('div', { class: 'nm' }, [t('cl_flags')]));
+      row();
+      r.appendChild(el('div', { class: 'nm', role: 'rowheader' }, [t('cl_flags')]));
       for (var k = 0; k < 12; k++) {
         var f = [];
-        if (cm.tmax && cm.tmax[k] !== null && cm.tmax[k] >= 35) f.push(G.icon('sun', 15));
-        if (cm.tmin && cm.tmin[k] !== null && cm.tmin[k] <= 2) f.push(G.icon('frost', 15));
-        g.appendChild(el('div', { class: 'clim', style: 'grid-auto-flow:column;justify-content:center;gap:3px' }, f));
+        if (cm.tmax && cm.tmax[k] !== null && cm.tmax[k] >= 35) f.push(G.icon('sun', 15), el('span', { class: 'sr' }, [t('lg_heat')]));
+        if (cm.tmin && cm.tmin[k] !== null && cm.tmin[k] <= 2) f.push(G.icon('frost', 15), el('span', { class: 'sr' }, [t('lg_frost')]));
+        r.appendChild(el('div', { class: 'clim', role: 'cell', style: 'grid-auto-flow:column;justify-content:center;gap:3px' }, f));
       }
     }
     return g;

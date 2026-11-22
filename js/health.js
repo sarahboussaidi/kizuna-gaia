@@ -593,8 +593,8 @@
   function supportedText() { var l = modelPlants(); return l.length ? t('supported_t').replace('{l}', listJoin(l)) : ''; }
 
   function uploader() {
-    var input = el('input', { type: 'file', accept: 'image/*', id: 'f-file', class: 'sr', onchange: function (e) { use(e.target.files[0]); } });
-    var cam = el('input', { type: 'file', accept: 'image/*', capture: 'environment', id: 'f-cam', class: 'sr', onchange: function (e) { use(e.target.files[0]); } });
+    var input = el('input', { type: 'file', accept: 'image/*', id: 'f-file', class: 'sr', tabindex: '-1', 'aria-hidden': 'true', onchange: function (e) { use(e.target.files[0]); } });
+    var cam = el('input', { type: 'file', accept: 'image/*', capture: 'environment', id: 'f-cam', class: 'sr', tabindex: '-1', 'aria-hidden': 'true', onchange: function (e) { use(e.target.files[0]); } });
     var box = el('div', { class: 'drop', id: 'drop' });
     if (state.img) {
       box.appendChild(el('img', { src: state.img.src, alt: t('up_t') }));
@@ -604,8 +604,8 @@
       box.appendChild(el('p', { class: 'muted small' }, [t('up_p')]));
     }
     box.appendChild(el('div', { class: 'btns' }, [
-      el('label', { for: 'f-file', class: 'gp-btn primary', role: 'button', tabindex: '0', onkeydown: function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); input.click(); } } }, [state.img ? t('up_change') : t('up_file')]),
-      el('label', { for: 'f-cam', class: 'gp-btn ghost', role: 'button', tabindex: '0', onkeydown: function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); cam.click(); } } }, [t('up_cam')])
+      el('button', { type: 'button', class: 'gp-btn primary', onclick: function () { input.click(); } }, [state.img ? t('up_change') : t('up_file')]),
+      el('button', { type: 'button', class: 'gp-btn ghost', onclick: function () { cam.click(); } }, [t('up_cam')])
     ]));
     if (!state.img) box.appendChild(el('p', { class: 'muted small' }, [t('up_drop')]));
     box.addEventListener('dragover', function (e) { e.preventDefault(); box.classList.add('over'); });
